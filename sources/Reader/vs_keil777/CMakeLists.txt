@@ -1,6 +1,6 @@
 # (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 
-project (6-Reader-777)
+project (Reader-777)
 
 #set(CMAKE_UNITY_BUILD OFF)
 

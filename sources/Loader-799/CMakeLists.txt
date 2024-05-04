@@ -1,5 +1,5 @@
 # (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
-project (8-Loader799)
+project (Loader-799)
 
 set(CMAKE_UNITY_BUILD OFF)
 
