@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ProjectWorkspace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_mpw.xsd">
+
+  <SchemaVersion>1.0</SchemaVersion>
+
+  <Header>### uVision Project, (C) Keil Software</Header>
+
+  <WorkspaceName>WorkSpace</WorkspaceName>
+
+  <project>
+    <PathAndName>.\1-Device\Device.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\2-Reader771_1\Reader771_1.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\3-Accelerometer\Accelerometer.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\4-Sound\Sound.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\5-Programmer\Programmer.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\6-Reader\Reader-777.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\6-Reader\Reader-771.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\6-Reader\Reader-799.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
+    <NodeIsExpanded>1</NodeIsExpanded>
+  </project>
+
+  <project>
+    <PathAndName>.\7-Device799\Device799.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\5-LoaderSTM\LoaderSTM.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\5-LoaderGD\LoaderGD.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\8-Loader799\Loader799.uvprojx</PathAndName>
+  </project>
+
+</ProjectWorkspace>
