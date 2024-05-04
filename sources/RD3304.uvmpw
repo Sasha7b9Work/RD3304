@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ProjectWorkspace xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_mpw.xsd">
+
+  <SchemaVersion>1.0</SchemaVersion>
+
+  <Header>### uVision Project, (C) Keil Software</Header>
+
+  <WorkspaceName>WorkSpace</WorkspaceName>
+
+  <project>
+    <PathAndName>.\Reader\Reader-799.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
+  </project>
+
+  <project>
+    <PathAndName>.\Loader-799\Loader-799.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\Reader\Reader-771.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\Reader\Reader-777.uvprojx</PathAndName>
+  </project>
+
+</ProjectWorkspace>

@@ -1,3 +1,21 @@
 archive.zip
 
-sources/Reader/Objects/
+sources/Loader-799/Objects/
+sources/Loader-799/Objects-Debug/
+sources/Loader-799/Listings/
+sources/Loader-799/Listings-Debug/
+
+sources/Reader/Objects-771/
+sources/Reader/Objects-Debug-771/
+sources/Reader/Listings-771/
+sources/Reader/Listings-Debug-771/
+
+sources/Reader/Objects-777/
+sources/Reader/Objects-Debug-777/
+sources/Reader/Listings-777/
+sources/Reader/Listings-Debug-777/
+
+sources/Reader/Objects-799/
+sources/Reader/Objects-Debug-799/
+sources/Reader/Listings-799/
+sources/Reader/Listings-Debug-799/
