@@ -296,49 +296,97 @@ namespace CLRC66303HN
 {
     namespace Command
     {
-        static bool ReadBlockRAW(int num_block, uint8 buffer[4])
+        namespace NTAG
         {
-            Idle();
-
-            fifo.Clear();
-
-            Register(MFRC630_REG_TXCRCPRESET).Write(MFRC630_RECOM_14443A_CRC | MFRC630_CRC_ON);
-            Register(MFRC630_REG_RXCRCCON).Write(MFRC630_RECOM_14443A_CRC | MFRC630_CRC_ON);
-
-            // enable the global IRQ for idle, errors and timer.
-            Register(MFRC630_REG_IRQ0EN).Write(MFRC630_IRQ0EN_IDLE_IRQEN | MFRC630_IRQ0EN_ERR_IRQEN);
-            Register(MFRC630_REG_IRQ1EN).Write(MFRC630_IRQ1EN_TIMER0_IRQEN);
-
-            irq0.Clear();  // clear irq0
-            irq1.Clear();  // clear irq1
-
-            // Go into send, then straight after in receive.
-            Send(MFRC630_MF_CMD_READ, (uint8)num_block);
-
-            TimeMeterMS meter;
-
-            while (!(irq1.GetValue() & MFRC630_IRQ1_GLOBAL_IRQ))        // stop polling irq1 and quit the timeout loop.
+            static bool ReadBlockRAW(int num_block, uint8 buffer[4])
             {
-                if (meter.ElapsedMS() > 100)
+                Idle();
+
+                fifo.Clear();
+
+                Register(MFRC630_REG_TXCRCPRESET).Write(MFRC630_RECOM_14443A_CRC | MFRC630_CRC_ON);
+                Register(MFRC630_REG_RXCRCCON).Write(MFRC630_RECOM_14443A_CRC | MFRC630_CRC_ON);
+
+                // enable the global IRQ for idle, errors and timer.
+                Register(MFRC630_REG_IRQ0EN).Write(MFRC630_IRQ0EN_IDLE_IRQEN | MFRC630_IRQ0EN_ERR_IRQEN);
+                Register(MFRC630_REG_IRQ1EN).Write(MFRC630_IRQ1EN_TIMER0_IRQEN);
+
+                irq0.Clear();  // clear irq0
+                irq1.Clear();  // clear irq1
+
+                // Go into send, then straight after in receive.
+                Send(MFRC630_MF_CMD_READ, (uint8)num_block);
+
+                TimeMeterMS meter;
+
+                while (!(irq1.GetValue() & MFRC630_IRQ1_GLOBAL_IRQ))        // stop polling irq1 and quit the timeout loop.
+                {
+                    if (meter.ElapsedMS() > 100)
+                    {
+                        return false;
+                    }
+                }
+
+                Idle();
+
+                if (irq0.GetValue() & MFRC630_IRQ0_ERR_IRQ)
+                {
+                    // some error
+                    return false;
+                }
+
+                // all seems to be well...
+                int buffer_length = fifo.Length();
+                int rx_len = (buffer_length <= 4) ? buffer_length : 4;
+                fifo.Read(buffer, rx_len);
+
+                return (rx_len == 4);
+            }
+        }
+
+        namespace Mifare
+        {
+            static bool ReadBlockRAW(int num_block, uint8 buffer[16])
+            {
+                Idle();
+
+                fifo.Clear();
+
+                Register(MFRC630_REG_TXCRCPRESET).Write(MFRC630_RECOM_14443A_CRC | MFRC630_CRC_ON);
+                Register(MFRC630_REG_RXCRCCON).Write(MFRC630_RECOM_14443A_CRC | MFRC630_CRC_ON);
+
+                // enable the global IRQ for idle, errors and timer.
+                Register(MFRC630_REG_IRQ0EN).Write(MFRC630_IRQ0EN_IDLE_IRQEN | MFRC630_IRQ0EN_ERR_IRQEN);
+                Register(MFRC630_REG_IRQ1EN).Write(MFRC630_IRQ1EN_TIMER0_IRQEN);
+
+                irq0.Clear();
+                irq1.Clear();
+
+                Send(MFRC630_MF_CMD_READ, (uint8)num_block);
+
+                TimeMeterMS meter;
+
+                while (!(irq1.GetValue() & MFRC630_IRQ1_GLOBAL_IRQ))
+                {
+                    if (meter.ElapsedMS() > 100)
+                    {
+                        return false;
+                    }
+                }
+
+                Idle();
+
+                if (irq0.GetValue() & MFRC630_IRQ0_ERR_IRQ)
                 {
                     return false;
                 }
+
+                int buffer_length = fifo.Length();
+                int rx_len = (buffer_length <= 16) ? buffer_length : 16;
+                fifo.Read(buffer, rx_len);
+
+                return (rx_len == 16);
             }
-
-            Idle();
-
-            if (irq0.GetValue() & MFRC630_IRQ0_ERR_IRQ)
-            {
-                // some error
-                return false;
-            }
-
-            // all seems to be well...
-            int buffer_length = fifo.Length();
-            int rx_len = (buffer_length <= 4) ? buffer_length : 4;
-            fifo.Read(buffer, rx_len);
-
-            return (rx_len == 4);
         }
     }
 }
@@ -357,6 +405,27 @@ bool CLRC66303HN::Command::NTAG::ReadBlock(int num_block, Block4 &block)
             if (ReadBlockRAW(num_block, block.bytes))
             {
                 return Math::ArraysEqueals(block.bytes, data1, data2, 4);
+            }
+        }
+    }
+
+    return false;
+}
+
+
+bool CLRC66303HN::Command::Mifare::ReadBlock(int num_block, Block16 &block)
+{
+    uint8 data1[16];
+
+    if (ReadBlockRAW(num_block, data1))
+    {
+        uint8 data2[16];
+
+        if (ReadBlockRAW(num_block, data2))
+        {
+            if (ReadBlockRAW(num_block, block.bytes))
+            {
+                return Math::ArraysEqueals(block.bytes, data1, data2, 16);
             }
         }
     }

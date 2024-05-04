@@ -330,32 +330,43 @@ bool TypeCard::Detect()
         return true;
     }
 
-    Block4 block;
-
-    if (Command::NTAG::ReadBlock(3, block))
     {
-        if (block[0] == 0xE1 && block[1] == 0x10)
+        Block4 block;
+
+        if (Command::NTAG::ReadBlock(3, block))
         {
-            uint8 byte_type = block[2];
-
-            if (byte_type == 0x12)
+            if (block[0] == 0xE1 && block[1] == 0x10)
             {
-                current = TypeCard::NTAG213;
+                uint8 byte_type = block[2];
 
-                return true;
-            }
-            else if (byte_type == 0x3E)
-            {
-                current = TypeCard::NTAG215;
+                if (byte_type == 0x12)
+                {
+                    current = TypeCard::NTAG213;
 
-                return true;
-            }
-            else if (byte_type == 0x6D)
-            {
-                current = TypeCard::NTAG216;
+                    return true;
+                }
+                else if (byte_type == 0x3E)
+                {
+                    current = TypeCard::NTAG215;
 
-                return true;
+                    return true;
+                }
+                else if (byte_type == 0x6D)
+                {
+                    current = TypeCard::NTAG216;
+
+                    return true;
+                }
             }
+        }
+    }
+
+    {
+        Block16 block;
+
+        if (Command::Mifare::ReadBlock(0, block))
+        {
+
         }
     }
 

@@ -22,6 +22,23 @@ struct Block4
 };
 
 
+struct Block16
+{
+    uint8 bytes[16];
+
+    uint8 &operator[](uint i)
+    {
+        if (i < 16)
+        {
+            return bytes[i];
+        }
+
+        static uint8 null;
+        return null;
+    }
+};
+
+
 namespace CLRC66303HN
 {
     static const int SIZE_BLOCK = 4;
@@ -65,9 +82,9 @@ namespace CLRC66303HN
             bool WriteData(int num_block, const void *data, int size);
         }
 
-        namespace Milfare
+        namespace Mifare
         {
-            bool ReadBlock(int num_block, uint8 buffer[4]);
+            bool ReadBlock(int num_block, Block16 &);
 
             bool ReadBlock(int num_block, uint *word); //-V1071
 
