@@ -3,6 +3,25 @@
 #include "Reader/Card.h"
 
 
+struct Block4
+{
+    uint8 bytes[4];
+
+    uint8 &operator[](uint i)
+    {
+        if (i < 4)
+        {
+            return bytes[i];
+        }
+
+        static uint8 null;
+        return null;
+    }
+
+    uint ToWord() { return *((uint *)bytes); }
+};
+
+
 namespace CLRC66303HN
 {
     static const int SIZE_BLOCK = 4;
@@ -30,7 +49,7 @@ namespace CLRC66303HN
 
         namespace NTAG
         {
-            bool ReadBlock(int num_block, uint8 buffer[4]);
+            bool ReadBlock(int num_block, Block4 &);
 
             bool ReadBlock(int num_block, uint *word); //-V1071
 

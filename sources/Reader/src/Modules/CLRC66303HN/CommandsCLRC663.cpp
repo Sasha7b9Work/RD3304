@@ -344,7 +344,7 @@ namespace CLRC66303HN
 }
 
 
-bool CLRC66303HN::Command::NTAG::ReadBlock(int num_block, uint8 buffer[4])
+bool CLRC66303HN::Command::NTAG::ReadBlock(int num_block, Block4 &block)
 {
     uint8 data1[4];
 
@@ -354,9 +354,9 @@ bool CLRC66303HN::Command::NTAG::ReadBlock(int num_block, uint8 buffer[4])
 
         if (ReadBlockRAW(num_block, data2))
         {
-            if (ReadBlockRAW(num_block, buffer))
+            if (ReadBlockRAW(num_block, block.bytes))
             {
-                return Math::ArraysEqueals(buffer, data1, data2, 4);
+                return Math::ArraysEqueals(block.bytes, data1, data2, 4);
             }
         }
     }
@@ -367,11 +367,11 @@ bool CLRC66303HN::Command::NTAG::ReadBlock(int num_block, uint8 buffer[4])
 
 bool CLRC66303HN::Command::NTAG::ReadBlock(int num_block, uint *word)
 {
-    BitSet32 bs;
+    Block4 block;
 
-    bool result = ReadBlock(num_block, &bs.bytes[0]);
+    bool result = ReadBlock(num_block, block);
 
-    *word = bs.word;
+    *word = block.ToWord();
 
     return result;
 }
@@ -458,16 +458,16 @@ bool CLRC66303HN::Command::NTAG::WriteData(int num_block, const void *_data, int
         }
         else
         {
-            uint8 bytes[4] = { 0, 0, 0, 0 };
+            Block4 block;
 
-            if (ReadBlock(num_block, bytes))
+            if (ReadBlock(num_block, block))
             {
-                for (int i = 0; i < num_bytes; i++)
+                for (uint i = 0; i < (uint)num_bytes; i++)
                 {
-                    bytes[i] = data[i];
+                    block[i] = data[i];
                 }
 
-                if (!WriteBlock(num_block, bytes))
+                if (!WriteBlock(num_block, block.bytes))
                 {
                     return false;
                 }
@@ -500,7 +500,7 @@ bool CLRC66303HN::Command::NTAG::ReadData(int num_block, void *_data, int size)
 
     while (data < end)
     {
-        if (ReadBlock(num_block, data))
+        if (ReadBlock(num_block, (uint *)data))
         {
             written_bytes += 4;
         }

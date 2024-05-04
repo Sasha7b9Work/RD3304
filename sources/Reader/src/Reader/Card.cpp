@@ -330,13 +330,13 @@ bool TypeCard::Detect()
         return true;
     }
 
-    uint8 bytes[4];
+    Block4 block;
 
-    if (Command::NTAG::ReadBlock(3, bytes))
+    if (Command::NTAG::ReadBlock(3, block))
     {
-        if (bytes[0] == 0xE1 && bytes[1] == 0x10)
+        if (block[0] == 0xE1 && block[1] == 0x10)
         {
-            uint8 byte_type = bytes[2];
+            uint8 byte_type = block[2];
 
             if (byte_type == 0x12)
             {
@@ -394,19 +394,19 @@ bool Card::RAW::EnableCheckPassword()
 
     if (TypeCard::IsNTAG())
     {
-        uint8 data[4];
+        Block4 block;
 
-        if (Command::NTAG::ReadBlock(TypeCard::NTAG::BlockCFG0(), data))
+        if (Command::NTAG::ReadBlock(TypeCard::NTAG::BlockCFG0(), block))
         {
-            data[3] = 0x04;             // Защищаем доступ ко всем блокам, начиная с 4-го
+            block[3] = 0x04;             // Защищаем доступ ко всем блокам, начиная с 4-го
 
-            if (Command::NTAG::WriteBlock(TypeCard::NTAG::BlockCFG0(), data))
+            if (Command::NTAG::WriteBlock(TypeCard::NTAG::BlockCFG0(), block.bytes))
             {
-                if (Command::NTAG::ReadBlock(TypeCard::NTAG::BlockCFG1(), data))
+                if (Command::NTAG::ReadBlock(TypeCard::NTAG::BlockCFG1(), block))
                 {
-                    data[0] = 0x80;     // Защита от чтения и от записи
+                    block[0] = 0x80;     // Защита от чтения и от записи
 
-                    if (Command::NTAG::WriteBlock(TypeCard::NTAG::BlockCFG1(), data))
+                    if (Command::NTAG::WriteBlock(TypeCard::NTAG::BlockCFG1(), block.bytes))
                     {
                         saccess = true;
                     }
@@ -527,14 +527,14 @@ bool Card::RAW::ReadBitmapCards(char bitmap_cards[500])
 
     while (number_block < 40)
     {
-        uint8 data[4];
+        Block4 block;
 
-        if (Command::NTAG::ReadBlock(number_block++, data))
+        if (Command::NTAG::ReadBlock(number_block++, block))
         {
-            for (int i = 0; i < 4; i++)
+            for (uint i = 0; i < 4; i++)
             {
                 char byte[32];
-                std::sprintf(byte, "%02X", data[i]);
+                std::sprintf(byte, "%02X", block[i]);
                 std::strcat(bitmap_cards, byte);
             }
         }
