@@ -62,6 +62,9 @@ namespace Memory
 
         void Firmware();
 
+        // Стереть, если что-то записано
+        void FirmwareIfNeed();
+
         void Sounds();
     }
 

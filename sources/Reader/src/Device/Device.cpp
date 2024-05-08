@@ -41,6 +41,8 @@ void Device::Init()
 
     meter.WaitFor(200);
 
+    Memory::Erase::FirmwareIfNeed();
+
     Player::Init();
 
     Indicator::Init();

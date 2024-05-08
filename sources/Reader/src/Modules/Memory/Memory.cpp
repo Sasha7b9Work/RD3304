@@ -523,6 +523,25 @@ void Memory::Erase::Firmware()
 }
 
 
+void Memory::Erase::FirmwareIfNeed()
+{
+    const int SIZE_BUFFER = 256;
+
+    uint8 buffer[SIZE_BUFFER];
+
+    Memory::ReadBuffer(0, buffer, SIZE_BUFFER);
+
+    for (int i = 0; i < SIZE_BUFFER; i++)
+    {
+        if (buffer[i] != 0xFF)
+        {
+            Erase::Firmware();
+            break;
+        }
+    }
+}
+
+
 void Memory::Erase::Sounds()
 {
     int start_block = ADDRESS_SOUNDS / Memory::SizeBlock();

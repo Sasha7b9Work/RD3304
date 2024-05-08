@@ -29,7 +29,7 @@ static __attribute__((naked, noreturn)) void BootJumpASM(uint32_t SP, uint32_t R
 {
     __asm("MSR MSP,r0");
     __asm("BX  r1");
-}
+} 
 
 
 static __attribute__((noreturn)) void BootJump(uint32_t *Address)
