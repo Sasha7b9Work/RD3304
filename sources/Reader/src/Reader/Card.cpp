@@ -27,7 +27,7 @@ namespace TypeCard
         NTAG213,
         NTAG215,
         NTAG216,
-        Mifare,
+        Mifare_UID7_4K,
         Count
     };
 
@@ -247,7 +247,7 @@ bool TypeCard::IsNTAG()
 
 bool TypeCard::IsMifare()
 {
-    return (current == Mifare);
+    return (current == Mifare_UID7_4K);
 }
 
 
@@ -366,7 +366,7 @@ bool TypeCard::Detect()
 
         if (Command::Mifare::ReadBlock(0, block))
         {
-
+            block = block;
         }
     }
 

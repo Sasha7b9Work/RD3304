@@ -370,6 +370,7 @@ namespace CLRC66303HN
                 {
                     if (meter.ElapsedMS() > 100)
                     {
+                        Idle();
                         return false;
                     }
                 }
