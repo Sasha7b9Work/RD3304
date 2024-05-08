@@ -37,7 +37,7 @@ struct UID
     bool Calcualted() const { return calculated; }
 
     // Первые 5 байт - 1 каскад, вторые 5 байт - второй каскад
-    uint8 byte[10];
+    uint8 bytes[10];
 
     // Возвращает 3 байта для передачи по WG
     // Если короткий 4-байтный UID - то 3 из них. Если 7-байтный UID - то 3 байта NUID
@@ -53,7 +53,7 @@ private:
     // В самом мледшем байте хранится последний байт UID, таким образом спецификация %llu даёт правильный вывод
     uint64 uid;
 
-    bool Is7BytesUID() const { return byte[0] == 0x88; }
+    bool Is7BytesUID() const { return bytes[0] == 0x88; }
 };
 
 

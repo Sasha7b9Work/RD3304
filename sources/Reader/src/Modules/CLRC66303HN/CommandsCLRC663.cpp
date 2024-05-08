@@ -98,11 +98,11 @@ namespace CLRC66303HN
                 {
                     int i0 = (cl == 1) ? 0 : 5;
 
-                    uid->byte[i0 + 0] = fifo.Pop();
-                    uid->byte[i0 + 1] = fifo.Pop();
-                    uid->byte[i0 + 2] = fifo.Pop();
-                    uid->byte[i0 + 3] = fifo.Pop();
-                    uid->byte[i0 + 4] = fifo.Pop();
+                    uid->bytes[i0 + 0] = fifo.Pop();
+                    uid->bytes[i0 + 1] = fifo.Pop();
+                    uid->bytes[i0 + 2] = fifo.Pop();
+                    uid->bytes[i0 + 3] = fifo.Pop();
+                    uid->bytes[i0 + 4] = fifo.Pop();
 
                     return true;
                 }
@@ -127,11 +127,11 @@ namespace CLRC66303HN
 
         int i0 = (cl == 1) ? 0 : 5;
 
-        Command::Send(cl == 1 ? 0x93U : 0x95U, 0x70,  uid->byte[i0 + 0],
-                                                      uid->byte[i0 + 1],
-                                                      uid->byte[i0 + 2],
-                                                      uid->byte[i0 + 3],
-                                                      uid->byte[i0 + 4]);
+        Command::Send(cl == 1 ? 0x93U : 0x95U, 0x70,  uid->bytes[i0 + 0],
+                                                      uid->bytes[i0 + 1],
+                                                      uid->bytes[i0 + 2],
+                                                      uid->bytes[i0 + 3],
+                                                      uid->bytes[i0 + 4]);
 
         TimeMeterMS meter;
 
@@ -346,8 +346,69 @@ namespace CLRC66303HN
 
         namespace Mifare
         {
+            namespace Command
+            {
+                static void LoadKey(uint8 *key_nr)
+                {
+                    Idle();
+                    fifo.Flush();
+                    fifo.Write(key_nr, 6);
+                    Register(MFRC630_REG_COMMAND, MFRC630_CMD_LOADKEY);
+                }
+
+                static void Auth(uint8 key_type, uint8 block, const uint8 *uid)
+                {
+                    Idle();
+
+                    uint8 data[6] = { key_type, block, uid[0], uid[1], uid[2], uid[3] };
+
+                    fifo.Flush();
+
+                    fifo.Write(data, 6);
+
+                    Register(MFRC630_REG_COMMAND).Write(MFRC630_CMD_MFAUTHENT);
+                }
+            }
+
+            //authentification requires the relevant key and the uid, afterwards data will be in exchange between tag and reader
+            //for most parts, manufacturer key will be used and key A is relevant (there are two types of keys, likely one is for reading action, the other for write access [type b])
+            static bool Auth(uint8 key_type, uint8 block, uint8 *uid)
+            {
+                // According to datashet Interrupt on idle and timer with MFAUTHENT, but lets
+                // include ERROR as well.
+                Register(MFRC630_REG_IRQ0EN).Write(MFRC630_IRQ0EN_IDLE_IRQEN | MFRC630_IRQ0EN_ERR_IRQEN);
+                Register(MFRC630_REG_IRQ1EN).Write(MFRC630_IRQ1EN_TIMER0_IRQEN);  // only trigger on timer for irq1
+
+                irq0.Clear();
+                irq1.Clear();
+
+                // start the authentication procedure.
+                Command::Auth(key_type, block, uid);
+
+                TimeMeterMS meter;
+
+                while ((irq1.GetValue() & MFRC630_IRQ1_GLOBAL_IRQ) == 0)
+                {
+                    if (meter.ElapsedMS() > 100)
+                    {
+                        break;
+                    }
+                }
+
+                // status is always valid, it is set to 0 in case of authentication failure.
+                return (Register(MFRC630_REG_STATUS).Read() & MFRC630_STATUS_CRYPTO1_ON) != 0;
+            }
+
             static bool ReadBlockRAW(int num_block, uint8 buffer[16])
             {
+                uint8 default_key[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+                Command::LoadKey(default_key);
+
+                if (!Auth(MFRC630_MF_AUTH_KEY_A, (uint8)num_block, Card::uid.bytes + 1))
+                {
+                    return false;
+                }
+
                 Idle();
 
                 fifo.Clear();
@@ -370,7 +431,6 @@ namespace CLRC66303HN
                 {
                     if (meter.ElapsedMS() > 100)
                     {
-                        Idle();
                         return false;
                     }
                 }

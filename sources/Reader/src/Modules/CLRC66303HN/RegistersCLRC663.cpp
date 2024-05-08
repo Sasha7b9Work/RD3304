@@ -31,6 +31,17 @@ namespace CLRC66303HN
     }
 
 
+    void Register::Write(uint8 *_data, int length)
+    {
+        uint8 buffer[32];
+
+        buffer[0] = (uint8)(address << 1);
+        std::memcpy(buffer + 1, _data, (uint)length);
+
+        HAL_SPI::WriteBuffer(DirectionSPI::Reader, buffer, 3);
+    }
+
+
     void Register::Write(uint8 _data)
     {
         data = _data;
@@ -98,6 +109,12 @@ namespace CLRC66303HN
         }
 
         return counter;
+    }
+
+
+    void FIFO::Write(uint8 *buffer, int length)
+    {
+        Register(MFRC630_REG_FIFODATA).Write(buffer, length);
     }
 
 

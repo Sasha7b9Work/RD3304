@@ -683,7 +683,7 @@ uint UID::Get3Bytes() const
 
 void UID::Clear()
 {
-    std::memset(byte, 0, 10);
+    std::memset(bytes, 0, 10);
     uid = 0;
     calculated = false;
 }
@@ -694,24 +694,24 @@ void UID::Calculate()
 
     uid = 0;
 
-    if (byte[0] != 0)
+    if (bytes[0] != 0)
     {
         if (Is7BytesUID())
         {
-            uid = ((uint64)byte[8]);
-            uid |= (((uint64)byte[7]) << 8);
-            uid |= (((uint64)byte[6]) << 16);
-            uid |= (((uint64)byte[5]) << 24);
-            uid |= (((uint64)byte[3]) << 32);
-            uid |= (((uint64)byte[2]) << 40);
-            uid |= (((uint64)byte[1]) << 48);
+            uid = ((uint64)bytes[8]);
+            uid |= (((uint64)bytes[7]) << 8);
+            uid |= (((uint64)bytes[6]) << 16);
+            uid |= (((uint64)bytes[5]) << 24);
+            uid |= (((uint64)bytes[3]) << 32);
+            uid |= (((uint64)bytes[2]) << 40);
+            uid |= (((uint64)bytes[1]) << 48);
         }
         else
         {
-            uid = ((uint64)byte[3]);
-            uid |= (((uint64)byte[2]) << 8);
-            uid |= (((uint64)byte[1]) << 16);
-            uid |= (((uint64)byte[0]) << 24);
+            uid = ((uint64)bytes[3]);
+            uid |= (((uint64)bytes[2]) << 8);
+            uid |= (((uint64)bytes[1]) << 16);
+            uid |= (((uint64)bytes[0]) << 24);
         }
 
         calculated = true;

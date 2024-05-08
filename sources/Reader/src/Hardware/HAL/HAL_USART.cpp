@@ -270,7 +270,7 @@ void HAL_USART::WG26::Transmit(uint8 bytes[3])
 
 void HAL_USART::WG26::Transmit(const UID &uid)
 {
-    uint8 bytes[3] = { uid.byte[2], uid.byte[1], uid.byte[0] };
+    uint8 bytes[3] = { uid.bytes[2], uid.bytes[1], uid.bytes[0] };
 
     Transmit(bytes);
 }

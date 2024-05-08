@@ -19,6 +19,8 @@ namespace CLRC66303HN
         int Length();
 
         int Read(uint8 *buffer, int length);
+
+        void Write(uint8 *buffer, int length);
     };
 
     struct IRQ0
@@ -58,6 +60,7 @@ namespace CLRC66303HN
         void Write();
         void Write(uint8 data);
         void Write(uint8 data1, uint8 data2);
+        void Write(uint8 *data, int size);
         uint8 Read();
         void Read(const uint8 out[2], uint8 in[2]);
         uint8 address;
