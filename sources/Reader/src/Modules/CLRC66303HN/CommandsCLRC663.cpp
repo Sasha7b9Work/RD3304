@@ -374,6 +374,9 @@ namespace CLRC66303HN
             //for most parts, manufacturer key will be used and key A is relevant (there are two types of keys, likely one is for reading action, the other for write access [type b])
             static bool Auth(uint8 key_type, uint8 block, uint8 *uid)
             {
+                Idle();
+                fifo.Flush();
+
                 // According to datashet Interrupt on idle and timer with MFAUTHENT, but lets
                 // include ERROR as well.
                 Register(MFRC630_REG_IRQ0EN).Write(MFRC630_IRQ0EN_IDLE_IRQEN | MFRC630_IRQ0EN_ERR_IRQEN);
@@ -382,21 +385,30 @@ namespace CLRC66303HN
                 irq0.Clear();
                 irq1.Clear();
 
+                Idle();
+                fifo.Flush();
+
                 // start the authentication procedure.
                 Command::Auth(key_type, block, uid);
 
                 TimeMeterMS meter;
 
-                while ((irq1.GetValue() & MFRC630_IRQ1_GLOBAL_IRQ) == 0)
+                while (!(irq1.GetValue() & MFRC630_IRQ1_GLOBAL_IRQ))
                 {
                     if (meter.ElapsedMS() > 100)
                     {
                         break;
                     }
+                    else
+                    {
+                        int i = 0;
+                    }
                 }
 
                 // status is always valid, it is set to 0 in case of authentication failure.
-                return (Register(MFRC630_REG_STATUS).Read() & MFRC630_STATUS_CRYPTO1_ON) != 0;
+                bool result = (Register(MFRC630_REG_STATUS).Read() & MFRC630_STATUS_CRYPTO1_ON) != 0;
+
+                return result;
             }
 
             static bool ReadBlockRAW(int num_block, uint8 buffer[16])
@@ -404,7 +416,7 @@ namespace CLRC66303HN
                 uint8 default_key[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
                 Command::LoadKey(default_key);
 
-                if (!Auth(MFRC630_MF_AUTH_KEY_A, (uint8)num_block, Card::uid.bytes + 1))
+                if (!Auth(MFRC630_MF_AUTH_KEY_A, (uint8)num_block, Card::uid.bytes + 3))
                 {
                     return false;
                 }
