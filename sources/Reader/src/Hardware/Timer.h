@@ -45,8 +45,8 @@ struct TimeMeterMS
 
 private:
 
-    uint time_reset;        // От этого времени отсчитывается ElapsedTime()
-    uint time_pause;        // В этот момент поставили на паузу
+    volatile uint time_reset;        // От этого времени отсчитывается ElapsedTime()
+    volatile uint time_pause;        // В этот момент поставили на паузу
 };
 
 

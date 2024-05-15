@@ -222,13 +222,7 @@ void HAL_USART::WG26::Transmit(uint8 b0, uint8 b1, uint8 b2)
 
     WG26::Init();
 
-    uint time_start = TIME_MS;
-
     Transmit(buffer);
-
-    volatile uint time = TIME_MS - time_start;
-
-    time = time;
 
     UART::Init();
 }
@@ -236,8 +230,6 @@ void HAL_USART::WG26::Transmit(uint8 b0, uint8 b1, uint8 b2)
 
 void HAL_USART::WG26::Transmit(uint8 *buffer, int size)
 {
-    uint time_start = TIME_MS;
-
     uint8 bytes[3];
 
     while (size > 0)
@@ -251,10 +243,6 @@ void HAL_USART::WG26::Transmit(uint8 *buffer, int size)
         size -= 3;
         buffer += 3;
     }
-
-    volatile uint time = TIME_MS - time_start;
-
-    time = time;
 }
 
 
@@ -309,7 +297,7 @@ void HAL_USART::WG26::Transmit26bit(uint value)
 
 void HAL_USART::WG26::TransmitBit(bool bit, TimeMeterMS &meter)
 {
-    meter.WaitFor(1);
+    meter.WaitFor(2);
 
     meter.Reset();
 
