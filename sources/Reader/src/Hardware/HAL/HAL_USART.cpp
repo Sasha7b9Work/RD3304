@@ -314,7 +314,7 @@ void HAL_USART::WG26::TransmitBit(bool bit, TimeMeterMS &meter)
 
     Mode::WG::LevelBit();
 
-    meterDuration.WaitFor(100);
+    meterDuration.WaitFor(200);
 
     Mode::WG::LevelInterval();
 }

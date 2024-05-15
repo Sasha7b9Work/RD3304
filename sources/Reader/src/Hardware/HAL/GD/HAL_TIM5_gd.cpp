@@ -45,22 +45,3 @@ uint HAL_TIM5::ElapsedUS()
 //    return timer_counter_read(TIMER5);
     return TIMER_CNT(TIMER5);
 }
-
-
-void HAL_TIM5::Test()
-{
-    Start();
-
-    static const uint dT_ms = 5;
-
-    volatile uint end_time = TIME_MS + dT_ms;
-
-//    int counter = 0;
-    while (TIME_MS < end_time)
-    {
-//        HAL_USART::UART::TransmitF("wait");
-//        counter++;
-    }
-
-    HAL_USART::UART::TransmitF("%u ms = %u us", dT_ms, ElapsedUS());
-}

@@ -95,10 +95,6 @@ void Device::Init()
 
 void Device::Update()
 {
-#ifdef MCU_GD
-    HAL_TIM5::Test();
-#endif
-
     if (!HAL::IsDebugBoard())
     {
 //        Power::EnterSleepMode();
