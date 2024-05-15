@@ -147,50 +147,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>411</LineNumber>
+          <LineNumber>34</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134237004</Address>
+          <Address>134250056</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>&lt;1&gt;.\src\Modules\CLRC66303HN\CommandsCLRC663.cpp</Filename>
+          <Filename>&lt;1&gt;.\src\Device\Device.cpp</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\RD3303_799\src/Modules/CLRC66303HN/CommandsCLRC663.cpp\411</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>404</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134236970</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>&lt;1&gt;.\src\Modules\CLRC66303HN\CommandsCLRC663.cpp</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\RD3303_799\src/Modules/CLRC66303HN/CommandsCLRC663.cpp\404</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>400</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134236966</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>&lt;1&gt;.\src\Modules\CLRC66303HN\CommandsCLRC663.cpp</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\RD3303_799\src/Modules/CLRC66303HN/CommandsCLRC663.cpp\400</Expression>
+          <Expression>\\RD3303_799\src/Device/Device.cpp\34</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -206,7 +174,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -735,7 +703,7 @@
 
   <Group>
     <GroupName>src</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -915,7 +883,7 @@
 
   <Group>
     <GroupName>Hardware/CMSIS</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
