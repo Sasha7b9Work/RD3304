@@ -176,6 +176,8 @@ namespace HAL_TIM5
     void Start();
 
     uint ElapsedUS();
+
+    void Test();
 }
 
 

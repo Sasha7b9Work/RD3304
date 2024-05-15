@@ -18,7 +18,7 @@ namespace Timer
 
     void Delay(uint timeMS);
 
-    extern uint counter_ms;
+    extern volatile uint counter_ms;
 }
 
 

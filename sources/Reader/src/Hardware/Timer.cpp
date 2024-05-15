@@ -8,7 +8,7 @@
 
 namespace Timer
 {
-    uint counter_ms = 0;
+    volatile uint counter_ms = 0;
 }
 
 
