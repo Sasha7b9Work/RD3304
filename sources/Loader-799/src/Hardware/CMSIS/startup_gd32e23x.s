@@ -121,6 +121,22 @@ __Vectors_End
 
 __Vectors_Size  EQU     __Vectors_End - __Vectors
 
+; заполняем нулями так чтобы ProgramSignatura и все последующие оказалась с адреса 0x200 в сегменте
+                WHILE {PC} < 512
+                DCD  0x000
+                WEND
+
+                DCD     0xAABBCC01  ; серийный номер
+                DCW     0x0101      ; версия загрузчика
+                DCW     0x0001      ; версия аппаратуры
+                DCD     0x0000CE02  ;Configuration constant
+                DCD     0x00000000  ;Reserv
+                DCD     0x00000000  ;Manufacturing data
+
+                DCB     0x10,0x0C,0xCC,0x00,0x03,0x01; MAC адрес
+                DCB     0x00,0x00
+                DCD     200000      ;максимально допустимое количество пользователей(кодичество кодов в базе)
+
                 AREA    |.text|, CODE, READONLY
 
 ;/* reset Handler */
