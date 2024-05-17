@@ -26,11 +26,19 @@ public:
     // Берёт значение из 16-ричной строки
     bool GetUIntFromHEX(int num_word, uint *value) const;
 
+    // Читает настройки возвращате true, если удалось
+    bool ReadSettings(int num_words, SettingsReader &) const;
+
+    // true, если соотвествует контрольной сумме или хэшу
+    bool CheckSumIsMatches(int num_words) const;
+
+private:
+
     // Возвращает true, если принятый хэш соответствует рассчитанному
     bool HashIsMatches(int num_words) const;
 
-    // Читает настройки возвращате true, если удалось
-    bool ReadSettings(int num_words, SettingsReader &) const;
+    // Возвращает true, если принятая crc32 соотвествует рассчитанному
+    bool Crc32IsMatches(int num_words) const;
 };
 
 

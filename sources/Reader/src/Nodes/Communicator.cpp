@@ -239,7 +239,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
         {
             uint64 old_pass = 0;
 
-            if (buffer.GetUint64(3, &old_pass) && buffer.GetUint64(4, &new_pass) && buffer.HashIsMatches(num_words))
+            if (buffer.GetUint64(3, &old_pass) && buffer.GetUint64(4, &new_pass) && buffer.CheckSumIsMatches(num_words))
             {
                 Task::MakeMaster::Create(old_pass, new_pass);
 
@@ -266,7 +266,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
         {
             uint number = 0;
 
-            if (buffer.GetUint64(3, &new_pass) && buffer.GetUint(4, &number) && buffer.HashIsMatches(num_words))
+            if (buffer.GetUint64(3, &new_pass) && buffer.GetUint(4, &number) && buffer.CheckSumIsMatches(num_words))
             {
                 Task::MakeUser::Create(new_pass, number);
 
@@ -275,7 +275,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
         }
         else if (num_words == 4)
         {
-            if (buffer.GetUint64(3, &new_pass) && buffer.HashIsMatches(num_words))
+            if (buffer.GetUint64(3, &new_pass) && buffer.CheckSumIsMatches(num_words))
             {
                 Task::MakeUser::Create(new_pass);
 
@@ -376,6 +376,27 @@ bool BufferUSART::HashIsMatches(int num_words) const
     }
 
     return false;
+}
+
+
+bool BufferUSART::Crc32IsMatches(int num_words) const
+{
+    uint crc = 0;
+
+    if (GetUIntFromHEX(num_words, &crc))
+    {
+        pchar end = SU::PointerWord((pchar)Data(), num_words);
+
+        return Math::CalculateCRC32(Data(), end - (pchar)Data() - 1) == crc;
+    }
+
+    return false;
+}
+
+
+bool BufferUSART::CheckSumIsMatches(int num_words) const
+{
+    return Crc32IsMatches(num_words) || HashIsMatches(num_words);
 }
 
 
