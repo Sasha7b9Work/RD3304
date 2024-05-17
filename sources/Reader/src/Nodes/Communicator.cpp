@@ -13,13 +13,13 @@
 #include "Reader/Messages.h"
 #include "Modules/Memory/Memory.h"
 #include "Modules/Indicator/Indicator.h"
-//#include "Modules/Player/Sounds.h"
 #include "Reader/Events.h"
 #include "Modules/Player/Player.h"
 #include "Nodes/OSDP/OSDP.h"
 #include "Device/Device.h"
 #include "Settings/AccessCards.h"
 #include "Modules/Player/TableSounds.h"
+#include "Utils/Math.h"
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
@@ -372,7 +372,7 @@ bool BufferUSART::HashIsMatches(int num_words) const
     {
         pchar end = SU::PointerWord((pchar)Data(), num_words);
 
-        return SU::CalculateHash(Data(), end - (pchar)Data() - 1) == hash;
+        return Math::CalculateHash((uint)Data(), end - (pchar)Data() - 1) == hash;
     }
 
     return false;

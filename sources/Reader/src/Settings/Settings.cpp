@@ -6,6 +6,7 @@
 #include "Hardware/Timer.h"
 #include "Modules/Indicator/Indicator.h"
 #include "Utils/StringUtils.h"
+#include "Utils/Math.h"
 #include <cstring>
 #include <cmath>
 
@@ -265,7 +266,7 @@ uint SettingsReader::CalculateHash() const
     const uint8 *end = (const uint8 *)&s14;
     int size = end - begin;
 
-    return SU::CalculateHash(begin, size);
+    return Math::CalculateHash((uint)begin, size);
 }
 
 

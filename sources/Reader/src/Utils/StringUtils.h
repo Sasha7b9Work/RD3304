@@ -28,23 +28,4 @@ namespace SU
     // Возвращает указатель на строку, начинающуюся с num_slash-го слэша (прямого или обратного) с конца строки.
     // Если столько слешей нету, возвращает всю строку целиком
     pchar GetFromSlash(pchar, int num_slash);
-
-    inline uint Hash(uint hash, char byte)
-    {
-        return (uint8)byte + (hash << 6) + (hash << 16) - hash;
-    }
-
-    inline uint CalculateHash(const void *buffer, int size)
-    {
-        uint crc = 0;
-
-        const uint8 *data = (const uint8 *)buffer;
-
-        for (int i = 0; i < size; i++)
-        {
-            crc = Hash(crc, (char)*data++);
-        }
-
-        return crc;
-    }
 }
