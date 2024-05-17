@@ -30,7 +30,7 @@ public:
     bool ReadSettings(int num_words, SettingsReader &) const;
 
     // true, если соотвествует контрольной сумме или хэшу
-    bool CheckSumIsMatches(int num_words) const;
+    bool _CheckSumIsMatches(int num_words) const;
 
 private:
 

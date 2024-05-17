@@ -239,7 +239,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
         {
             uint64 old_pass = 0;
 
-            if (buffer.GetUint64(3, &old_pass) && buffer.GetUint64(4, &new_pass) && buffer.CheckSumIsMatches(num_words))
+            if (buffer.GetUint64(3, &old_pass) && buffer.GetUint64(4, &new_pass) && buffer._CheckSumIsMatches(num_words))
             {
                 Task::MakeMaster::Create(old_pass, new_pass);
 
@@ -266,7 +266,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
         {
             uint number = 0;
 
-            if (buffer.GetUint64(3, &new_pass) && buffer.GetUint(4, &number) && buffer.CheckSumIsMatches(num_words))
+            if (buffer.GetUint64(3, &new_pass) && buffer.GetUint(4, &number) && buffer._CheckSumIsMatches(num_words))
             {
                 Task::MakeUser::Create(new_pass, number);
 
@@ -275,7 +275,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
         }
         else if (num_words == 4)
         {
-            if (buffer.GetUint64(3, &new_pass) && buffer.CheckSumIsMatches(num_words))
+            if (buffer.GetUint64(3, &new_pass) && buffer._CheckSumIsMatches(num_words))
             {
                 Task::MakeUser::Create(new_pass);
 
@@ -331,7 +331,7 @@ bool BufferUSART::ReadSettings(int num_words, SettingsReader &set) const
         GetInt(20, &osdp_address) &&
         GetUint(21, &osdp_bautdrate) &&
         GetInt(22, &osdp_enabled) &&
-        HashIsMatches(num_words))
+        _CheckSumIsMatches(num_words))
     {
         set.SetOldPassword(old_pass);
         set.SetPassword(new_pass);
@@ -394,7 +394,7 @@ bool BufferUSART::Crc32IsMatches(int num_words) const
 }
 
 
-bool BufferUSART::CheckSumIsMatches(int num_words) const
+bool BufferUSART::_CheckSumIsMatches(int num_words) const
 {
     return Crc32IsMatches(num_words) || HashIsMatches(num_words);
 }

@@ -47,7 +47,7 @@ void SettingsReader::Save()
 
     if (std::memcmp(&settings, &gset, (uint)settings.Size()) != 0)
     {
-        gset.Hash() = gset.CalculateHash();
+        gset.CalculateAndWriteCheckSum();
 
         HAL_ROM::Save(gset);
     }

@@ -297,7 +297,7 @@ void HAL_USART::WG26::Transmit26bit(uint value)
 
 void HAL_USART::WG26::TransmitBit(bool bit, TimeMeterMS &meter)
 {
-    meter.WaitFor(2);
+    meter.WaitFor(1);
 
     meter.Reset();
 
@@ -316,7 +316,7 @@ void HAL_USART::WG26::TransmitBit(bool bit, TimeMeterMS &meter)
 
     Mode::WG::LevelBit();
 
-    meterDuration.WaitFor(200);
+    meterDuration.WaitFor(100);
 
     Mode::WG::LevelInterval();
 }
