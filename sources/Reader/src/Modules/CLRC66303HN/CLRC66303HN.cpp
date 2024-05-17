@@ -359,7 +359,7 @@ bool CLRC66303HN::ProcessMasterCard()
 
     if (Card::RAW::ReadDataFromblocks(4, (uint8 *)&settings, settings.Size()))
     {
-        if (settings.CalculateHash() == settings.Hash())
+        if (settings.CheckSumIsMatches())
         {
             if (settings.OldPassword() == (uint64)-1)                           // Меняем пароль
             {

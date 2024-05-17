@@ -321,3 +321,15 @@ bool SettingsReader::IsEnabledOSDP() const
 {
     return (s09.bytes[0] & 0x80) != 0;
 }
+
+
+void SettingsReader::CalculateAndWriteCheckSum()
+{
+    CRC32() = CalculateCRC32();
+}
+
+
+bool SettingsReader::CheckSumIsMatches()
+{
+    return CRC32() == CalculateCRC32() || Hash() == CalculateHash();
+}

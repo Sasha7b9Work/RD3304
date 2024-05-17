@@ -12,10 +12,7 @@ void HAL_ROM::Load(SettingsReader &settings)
 
     ReadBuffer(ADDRESS_SECTOR_SETTINGS, &set, set.Size());
 
-    uint hash = set.Hash();
-    uint new_hash = set.CalculateHash();
-
-    if (hash == new_hash)
+    if (set.CheckSumIsMatches())
     {
         settings = set;
     }
