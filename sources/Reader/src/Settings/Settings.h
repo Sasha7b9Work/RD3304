@@ -90,7 +90,7 @@ struct SettingsReader
     BaudRate BaudRateOSDP() const;
     void     SetBaudRateOSDP(BaudRate::E b)  { s13.bytes[3] = (uint8)b; }
 
-    uint     _CalculateHash() const;         // Рассчитывет хэш (старая методология)
+    uint     CalculateHash() const;         // Рассчитывет хэш (старая методология)
     uint     CalculateCRC32() const;        // Рассчитывает CRC32 (новая методология)
     uint    &Hash() { return s14.word; }    // Ссылка на ячейку с сохранённой контрольной суммой
 

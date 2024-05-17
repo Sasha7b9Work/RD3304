@@ -47,7 +47,7 @@ void SettingsReader::Save()
 
     if (std::memcmp(&settings, &gset, (uint)settings.Size()) != 0)
     {
-        gset.Hash() = gset._CalculateHash();
+        gset.Hash() = gset.CalculateHash();
 
         HAL_ROM::Save(gset);
     }
@@ -256,11 +256,11 @@ void SettingsReader::PrepareMasterOnlyPassword(uint64 new_password)
 
     SetPassword(new_password);
 
-    Hash() = _CalculateHash();
+    Hash() = CalculateHash();
 }
 
 
-uint SettingsReader::_CalculateHash() const
+uint SettingsReader::CalculateHash() const
 {
     const uint8 *begin = (const uint8 *)this;
     const uint8 *end = (const uint8 *)&s14;

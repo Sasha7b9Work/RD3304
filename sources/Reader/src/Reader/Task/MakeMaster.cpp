@@ -61,7 +61,7 @@ namespace Task
         {
             if (make_full)
             {
-                set.Hash() = set._CalculateHash();
+                set.Hash() = set.CalculateHash();
                 if (!Card::RAW::WriteBitmapCards(bitmap_cards))                             // Записываем битовую карту разрешённых карт
                 {
                     return false;
