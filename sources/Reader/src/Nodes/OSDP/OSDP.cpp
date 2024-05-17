@@ -137,7 +137,7 @@ bool OSDP::BufferOSDP::ProcessCheckSumAndAddress()
 
     BitSet16 crc(buffer[bytes_left - 2], buffer[bytes_left - 1]);
 
-    if (Math::CalculateCRC(buffer.Data(), bytes_left - 2) == crc.half_word)
+    if (Math::CalculateCRC_OSDP(buffer.Data(), bytes_left - 2) == crc.half_word)
     {
         return true;
     }

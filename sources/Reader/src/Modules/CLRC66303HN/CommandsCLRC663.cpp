@@ -399,10 +399,6 @@ namespace CLRC66303HN
                     {
                         break;
                     }
-                    else
-                    {
-                        int i = 0;
-                    }
                 }
 
                 // status is always valid, it is set to 0 in case of authentication failure.

@@ -27,5 +27,5 @@ namespace Math
         return crc;
     }
 
-    uint16 CalculateCRC(const void *, int);
+    uint16 CalculateCRC_OSDP(const void *, int);
 }

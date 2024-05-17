@@ -63,7 +63,7 @@ namespace Math
 }
 
 
-uint16 Math::CalculateCRC(const void *buffer, int size)
+uint16 Math::CalculateCRC_OSDP(const void *buffer, int size)
 {
     const uint8 *data = (const uint8 *)buffer;
 

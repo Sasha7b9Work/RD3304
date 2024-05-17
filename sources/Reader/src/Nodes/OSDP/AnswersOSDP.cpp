@@ -83,7 +83,7 @@ void AnswerOSDP::CommonEnd()
 
     WriteUInt16(2, (uint16)buffer.Size());
 
-    WriteUInt16(buffer.Size() - 2, Math::CalculateCRC(buffer.Data(), buffer.Size() - 2));
+    WriteUInt16(buffer.Size() - 2, Math::CalculateCRC_OSDP(buffer.Data(), buffer.Size() - 2));
 }
 
 
