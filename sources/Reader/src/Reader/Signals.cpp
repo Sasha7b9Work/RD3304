@@ -52,6 +52,8 @@ void Signals::GoodMasterCard()
     while (Device::UpdateTasks())
     {
     }
+
+    Indicator::FireInputs(false, false);
 }
 
 
@@ -65,4 +67,6 @@ void Signals::BadMasterCard()
     while (Device::UpdateTasks())
     {
     }
+
+    Indicator::FireInputs(false, false);
 }

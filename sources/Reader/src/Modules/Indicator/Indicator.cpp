@@ -23,6 +23,11 @@ ModeIndicator::E ModeIndicator::current = ModeIndicator::External;
 
 namespace Indicator
 {
+    static bool lg_and_lr = false;      // Это если lr и lg поданы
+    static bool prev_lg = false;        // Если true - нужно зажигать
+    static bool prev_lr = false;        // Если true - нужно зажигать
+
+
     static void FireInputsInEnergySavingMode(bool lg, bool lr);
 
     // Цвет, посланнный в LED в последнюю засылку
@@ -259,6 +264,9 @@ void Indicator::FireInputsInEnergySavingMode(bool lg, bool lr)
 
 void Indicator::FireInputs(bool lg, bool lr)
 {
+    prev_lg = lg;
+    prev_lr = lr;
+
     if (!ModeOffline::IsEnabled() && !OSDP::IsEnabled())
     {
         if (Power::InEnergySavingMode())
@@ -377,11 +385,7 @@ bool Indicator::Update()
 {
     if (Upgrader::IsCompleted() && ModeIndicator::IsExternal() && Device::IsRunning() && !ModeOffline::IsEnabled() && !OSDP::IsEnabled() && LIS2DH12::IsExist())
     {
-        static bool lg_and_lr = false;      // Это если lr и lg поданы
         static TimeMeterMS meter_lg_lr;
-
-        static bool prev_lg = false;        // Если true - нужно зажигать
-        static bool prev_lr = false;        // Если true - нужно зажигать
 
         static bool prev_state_low_energy = true;  // Здесь будет true, если в предыдущем кадре было пониженное питание
 
