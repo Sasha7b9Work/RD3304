@@ -8,6 +8,7 @@
 #include "Device/Device.h"
 #include "Hardware/Timer.h"
 #include "Modules/Indicator/Indicator.h"
+#include "Hardware/HAL/HAL.h"
 
 
 /*
@@ -341,6 +342,11 @@ void OSDP::RequestCOMSET(const BufferOSDP &buffer)
 
 void OSDP::Init()
 {
+    if (HAL::Is765())
+    {
+        return;
+    }
+
     is_init = true;
 
     ModeReader::Set(ModeReader::UART);
