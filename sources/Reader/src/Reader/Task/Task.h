@@ -32,7 +32,7 @@ namespace Task
     {
         void Create(uint64 password);
 
-        void Create(uint64 password, uint number);
+        void Create(uint64 password, uint64 number);
 
         void Run();
     }
