@@ -99,9 +99,9 @@ namespace OSDP
     namespace Card
     {
         static bool exist_number = false;
-        static uint number = 0;
+        static uint64 number = 0;
 
-        void Insert(uint _number)
+        void Insert(uint64 _number)
         {
             number = _number;
             exist_number = true;
@@ -342,10 +342,14 @@ void OSDP::RequestCOMSET(const BufferOSDP &buffer)
 
 void OSDP::Init()
 {
+#ifdef MCU_GD
+
     if (HAL::Is765())
     {
         return;
     }
+
+#endif
 
     is_init = true;
 

@@ -261,7 +261,7 @@ bool CLRC66303HN::UpdateExtendedMode(const TypeAuth &type_auth, bool new_auth)
             result = auth_ok;
         }
 
-        uint number = 0;
+        uint64 number = 0;
 
         if (!Card::RAW::ReadNumber(&number))
         {
@@ -297,17 +297,17 @@ bool CLRC66303HN::UpdateNormalMode()
         {
             if (ModeWG::IsNormal())             // Это выполняется также и в том случае, если OSDP и автономный режим
             {
-                uint block = 0;
+                uint64 number = 0;
                 char message_fail[128];
                 std::sprintf(message_fail, "CARD %s*%s AUTHENTICATION FAILED", Card::uid.ToString(true).c_str(), Card::uid.ToString(false).c_str());
 
-                if (Command::PasswordAuth(SettingsReader::PSWD::Get()) && Card::RAW::ReadNumber(&block))
+                if (Command::PasswordAuth(SettingsReader::PSWD::Get()) && Card::RAW::ReadNumber(&number))
                 {
                     result = true;
 
                     ProtectionBruteForce::Reset();
 
-                    if (block == (uint)-1)      // В четвёртом секторе FF FF FF FF - мастер-карта
+                    if ((uint)number == (uint)-1)      // В четвёртом секторе FF FF FF FF - мастер-карта
                     {
                         if (!ProcessMasterCard())
                         {
@@ -408,7 +408,7 @@ bool CLRC66303HN::ProcessMasterCard()
 
 bool CLRC66303HN::ProcessUserCard()
 {
-    uint number = 0;
+    uint64 number = 0;
 
     bool result = false;
 

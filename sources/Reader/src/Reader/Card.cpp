@@ -56,7 +56,7 @@ namespace Card
 }
 
 
-void Card::InsertExtendedMode(const TypeAuth &type, bool auth_ok, bool new_auth, uint number)
+void Card::InsertExtendedMode(const TypeAuth &type, bool auth_ok, bool new_auth, uint64 number)
 {
     if (prev_auth != type || !inserted || new_auth)
     {
@@ -82,7 +82,7 @@ void Card::InsertExtendedMode(const TypeAuth &type, bool auth_ok, bool new_auth,
 }
 
 
-void Card::InsertNormalModeUser(uint number, bool auth_ok)
+void Card::InsertNormalModeUser(uint64 number, bool auth_ok)
 {
     if (!IsInserted() || (auth_ok && !prev_auth_bool))
     {
@@ -123,13 +123,13 @@ void Card::InsertNormalModeUser(uint number, bool auth_ok)
 
                     if (ModeReader::IsWG())
                     {
-                        BitSet32 bs = { number };
+                        BitSet64 bs = { number };
 
                         HAL_USART::WG26::Transmit(bs.bytes[2], bs.bytes[1], bs.bytes[0]);
                     }
                     else
                     {
-                        Message::SendFormat("CARD USER %s*%s NUMBER %u", uid.ToString(true).c_str(), uid.ToString(false).c_str(), number);
+                        Message::SendFormat("CARD USER %s*%s NUMBER %llu", uid.ToString(true).c_str(), uid.ToString(false).c_str(), number);
                     }
                 }
             }
@@ -453,11 +453,17 @@ bool Card::RAW::ReadDataWitouthAuth()
 }
 
 
-bool Card::RAW::ReadNumber(uint *number)
+bool Card::RAW::ReadNumber(uint64 *number)
 {
     if (TypeCard::IsNTAG())
     {
-        return Command::NTAG::ReadBlock(4, number);
+        BitSet64 bit_set = 0;
+
+        bool result = Command::NTAG::Read2Blocks(4, &bit_set);
+
+        *number = bit_set.long_word;
+
+        return result;
     }
     else if (TypeCard::IsMifare())
     {
@@ -468,13 +474,13 @@ bool Card::RAW::ReadNumber(uint *number)
 }
 
 
-bool Card::RAW::WriteNumber(uint number)
+bool Card::RAW::WriteNumber(uint64 number)
 {
     if (TypeCard::IsNTAG())
     {
-        BitSet32 bs = { number };
+        BitSet64 bit_set(number);
 
-        return Command::NTAG::WriteBlock(4, bs.bytes);
+        return Command::NTAG::Write2Blocks(4, bit_set.bytes);
     }
     else if (TypeCard::IsMifare())
     {

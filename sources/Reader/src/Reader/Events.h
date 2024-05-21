@@ -12,7 +12,7 @@ namespace Event
     void CardDetected();
 
     // Карта аутентифицирована или не аутентицфицирована
-    void CardReadOK(const UID &, uint number, pchar password_string);
+    void CardReadOK(const UID &, uint64 number, pchar password_string);
 
     void CardReadFAIL(const UID &, pchar password_string);
 

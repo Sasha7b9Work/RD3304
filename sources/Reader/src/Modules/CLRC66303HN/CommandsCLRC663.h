@@ -70,6 +70,8 @@ namespace CLRC66303HN
 
             bool ReadBlock(int num_block, uint *word); //-V1071
 
+            bool Read2Blocks(int num_block, BitSet64 *);
+
             // size должно быть кратно 4
             bool ReadData(int num_block, void *data, int size);
 

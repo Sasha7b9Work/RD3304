@@ -18,7 +18,7 @@ namespace AccessCards
         int bit;            // Номер байта в бите
     };
 
-    static StructCard FindPlaceForCard(uint num_card);
+    static StructCard FindPlaceForCard(uint64 num_card);
 }
 
 
@@ -49,7 +49,7 @@ void AccessCards::Set(pchar bits)
 }
 
 
-bool AccessCards::Access(uint number)
+bool AccessCards::Access(uint64 number)
 {
     if (number > ModeOffline::MaxNumCards())
     {
@@ -64,11 +64,11 @@ bool AccessCards::Access(uint number)
 }
 
 
-AccessCards::StructCard AccessCards::FindPlaceForCard(uint num_card)
+AccessCards::StructCard AccessCards::FindPlaceForCard(uint64 num_card)
 {
     uint index = (uint)(num_card / 8);
 
-    uint bit = num_card - index * 8;
+    uint bit = (uint)num_card - index * 8;
 
     return StructCard(HAL_ROM::ADDRESS_SECTOR_ACCESS_CARDS + index, bit);
 }

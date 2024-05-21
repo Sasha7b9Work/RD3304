@@ -57,6 +57,16 @@ void AnswerOSDP::AppendUInt(uint data)
 }
 
 
+void AnswerOSDP::AppendUInt64(uint64 data)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        AppendByte((uint8)data);
+        data >>= 8;
+    }
+}
+
+
 void AnswerOSDP::WriteUInt16(int address, uint16 data)
 {
     buffer[address] = (uint8)data;
@@ -87,14 +97,14 @@ void AnswerOSDP::CommonEnd()
 }
 
 
-AnswerNumberCard::AnswerNumberCard(uint8 address, uint8 cntrl_code, uint number) : AnswerOSDP(cntrl_code)
+AnswerNumberCard::AnswerNumberCard(uint8 address, uint8 cntrl_code, uint64 number) : AnswerOSDP(cntrl_code)
 {
     CommonStart(address, OSDP_ANS::RAW);
 
-    AppendByte(1);               // Reader Number
-    AppendByte(0);               // Format Code
-    AppendUInt16(3 * 8);            // BitCount
-    AppendThreeBytes(number);
+    AppendByte(1);                  // Reader Number
+    AppendByte(0);                  // Format Code
+    AppendUInt16(8 * 8);            // BitCount == 8 байт == uint64
+    AppendUInt64(number);
 
     CommonEnd();
 }

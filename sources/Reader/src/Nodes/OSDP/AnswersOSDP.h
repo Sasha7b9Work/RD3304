@@ -27,6 +27,7 @@ protected:
     void AppendUInt16(uint16);
     void AppendThreeBytes(uint);
     void AppendUInt(uint);
+    void AppendUInt64(uint64);
 
     // Записать по определённому адресу в буфер
     void WriteUInt16(int address, uint16);
@@ -68,7 +69,7 @@ struct AnswerNAK : public AnswerOSDP
 
 struct AnswerNumberCard : public AnswerOSDP
 {
-    AnswerNumberCard(uint8 address, uint8 cntrl_code, uint number);
+    AnswerNumberCard(uint8 address, uint8 cntrl_code, uint64 number);
 };
 
 

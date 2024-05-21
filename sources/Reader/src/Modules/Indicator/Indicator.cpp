@@ -227,7 +227,7 @@ void Indicator::Init()
 
 void Indicator::FireInputsInEnergySavingMode(bool lg, bool lr)
 {
-    static bool prev_lr = false;    // Если true, то в прошлый раз зажигали красный.
+    static bool _prev_lr = false;    // Если true, то в прошлый раз зажигали красный.
     static uint time_prev_lr = 0;   // Время зажигания предыдущего красного.
 
     if (lg && !lr)
@@ -240,15 +240,15 @@ void Indicator::FireInputsInEnergySavingMode(bool lg, bool lr)
 
         if (lr && !lg)                      // Пришёл "красный"
         {
-            if (!prev_lr)                   // Если ранее был не "красный"
+            if (!_prev_lr)                   // Если ранее был не "красный"
             {
-                prev_lr = true;             // Сохраняем факт и время прихода
+                _prev_lr = true;             // Сохраняем факт и время прихода
                 time_prev_lr = TIME_MS;
             }
         }
         else                                // В любом случае кроме красного и зелёного
         {
-            if (prev_lr && (TIME_MS < time_prev_lr + 2000))     // Если был красный и времени прошло менее 2000 мс
+            if (_prev_lr && (TIME_MS < time_prev_lr + 2000))     // Если был красный и времени прошло менее 2000 мс
             {
                 uint time = TIME_MS - time_prev_lr;
 
@@ -256,7 +256,7 @@ void Indicator::FireInputsInEnergySavingMode(bool lg, bool lr)
                 TurnOff(time / 2, false);
             }
 
-            prev_lr = false;
+            _prev_lr = false;
         }
     }
 }

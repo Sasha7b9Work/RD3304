@@ -58,6 +58,6 @@ namespace OSDP
 
     namespace Card
     {
-        void Insert(uint number);
+        void Insert(uint64 number);
     }
 }

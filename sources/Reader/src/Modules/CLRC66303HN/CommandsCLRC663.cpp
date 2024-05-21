@@ -515,6 +515,12 @@ bool CLRC66303HN::Command::NTAG::ReadBlock(int num_block, uint *word)
 }
 
 
+bool CLRC66303HN::Command::NTAG::Read2Blocks(int num_block, BitSet64 *bit_set)
+{
+    return ReadBlock(num_block, &bit_set->word[0]) && ReadBlock(num_block + 1, &bit_set->word[1]);
+}
+
+
 bool CLRC66303HN::Command::PasswordAuth(uint64 password)
 {
     Idle();

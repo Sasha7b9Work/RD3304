@@ -79,11 +79,11 @@ namespace Card
     extern UID uid;
 
     // Вставить в рабочем режиме
-    void InsertNormalModeUser(uint number, bool auth_ok);
+    void InsertNormalModeUser(uint64 number, bool auth_ok);
     void InsertNormalModeMaster(bool auth_ok);
 
     // Вставить в расширенном режиме
-    void InsertExtendedMode(const TypeAuth &, bool auth_ok, bool new_auth, uint number);
+    void InsertExtendedMode(const TypeAuth &, bool auth_ok, bool new_auth, uint64 number);
 
     void Eject();
 
@@ -102,10 +102,10 @@ namespace Card
         bool ReadDataWitouthAuth();
 
         // Читает номер пользовательсой карты
-        bool ReadNumber(uint *);
+        bool ReadNumber(uint64 *);
 
         // Записывает номер пользовательской карты
-        bool WriteNumber(uint);
+        bool WriteNumber(uint64);
 
         bool WriteSettings(const SettingsReader &);
 

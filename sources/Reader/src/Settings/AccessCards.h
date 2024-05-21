@@ -8,5 +8,5 @@ namespace AccessCards
     void Set(pchar);
 
     // Возвращает true, если у карты с номером number есть доступ
-    bool Access(uint number);
+    bool Access(uint64 number);
 }

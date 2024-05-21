@@ -17,7 +17,7 @@ namespace Task
         static uint64 password = 0;
         static bool exist_password = false;
 
-        static uint number = 0;
+        static uint64 number = 0;
         static bool exist_number = false;
 
         void Create(uint64 _password)
@@ -27,7 +27,7 @@ namespace Task
             exist_number = false;
         }
 
-        void Create(uint64 _password, uint _number)
+        void Create(uint64 _password, uint64 _number)
         {
             password = _password;
             number = _number;

@@ -45,13 +45,13 @@ void Event::CardDetected()
 }
 
 
-void Event::CardReadOK(const UID &uid, uint number, pchar password_string)
+void Event::CardReadOK(const UID &uid, uint64 number, pchar password_string)
 {
     last_readed_uid = uid;
 
     if (ModeReader::IsExtended())
     {
-        Message::SendFormat("CARD READ %s*%s NUMBER %u AUTH %s OK",
+        Message::SendFormat("CARD READ %s*%s NUMBER %llu AUTH %s OK",
             uid.ToString(true).c_str(),
             uid.ToString(false).c_str(),
             number,

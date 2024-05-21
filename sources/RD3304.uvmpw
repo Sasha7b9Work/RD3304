@@ -9,7 +9,6 @@
 
   <project>
     <PathAndName>.\Reader\Reader-799.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>
@@ -18,6 +17,7 @@
 
   <project>
     <PathAndName>.\Reader\Reader-771.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
   </project>
 
   <project>
