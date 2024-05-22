@@ -6,8 +6,8 @@
 
 
 // Выводы
-PinInputAntiBounce  pinLG(Port::_A, GPIO_PIN_10, Pulling::None);        // 20 def
-PinInputAntiBounce  pinLR(Port::_A, GPIO_PIN_11, Pulling::None);        // 21 def
+PinInputAntiBounce  pinLG(Port::_A, GPIO_PIN_11, Pulling::None);        // 20 def
+PinInputAntiBounce  pinLR(Port::_A, GPIO_PIN_10, Pulling::None);        // 21 def
 PinInput            pinSND(Port::_B, GPIO_PIN_0, Pulling::None);        // 14 def
 
 // RS485
