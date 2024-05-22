@@ -112,10 +112,10 @@ struct SettingsReader
     void CalculateAndWriteCheckSum();
 
 private:
-    uint  CalculateHash() const;         // Рассчитывет хэш (старая методология)
-    uint  CalculateCRC32() const;        // Рассчитывает CRC32 (новая методология)
-    uint &Hash() { return s14.word; }    // Ссылка на ячейку с сохранённой контрольной суммой
-    uint &CRC32() { return s14.word; }
+    uint  CalculateHash() const;        // Рассчитывет хэш (старая методология)
+    uint  CalculateCRC32() const;       // Рассчитывает CRC32 (новая методология)
+    uint &Hash() { return s14.word; }   // Ссылка на ячейку с сохранённой контрольной суммой
+    uint &CRC32() { return s14.word; }  //-V524
 };
 
 

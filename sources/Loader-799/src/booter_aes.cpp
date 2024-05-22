@@ -202,7 +202,7 @@
  void InvMixColumn( uint8_t *column )
  {
    uint8_t r0, r1, r2, r3;
-   r0 = column[ 1 ] ^ column[ 2 ] ^ column[ 3 ];
+   r0 = column[ 1 ] ^ column[ 2 ] ^ column[ 3 ]; //-V525
    r1 = column[ 0 ] ^ column[ 2 ] ^ column[ 3 ];
    r2 = column[ 0 ] ^ column[ 1 ] ^ column[ 3 ];
    r3 = column[ 0 ] ^ column[ 1 ] ^ column[ 2 ];

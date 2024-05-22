@@ -11,6 +11,29 @@
 #include <cstdio>
 
 
+uint8 &Block4::operator[](uint i)
+{
+    if (i < 4)
+    {
+        return bytes[i];
+    }
+
+    static uint8 null;
+    return null;
+}
+
+uint8 &Block16::operator[](uint i)
+{
+    if (i < 16)
+    {
+        return bytes[i];
+    }
+
+    static uint8 null;
+    return null;
+}
+
+
 namespace CLRC66303HN
 {
     void Command::Idle()

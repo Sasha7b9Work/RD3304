@@ -7,16 +7,7 @@ struct Block4
 {
     uint8 bytes[4];
 
-    uint8 &operator[](uint i)
-    {
-        if (i < 4)
-        {
-            return bytes[i];
-        }
-
-        static uint8 null;
-        return null;
-    }
+    uint8 &operator[](uint);
 
     uint ToWord() { return *((uint *)bytes); }
 };
@@ -26,16 +17,7 @@ struct Block16
 {
     uint8 bytes[16];
 
-    uint8 &operator[](uint i)
-    {
-        if (i < 16)
-        {
-            return bytes[i];
-        }
-
-        static uint8 null;
-        return null;
-    }
+    uint8 &operator[](uint);
 };
 
 
