@@ -51,12 +51,44 @@ void Event::CardReadOK(const UID &uid, uint64 number, pchar password_string)
 
     if (ModeReader::IsExtended())
     {
-        Message::SendFormat("CARD READ %s*%s NUMBER %llu AUTH %s OK",
-            uid.ToString(true).c_str(),
-            uid.ToString(false).c_str(),
-            number,
-            password_string
-        );
+        if ((number & 0xFFFFFFFF) == 0xFFFFFFFF)                            // Прочитана мастер-карта
+        {
+            char message[256];
+
+            std::sprintf(message, "CARD READ %s*%s MASTER AUTH %s ",
+                uid.ToString(true).c_str(),
+                uid.ToString(false).c_str(),
+                password_string);
+
+            SettingsReader settings;
+
+            Card::RAW::ReadDataFromblocks(4, (uint8 *)&settings, sizeof(settings));
+
+            uint *pointer = (uint *)&settings;
+
+            for (int i = 0; i < 11; i++)
+            {
+                char buffer[32];
+
+                std::sprintf(buffer, "0x08X", *pointer);
+                std::strcat(message, buffer);
+
+                pointer++;
+            }
+
+            std::strcat(message, "OK\r\n");
+
+            Message::SendRAW(message);
+        }
+        else                                                                // Прочитана пользовательская карта
+        {
+            Message::SendFormat("CARD READ %s*%s NUMBER %llu AUTH %s OK",
+                uid.ToString(true).c_str(),
+                uid.ToString(false).c_str(),
+                number,
+                password_string
+            );
+        }
     }
 }
 
