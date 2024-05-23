@@ -75,7 +75,7 @@
       <OPTFL>
         <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
-        <IsCurrentTarget>0</IsCurrentTarget>
+        <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
       <CpuCode>255</CpuCode>
       <DebugOpt>
@@ -147,18 +147,50 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>34</LineNumber>
+          <LineNumber>448</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134250056</Address>
+          <Address>134236644</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>&lt;1&gt;.\src\Device\Device.cpp</Filename>
+          <Filename>&lt;1&gt;.\src\Modules\CLRC66303HN\CommandsCLRC663.cpp</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\RD3303_799\src/Device/Device.cpp\34</Expression>
+          <Expression>\\RD3303_799\src/Modules/CLRC66303HN/CommandsCLRC663.cpp\448</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>445</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134236640</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>&lt;1&gt;.\src\Modules\CLRC66303HN\CommandsCLRC663.cpp</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\RD3303_799\src/Modules/CLRC66303HN/CommandsCLRC663.cpp\445</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>443</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134236622</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>&lt;1&gt;.\src\Modules\CLRC66303HN\CommandsCLRC663.cpp</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\RD3303_799\src/Modules/CLRC66303HN/CommandsCLRC663.cpp\443</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -174,7 +206,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -267,7 +299,7 @@
       <OPTFL>
         <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
-        <IsCurrentTarget>1</IsCurrentTarget>
+        <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
       <CpuCode>255</CpuCode>
       <DebugOpt>
@@ -335,14 +367,31 @@
           <Name>UL2V8M(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0GD32E23x -FS08000000 -FL010000 -FP0($$Device:GD32E230K8$Flash\GD32E23x.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>512</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134235052</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>&lt;1&gt;.\src\Modules\CLRC66303HN\CommandsCLRC663.cpp</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\RD3303_799\src/Modules/CLRC66303HN/CommandsCLRC663.cpp\512</Expression>
+        </Bp>
+      </Breakpoint>
       <Tracepoint>
         <THDelay>0</THDelay>
       </Tracepoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -703,7 +752,7 @@
 
   <Group>
     <GroupName>src</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -883,7 +932,7 @@
 
   <Group>
     <GroupName>Hardware/CMSIS</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1139,7 +1188,7 @@
 
   <Group>
     <GroupName>Modules/CLRC66303HN</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1595,7 +1644,7 @@
 
   <Group>
     <GroupName>Reader</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

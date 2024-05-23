@@ -38,7 +38,7 @@ namespace CLRC66303HN
         buffer[0] = (uint8)(address << 1);
         std::memcpy(buffer + 1, _data, (uint)length);
 
-        HAL_SPI::WriteBuffer(DirectionSPI::Reader, buffer, 3);
+        HAL_SPI::WriteBuffer(DirectionSPI::Reader, buffer, length + 1);
     }
 
 

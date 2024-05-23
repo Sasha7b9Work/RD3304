@@ -435,7 +435,12 @@ namespace CLRC66303HN
                 uint8 default_key[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
                 Command::LoadKey(default_key);
 
-                if (!Auth(MFRC630_MF_AUTH_KEY_A, (uint8)num_block, Card::uid.bytes + 3))
+//                if (!_Auth(MFRC630_MF_AUTH_KEY_A, (uint8)num_block, Card::uid.bytes))
+
+//                uint8 bytes_uid[4] = { 0x83, 0x0E, 0xEB, 0xE9 };
+                uint8 bytes_uid[4] = { 0xE9, 0xEB, 0x0E, 0x83 };
+
+                if (!Auth(MFRC630_MF_AUTH_KEY_A, (uint8)num_block, bytes_uid))
                 {
                     return false;
                 }
