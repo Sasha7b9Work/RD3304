@@ -383,7 +383,7 @@ ColorLED Indicator::TransformColor(const ColorLED &color)
 
 bool Indicator::Update()
 {
-    if (Upgrader::IsCompleted() && ModeIndicator::IsExternal() && Device::IsRunning() && !ModeOffline::IsEnabled() && !OSDP::IsEnabled() && LIS2DH12::IsExist())
+    if (ModeReader::Current() == ModeReader::WG && Upgrader::IsCompleted() && ModeIndicator::IsExternal() && Device::IsRunning() && !ModeOffline::IsEnabled() && !OSDP::IsEnabled() && LIS2DH12::IsExist())
     {
         static TimeMeterMS meter_lg_lr;
 
