@@ -70,7 +70,7 @@ void Event::CardReadOK(const UID &uid, uint64 number, pchar password_string)
             {
                 char buffer[32];
 
-                std::sprintf(buffer, "0x08X", *pointer);
+                std::sprintf(buffer, "%08X", *pointer);
                 std::strcat(message, buffer);
 
                 pointer++;
