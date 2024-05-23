@@ -76,7 +76,7 @@ void Event::CardReadOK(const UID &uid, uint64 number, pchar password_string)
                 pointer++;
             }
 
-            std::strcat(message, "OK\r\n");
+            std::strcat(message, " OK\r\n");
 
             Message::SendRAW(message);
         }
