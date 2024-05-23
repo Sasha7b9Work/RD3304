@@ -373,23 +373,37 @@ namespace CLRC66303HN
             {
                 static void LoadKey(uint8 *key_nr)
                 {
-                    Idle();
-                    fifo.Flush();
-                    fifo.Write(key_nr, 6);
-                    Register(MFRC630_REG_COMMAND).Write(MFRC630_CMD_LOADKEY);
+//                    Idle();
+//                    fifo.Flush();
+//                    fifo.Write(key_nr, 6);
+//                    Register(MFRC630_REG_COMMAND).Write(MFRC630_CMD_LOADKEY);
+
+                    uint8 buffer[7] = { MFRC630_CMD_LOADKEY };
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        buffer[i + 1] = *key_nr++;
+                    }
+
+                    CLRC66303HN::Command::Send(buffer, 7);
                 }
 
                 static void Auth(uint8 key_type, uint8 block, const uint8 *uid)
                 {
-                    Idle();
+//                    Idle();
+//                    uint8 data[6] = { key_type, block, uid[0], uid[1], uid[2], uid[3] };
+//                    fifo.Flush();
+//                    fifo.Write(data, 6);
+// Register(MFRC630_REG_COMMAND).Write(MFRC630_CMD_MFAUTHENT);
 
-                    uint8 data[6] = { key_type, block, uid[0], uid[1], uid[2], uid[3] };
+                    uint8 buffer[7] = { MFRC630_CMD_MFAUTHENT, key_type, block };
 
-                    fifo.Flush();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        buffer[i + 3] = *uid++;
+                    }
 
-                    fifo.Write(data, 6);
-
-                    Register(MFRC630_REG_COMMAND).Write(MFRC630_CMD_MFAUTHENT);
+                    CLRC66303HN::Command::Send(buffer, 7);
                 }
             }
 
