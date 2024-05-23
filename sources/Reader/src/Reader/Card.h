@@ -65,6 +65,9 @@ namespace TypeCard
     // Сброс типа карты при изьятии её из картоприёмника
     void Reset();
 
+    // Возвращает тип - NTAG, етс
+    pchar CurrentName();
+
     namespace NTAG
     {
         int BlockPassword();

@@ -37,6 +37,21 @@ namespace TypeCard
     static bool IsMifare();
     static E Current();
 
+    pchar CurrentName()
+    {
+        static const pchar names[E::Count] =
+        {
+            "",
+            "Unsupported",
+            "NTAG213",
+            "NTAG215",
+            "NTAG216",
+            "Mifare_UID7_4K"
+        };
+
+        return names[Current()];
+    }
+
     namespace NTAG
     {
         static int BlockCFG0();
