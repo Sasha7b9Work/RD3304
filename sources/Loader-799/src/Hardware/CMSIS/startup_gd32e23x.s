@@ -126,16 +126,15 @@ __Vectors_Size  EQU     __Vectors_End - __Vectors
                 DCD  0x000
                 WEND
 
-                DCD     0xAABBCC01  ; серийный номер
-                DCW     0x0101      ; верси€ загрузчика
-                DCW     0x0001      ; верси€ аппаратуры
-                DCD     0x0000CE02  ;Configuration constant
-                DCD     0x00000000  ;Reserv
-                DCD     0x00000000  ;Manufacturing data
-
-                DCB     0x10,0x0C,0xCC,0x00,0x03,0x01; MAC адрес
-                DCB     0x00,0x00
-                DCD     200000      ;максимально допустимое количество пользователей(кодичество кодов в базе)
+                DCD     0x00000000  ; 0x200 серийный номер
+                DCW     0x0102      ; 0x204 верси€ загрузчика - v.1.2
+;                DCW     0x3303      ; 0x206 аппаратна€ верси€ дл€ подрозетника
+                DCW     0x3302      ; 0x206 аппаратна€ верси€ дл€ USB
+                DCD     0x00000000  ; 0x208 Configuration constant
+                DCD     0x00000000  ; 0x20C зарезервировано
+                DCD     0x00000000  ; 0x210 ƒата производства
+                DCB     0xFF,0xFF,0xFF,0xFF,0xFF,0xFF; 0x214 MAC адрес
+                DCB     0xFF,0xFF
 
                 AREA    |.text|, CODE, READONLY
 
