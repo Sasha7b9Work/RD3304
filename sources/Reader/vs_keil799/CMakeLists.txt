@@ -34,7 +34,7 @@ add_compile_options(
 
 file(GLOB GD32E23x                      ../../common/GD32E23x_Firmware_Library/Firmware/GD32E23x_standard_peripheral/Include/*.*
                                         ../../common/GD32E23x_Firmware_Library/Firmware/GD32E23x_standard_peripheral/Source/*.*)
-file(GLOB DOC                           ../doc/*.*)
+file(GLOB DOC                           ../../doc/*.*)
 file(GLOB SRC                           ../src/*.*)
 file(GLOB DEVICE                        ../src/Device/*.*)
 file(GLOB HARDWARE                      ../src/Hardware/*.*)

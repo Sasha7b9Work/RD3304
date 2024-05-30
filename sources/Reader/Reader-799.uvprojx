@@ -382,6 +382,26 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>doc</GroupName>
+          <Files>
+            <File>
+              <FileName>Карты.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\doc\Карты.txt</FilePath>
+            </File>
+            <File>
+              <FileName>Команды SCPI.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\doc\Команды SCPI.txt</FilePath>
+            </File>
+            <File>
+              <FileName>Описание.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\doc\Описание.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>GD32E23x</GroupName>
           <Files>
             <File>
@@ -1896,6 +1916,26 @@
         </TargetArmAds>
       </TargetOption>
       <Groups>
+        <Group>
+          <GroupName>doc</GroupName>
+          <Files>
+            <File>
+              <FileName>Карты.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\doc\Карты.txt</FilePath>
+            </File>
+            <File>
+              <FileName>Команды SCPI.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\doc\Команды SCPI.txt</FilePath>
+            </File>
+            <File>
+              <FileName>Описание.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\doc\Описание.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
         <Group>
           <GroupName>GD32E23x</GroupName>
           <Files>
