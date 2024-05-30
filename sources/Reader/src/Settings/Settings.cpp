@@ -27,7 +27,13 @@ static const SettingsReader factory_set =
     { 0xFFFF0000 },       // s11
     { 0xFF00FF00 },       // s12
     { 0x00011e05 },       // s13
-    { 0x00000000 }        // s14
+    { 0x00000000 },       // s14
+    { 0x00000000 },
+    { 0x00000000 },
+    { 0x00000000 },
+    { 0x00000000 },
+    { 0x00000000 },
+    { 0x00000000 }
 };
 
 SettingsReader gset = factory_set;
@@ -256,24 +262,14 @@ void SettingsReader::PrepareMasterOnlyPassword(uint64 new_password)
 
     SetPassword(new_password);
 
-    Hash() = CalculateHash();
-}
-
-
-uint SettingsReader::CalculateHash() const
-{
-    const uint8 *begin = (const uint8 *)this;
-    const uint8 *end = (const uint8 *)&s14;
-    int size = end - begin;
-
-    return Math::CalculateHash((uint)begin, size);
+    CRC32() = CalculateCRC32();
 }
 
 
 uint SettingsReader::CalculateCRC32() const
 {
     const uint8 *begin = (const uint8 *)this;
-    const uint8 *end = (const uint8 *)&s14;
+    const uint8 *end = (const uint8 *)&s20;
     int size = end - begin;
 
     return Math::CalculateCRC32(begin, size);
@@ -331,5 +327,53 @@ void SettingsReader::CalculateAndWriteCheckSum()
 
 bool SettingsReader::CheckSumIsMatches()
 {
-    return CRC32() == CalculateCRC32() || Hash() == CalculateHash();
+    return CRC32() == CalculateCRC32();
+}
+
+
+void SettingsReader::SetAntibreakSens(uint8 sens)
+{
+    s14.bytes[0] &= 0xF0;
+    s14.bytes[0] |= sens;
+}
+
+
+uint8 SettingsReader::GetAntibreakSensRAW()
+{
+    return (uint8)(s14.bytes[0] & 0x0F);
+}
+
+
+float SettingsReader::GetAntibreakSens()
+{
+    uint8 sens = GetAntibreakSensRAW();
+
+    if (sens == 0)
+    {
+        return 180.0f;
+    }
+
+    return (float)sens / 2.0f;
+}
+
+
+bool SettingsReader::IsEnabledAntibreak()
+{
+    return GetAntibreakSensRAW() != 0;
+}
+
+
+void SettingsReader::SetAntibreakNumber(uint number)
+{
+    std::memcpy(&s14.bytes[1], &number, 3);
+}
+
+
+uint SettingsReader::GetAntibreakNumber()
+{
+    uint number = 0;
+
+    std::memcpy(&number, &s14.bytes[1], 3);
+
+    return number;
 }
