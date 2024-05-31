@@ -10,6 +10,7 @@
 #include "Nodes/OSDP/OSDP.h"
 #include "Settings/AccessCards.h"
 #include "Modules/CLRC66303HN/CommandsCLRC663.h"
+#include "Settings/Settings.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -555,9 +556,9 @@ bool Card::RAW::ReadBitmapCards(char bitmap_cards[500])
 {
     bitmap_cards[0] = '\0';
 
-    int number_block = 15;
+    int number_block = SettingsMaster::FIRST_BLOCK_BITMAP_CARDS;
 
-    while (number_block < 40)
+    for(int counter = 0; counter < SettingsMaster::NUMBER_BLOCKS_BITMAP_CARDS; counter++)
     {
         Block4 block;
 
@@ -588,8 +589,9 @@ bool Card::RAW::WriteBitmapCards(char bitmap_cards[160])
 
     pchar pointer = bitmap_cards;
 
-    int number_block = 15;      // Номер блока - от 15 до 39
-    int number_byte = 0;        // Номер байта - от 0 до 3
+    int number_block = SettingsMaster::FIRST_BLOCK_BITMAP_CARDS;    // Номер блока - от 15 до 39
+    int number_byte = 0;                                            // Номер байта - от 0 до 3
+    const int last_block = SettingsMaster::FIRST_BLOCK_BITMAP_CARDS + SettingsMaster::NUMBER_BLOCKS_BITMAP_CARDS - 1;
 
     while (*pointer)
     {
@@ -604,7 +606,7 @@ bool Card::RAW::WriteBitmapCards(char bitmap_cards[160])
 
         if (number_byte == 4)
         {
-            if (number_block > 39)
+            if (number_block > last_block)
             {
                 return success;
             }
@@ -625,7 +627,7 @@ bool Card::RAW::WriteBitmapCards(char bitmap_cards[160])
             buffer[number_byte++] = 0x00;
         }
 
-        if (number_block > 39)
+        if (number_block > last_block)
         {
             return success;
         }
@@ -640,7 +642,7 @@ bool Card::RAW::WriteBitmapCards(char bitmap_cards[160])
 
     std::memset(buffer, 0, 4);
 
-    while (number_block < 40)
+    while (number_block <= last_block)
     {
         if (!Command::NTAG::WriteBlock(number_block++, buffer))
         {

@@ -107,6 +107,9 @@ struct SettingsMaster
     void     SetAntibreakNumber(uint);              // Установить номер карты, который будет передаваться по WG в случае срабатывания датчика отрыва
     uint     GetAntibreakNumber();
 
+    static const int FIRST_BLOCK_BITMAP_CARDS = 21;     // Номер первого блока с битовой картой разрешённых карт
+    static const int NUMBER_BLOCKS_BITMAP_CARDS = 19;   // Количество блоков с битовой картой рарешённхы карт
+
     static void Load();
 
     static void Save();

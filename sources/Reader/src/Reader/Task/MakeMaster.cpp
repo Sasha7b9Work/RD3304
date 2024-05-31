@@ -24,7 +24,7 @@ namespace Task
 
         static SettingsMaster set;
         static const int SIZE_ACCESS_CARDS = 160;
-        static char bitmap_cards[SIZE_ACCESS_CARDS];
+        static char bitmap_cards[SIZE_ACCESS_CARDS];        // \todo здесь неоптимально сделано. Битовую карту на 600 элементов можно сохранить в 600 / 8 == 75 байтах
 
         // Полная конфигурация
         static bool Make()
