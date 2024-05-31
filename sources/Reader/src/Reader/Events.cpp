@@ -67,7 +67,7 @@ void Event::CardReadOK(const UID &uid, uint64 number, pchar password_string)
 
             uint *pointer = (uint *)&settings;
 
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < sizeof(settings) / sizeof(uint); i++)
             {
                 char buffer[32];
 
