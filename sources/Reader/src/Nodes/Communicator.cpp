@@ -246,15 +246,15 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
                 result = true;
             }
         }
-        else if (num_words == 25)
+        else if (num_words == 26)
         {
             SettingsMaster set;
 
             if (buffer.ReadSettings(num_words, set))
             {
-                char word[512];         // \todo Если битовая карта займёт более 511 бит, то не будет работать
+                char word[512];         // \todo Если битовая карта займёт более 511 байт, то не будет работать
 
-                Task::MakeMaster::Create(set, SU::GetString((pchar)buffer.Data(), 23, word));
+                Task::MakeMaster::Create(set, SU::GetString((pchar)buffer.Data(), 25, word));
 
                 result = true;
             }
@@ -310,6 +310,8 @@ bool BufferUSART::ReadSettings(int num_words, SettingsMaster &set) const
     int osdp_address = 0;
     int osdp_enabled = 0;
     uint osdp_bautdrate = 0;
+    int antibreak_sens = 0;
+    uint antibreak_number = 0;
 
     if (GetUint64(3, &old_pass) &&
         GetUint64(4, &new_pass) &&
@@ -331,6 +333,8 @@ bool BufferUSART::ReadSettings(int num_words, SettingsMaster &set) const
         GetInt(20, &osdp_address) &&
         GetUint(21, &osdp_bautdrate) &&
         GetInt(22, &osdp_enabled) &&
+        GetInt(23, &antibreak_sens) &&
+        GetUint(24, &antibreak_number) &&
         Crc32IsMatches(num_words))
     {
         set.SetOldPassword(old_pass);
@@ -352,6 +356,8 @@ bool BufferUSART::ReadSettings(int num_words, SettingsMaster &set) const
         set.SetOfflineModeAllowed(offline_mode_allowed != 0);
         set.SetAddressOSDP((uint8)osdp_address);
         set.SetBaudRateOSDP(BaudRate::FromUInt(osdp_bautdrate));
+        set.SetAntibreakSens((uint8)antibreak_sens);
+        set.SetAntibreakNumber(antibreak_number);
         if (osdp_enabled != 0)
         {
             set.EnableOSDP();
