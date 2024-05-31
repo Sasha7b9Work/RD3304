@@ -1,0 +1,14 @@
+https://www.z-bitco.com/downloads/OSDPTestConsole.zip
+
+Поддерживает только WIN10/11. Более старые версии WIN не поддерживает.
+Необходима установка библиотек MS Net Core (dotnet):
+
+https://dotnet.microsoft.com/en-us/download/dotnet/8.0
+
+Исходники на GitHub:
+
+https://github.com/bytedreamer/OSDP.Net
+
+.NET Runtime 8.0.0
+The .NET Runtime contains just the components needed to run a console app. Typically,
+you'd also install either the ASP.NET Core Runtime or .NET Desktop Runtime.
