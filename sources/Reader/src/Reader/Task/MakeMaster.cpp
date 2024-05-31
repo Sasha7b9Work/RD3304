@@ -31,7 +31,7 @@ namespace Task
         {
             if (make_full)
             {
-                set.CalculateAndWriteCheckSum();
+                set.CalculateAndWriteCRC32();
 
                 if (!Card::RAW::WriteBitmapCards(bitmap_cards))                             // Записываем битовую карту разрешённых карт
                 {

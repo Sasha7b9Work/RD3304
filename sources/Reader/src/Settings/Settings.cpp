@@ -53,7 +53,7 @@ void SettingsReader::Save()
 
     if (std::memcmp(&settings, &gset, (uint)settings.Size()) != 0)
     {
-        gset.CalculateAndWriteCheckSum();
+        gset.CalculateAndWriteCRC32();
 
         HAL_ROM::Save(gset);
     }
@@ -319,7 +319,7 @@ bool SettingsReader::IsEnabledOSDP() const
 }
 
 
-void SettingsReader::CalculateAndWriteCheckSum()
+void SettingsReader::CalculateAndWriteCRC32()
 {
     CRC32() = CalculateCRC32();
 }

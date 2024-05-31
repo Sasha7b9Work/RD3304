@@ -126,7 +126,7 @@ struct SettingsReader
     };
 
     bool CRC32IsMatches();
-    void CalculateAndWriteCheckSum();
+    void CalculateAndWriteCRC32();
 
 private:
     uint  CalculateCRC32() const;       // Рассчитывает CRC32 (новая методология)
