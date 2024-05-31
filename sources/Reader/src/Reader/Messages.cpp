@@ -41,7 +41,7 @@ void Message::SendTAB(int count)
 
 void Message::SendFormat(char *format, ...)
 {
-    char message[256];
+    char message[320];
     std::va_list args;
     va_start(args, format);
     vsprintf(message, format, args);
