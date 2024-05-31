@@ -646,8 +646,8 @@ void Communicator::WriteConfitToUSART()
         " SECURITY_MODE=%d"
         " OSDP_ADDRESS=%d"
         " OSDP_BAUDRATE=%d"
-        " OSDP_ENABLED=%d",
-        " ANTIBREAK_SENS=%d",
+        " OSDP_ENABLED=%d"
+        " ANTIBREAK_SENS=%d"
         " ANTIBREAK_NUMBER=%d",
         VERSION,
         SettingsMaster::PSWD::Get(),
