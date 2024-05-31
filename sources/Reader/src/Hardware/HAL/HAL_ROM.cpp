@@ -6,9 +6,9 @@
 #include "system.h"
 
 
-void HAL_ROM::Load(SettingsReader &settings)
+void HAL_ROM::Load(SettingsMaster &settings)
 {
-    SettingsReader set;
+    SettingsMaster set;
 
     ReadBuffer(ADDRESS_SECTOR_SETTINGS, &set, set.Size());
 
@@ -19,7 +19,7 @@ void HAL_ROM::Load(SettingsReader &settings)
 }
 
 
-void HAL_ROM::Save(const SettingsReader &settings)
+void HAL_ROM::Save(const SettingsMaster &settings)
 {
     ErasePage(ADDRESS_SECTOR_SETTINGS);
 

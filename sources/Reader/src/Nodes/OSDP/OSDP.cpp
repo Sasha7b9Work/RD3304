@@ -332,7 +332,7 @@ void OSDP::RequestCOMSET(const BufferOSDP &buffer)
     gset.SetAddressOSDP(message[0]);
     gset.SetBaudRateOSDP(BaudRate::FromUInt(BitSet32::FromBytes(message[1], message[2], message[3], message[4]).word));
 
-    SettingsReader::Save();
+    SettingsMaster::Save();
 
     AnswerCOM(buffer.Address(), buffer.ControlCode()).Transmit();
 

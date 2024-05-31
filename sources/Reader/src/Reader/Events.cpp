@@ -61,13 +61,13 @@ void Event::CardReadOK(const UID &uid, uint64 number, pchar password_string)
                 uid.ToString(false).c_str(),
                 password_string);
 
-            SettingsReader settings;
+            SettingsMaster settings;
 
             Card::RAW::ReadDataFromblocks(4, (uint8 *)&settings, sizeof(settings));
 
             uint *pointer = (uint *)&settings;
 
-            for (int i = 0; i < sizeof(settings) / sizeof(uint); i++)
+            for (uint i = 0; i < sizeof(settings) / sizeof(uint); i++)
             {
                 char buffer[32];
 

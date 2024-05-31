@@ -18,7 +18,7 @@ namespace Task
 
     namespace MakeMaster
     {
-        void Create(const SettingsReader &, pchar bitmap_cards);
+        void Create(const SettingsMaster &, pchar bitmap_cards);
 
         // Это для создания мастер-карты, которая только меняет пароль
         // old_pass - этим паролем только паролим карту

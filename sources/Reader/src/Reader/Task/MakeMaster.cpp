@@ -22,7 +22,7 @@ namespace Task
 
         static uint64 old_password = 0;     // Нужно только в режиме "только пароль"
 
-        static SettingsReader set;
+        static SettingsMaster set;
         static const int SIZE_ACCESS_CARDS = 160;
         static char bitmap_cards[SIZE_ACCESS_CARDS];
 
@@ -56,7 +56,7 @@ namespace Task
 }
 
 
-void Task::MakeMaster::Create(const SettingsReader &_set, pchar _bitmap_cards)
+void Task::MakeMaster::Create(const SettingsMaster &_set, pchar _bitmap_cards)
 {
     if (std::strlen(_bitmap_cards) < SIZE_ACCESS_CARDS)
     {

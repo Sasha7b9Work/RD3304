@@ -506,7 +506,7 @@ bool Card::RAW::WriteNumber(uint64 number)
 }
 
 
-bool Card::RAW::WriteSettings(const SettingsReader &set)
+bool Card::RAW::WriteSettings(const SettingsMaster &set)
 {
     if (TypeCard::IsNTAG())
     {

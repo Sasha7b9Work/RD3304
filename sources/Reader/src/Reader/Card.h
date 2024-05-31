@@ -110,7 +110,7 @@ namespace Card
         // Записывает номер пользовательской карты
         bool WriteNumber(uint64);
 
-        bool WriteSettings(const SettingsReader &);
+        bool WriteSettings(const SettingsMaster &);
 
         bool WriteDataToBlocks(int num_first_block, uint8 *data, int num_bytes);
 

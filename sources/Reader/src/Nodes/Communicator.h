@@ -27,7 +27,7 @@ public:
     bool GetUIntFromHEX(int num_word, uint *value) const;
 
     // Читает настройки возвращате true, если удалось
-    bool ReadSettings(int num_words, SettingsReader &) const;
+    bool ReadSettings(int num_words, SettingsMaster &) const;
 
     // Возвращает true, если принятая crc32 соотвествует рассчитанному
     bool Crc32IsMatches(int num_words) const;

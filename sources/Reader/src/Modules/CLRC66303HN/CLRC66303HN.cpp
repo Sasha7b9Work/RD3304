@@ -301,7 +301,7 @@ bool CLRC66303HN::UpdateNormalMode()
                 char message_fail[128];
                 std::sprintf(message_fail, "CARD %s*%s AUTHENTICATION FAILED", Card::uid.ToString(true).c_str(), Card::uid.ToString(false).c_str());
 
-                if (Command::PasswordAuth(SettingsReader::PSWD::Get()) && Card::RAW::ReadNumber(&number))
+                if (Command::PasswordAuth(SettingsMaster::PSWD::Get()) && Card::RAW::ReadNumber(&number))
                 {
                     result = true;
 
@@ -353,7 +353,7 @@ bool CLRC66303HN::UpdateNormalMode()
 
 bool CLRC66303HN::ProcessMasterCard()
 {
-    SettingsReader settings;
+    SettingsMaster settings;
 
     bool result = false;
 
@@ -363,11 +363,11 @@ bool CLRC66303HN::ProcessMasterCard()
         {
             if (settings.OldPassword() == (uint64)-1)                           // Меняем пароль
             {
-                SettingsReader::PSWD::Set(settings.Password());
+                SettingsMaster::PSWD::Set(settings.Password());
 
                 result = true;
             }
-            else if (settings.OldPassword() == SettingsReader::PSWD::Get())     // Меняем всю конфигурацию
+            else if (settings.OldPassword() == SettingsMaster::PSWD::Get())     // Меняем всю конфигурацию
             {
                 gset = settings;
                 gset.Save();

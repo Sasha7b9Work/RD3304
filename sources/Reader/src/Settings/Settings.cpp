@@ -15,7 +15,7 @@ int ProtectionBruteForce::count_fail = 0;
 uint ProtectionBruteForce::time_last_fail = 0;
 
     
-static const SettingsReader factory_set =
+static const SettingsMaster factory_set =
 {
     { 0xFFFFFFFF },       // s04
     { 0x00000000 },       // s05 Заводской
@@ -36,18 +36,18 @@ static const SettingsReader factory_set =
     { 0x00000000 }
 };
 
-SettingsReader gset = factory_set;
+SettingsMaster gset = factory_set;
 
 
-void SettingsReader::Load()
+void SettingsMaster::Load()
 {
     HAL_ROM::Load(gset);
 }
 
 
-void SettingsReader::Save()
+void SettingsMaster::Save()
 {
-    SettingsReader settings;
+    SettingsMaster settings;
 
     HAL_ROM::Load(settings);
 
@@ -60,7 +60,7 @@ void SettingsReader::Save()
 }
 
 
-void SettingsReader::PSWD::Set(uint64 password)
+void SettingsMaster::PSWD::Set(uint64 password)
 {
     gset.SetPassword(password);
 
@@ -68,7 +68,7 @@ void SettingsReader::PSWD::Set(uint64 password)
 }
 
 
-void SettingsReader::ResetToFactory()
+void SettingsMaster::ResetToFactory()
 {
     gset = factory_set;
 
@@ -122,7 +122,7 @@ void ProtectionBruteForce::FailAttempt()
 }
 
 
-BaudRate SettingsReader::BaudRateOSDP() const
+BaudRate SettingsMaster::BaudRateOSDP() const
 {
     return BaudRate((BaudRate::E)s13.bytes[3]);
 }
@@ -160,7 +160,7 @@ BaudRate::E BaudRate::FromUInt(uint raw)
 }
 
 
-uint8 SettingsReader::Melody(TypeSound::E type) const
+uint8 SettingsMaster::Melody(TypeSound::E type) const
 {
     int shift = (int)type * 4;
 
@@ -168,7 +168,7 @@ uint8 SettingsReader::Melody(TypeSound::E type) const
 }
 
 
-uint8 SettingsReader::Volume(TypeSound::E type) const
+uint8 SettingsMaster::Volume(TypeSound::E type) const
 {
     int shift = (int)type * 2;
 
@@ -176,7 +176,7 @@ uint8 SettingsReader::Volume(TypeSound::E type) const
 }
 
 
-void SettingsReader::SetMelody(TypeSound::E type, uint8 num)
+void SettingsMaster::SetMelody(TypeSound::E type, uint8 num)
 {
     uint16 half_word = s09.half_word[1];
 
@@ -188,7 +188,7 @@ void SettingsReader::SetMelody(TypeSound::E type, uint8 num)
 }
 
 
-void SettingsReader::SetVolume(TypeSound::E type, uint8 num)
+void SettingsMaster::SetVolume(TypeSound::E type, uint8 num)
 {
     uint8 byte = s09.bytes[1];
 
@@ -200,7 +200,7 @@ void SettingsReader::SetVolume(TypeSound::E type, uint8 num)
 }
 
 
-void SettingsReader::SetPassword(uint64 password)
+void SettingsMaster::SetPassword(uint64 password)
 {
     BitSet64 bs(password);
 
@@ -209,7 +209,7 @@ void SettingsReader::SetPassword(uint64 password)
 }
 
 
-uint64 SettingsReader::Password() const
+uint64 SettingsMaster::Password() const
 {
     BitSet64 password;
 
@@ -220,7 +220,7 @@ uint64 SettingsReader::Password() const
 }
 
 
-void SettingsReader::SetOldPassword(uint64 password)
+void SettingsMaster::SetOldPassword(uint64 password)
 {
     BitSet64 bs(password);
 
@@ -229,7 +229,7 @@ void SettingsReader::SetOldPassword(uint64 password)
 }
 
 
-uint64 SettingsReader::OldPassword() const
+uint64 SettingsMaster::OldPassword() const
 {
     BitSet64 password;
 
@@ -256,7 +256,7 @@ int Weigand::ToRAW() const
 }
 
 
-void SettingsReader::PrepareMasterOnlyPassword(uint64 new_password)
+void SettingsMaster::PrepareMasterOnlyPassword(uint64 new_password)
 {
     std::memset(this, 0xFF, (uint)Size());
 
@@ -266,7 +266,7 @@ void SettingsReader::PrepareMasterOnlyPassword(uint64 new_password)
 }
 
 
-uint SettingsReader::CalculateCRC32() const
+uint SettingsMaster::CalculateCRC32() const
 {
     const uint8 *begin = (const uint8 *)this;
     const uint8 *end = (const uint8 *)&s20;
@@ -276,25 +276,25 @@ uint SettingsReader::CalculateCRC32() const
 }
 
 
-uint64 SettingsReader::PSWD::Get()
+uint64 SettingsMaster::PSWD::Get()
 {
     return gset.Password();
 }
 
 
-uint64 SettingsReader::PSWD::GetFactory()
+uint64 SettingsMaster::PSWD::GetFactory()
 {
     return factory_set.OldPassword();
 }
 
 
-Weigand SettingsReader::GetWeigand() const
+Weigand SettingsMaster::GetWeigand() const
 {
     return Weigand((Weigand::E)(s09.bytes[0] & 0x7f));
 }
 
 
-void SettingsReader::SetWeigand(Weigand w)
+void SettingsMaster::SetWeigand(Weigand w)
 {
     bool enabled_OSDP = IsEnabledOSDP();
 
@@ -307,44 +307,44 @@ void SettingsReader::SetWeigand(Weigand w)
 }
 
 
-void SettingsReader::EnableOSDP()
+void SettingsMaster::EnableOSDP()
 {
     s09.bytes[0] |= 0x80;
 }
 
 
-bool SettingsReader::IsEnabledOSDP() const
+bool SettingsMaster::IsEnabledOSDP() const
 {
     return (s09.bytes[0] & 0x80) != 0;
 }
 
 
-void SettingsReader::CalculateAndWriteCRC32()
+void SettingsMaster::CalculateAndWriteCRC32()
 {
     CRC32() = CalculateCRC32();
 }
 
 
-bool SettingsReader::CRC32IsMatches()
+bool SettingsMaster::CRC32IsMatches()
 {
     return CRC32() == CalculateCRC32();
 }
 
 
-void SettingsReader::SetAntibreakSens(uint8 sens)
+void SettingsMaster::SetAntibreakSens(uint8 sens)
 {
     s14.bytes[0] &= 0xF0;
     s14.bytes[0] |= sens;
 }
 
 
-uint8 SettingsReader::GetAntibreakSensRAW()
+uint8 SettingsMaster::GetAntibreakSensRAW()
 {
     return (uint8)(s14.bytes[0] & 0x0F);
 }
 
 
-float SettingsReader::GetAntibreakSens()
+float SettingsMaster::GetAntibreakSens()
 {
     uint8 sens = GetAntibreakSensRAW();
 
@@ -357,19 +357,19 @@ float SettingsReader::GetAntibreakSens()
 }
 
 
-bool SettingsReader::IsEnabledAntibreak()
+bool SettingsMaster::IsEnabledAntibreak()
 {
     return GetAntibreakSensRAW() != 0;
 }
 
 
-void SettingsReader::SetAntibreakNumber(uint number)
+void SettingsMaster::SetAntibreakNumber(uint number)
 {
     std::memcpy(&s14.bytes[1], &number, 3);
 }
 
 
-uint SettingsReader::GetAntibreakNumber()
+uint SettingsMaster::GetAntibreakNumber()
 {
     uint number = 0;
 

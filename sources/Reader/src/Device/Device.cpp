@@ -33,7 +33,7 @@ void Device::Init()
 {
     HAL::Init();
 
-    SettingsReader::Load();
+    SettingsMaster::Load();
 
     Timer::Init();
 
@@ -65,7 +65,7 @@ void Device::Init()
     }
     else if (StartState::NeedReset())               // Делаем сброс
     {
-        SettingsReader::ResetToFactory();
+        SettingsMaster::ResetToFactory();
     }
     else if (gset.IsEnabledOSDP())                  // Включаем OSDP
     {

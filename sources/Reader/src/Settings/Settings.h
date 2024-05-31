@@ -38,7 +38,7 @@ private:
 
 // Настройки мастер-карты.
 // Они же - настройки считывателя
-struct SettingsReader
+struct SettingsMaster
 {
     BitSet32 s04;   // Для признака мастер-карты
     BitSet32 s05;   // Старый пароль. Должен совпадать с установленным сейчас
@@ -134,4 +134,4 @@ private:
 };
 
 
-extern SettingsReader gset;
+extern SettingsMaster gset;

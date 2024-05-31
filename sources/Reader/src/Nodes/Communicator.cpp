@@ -248,7 +248,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
         }
         else if (num_words == 26)
         {
-            SettingsReader set;
+            SettingsMaster set;
 
             if (buffer.ReadSettings(num_words, set))
             {
@@ -288,7 +288,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
 }
 
 
-bool BufferUSART::ReadSettings(int num_words, SettingsReader &set) const
+bool BufferUSART::ReadSettings(int num_words, SettingsMaster &set) const
 {
     uint64 old_pass = 0;
     uint64 new_pass = 0;
@@ -447,7 +447,7 @@ bool Communicator::Com_ERASE(BufferUSART &buffer)
 
 bool Communicator::Com_RESET(BufferUSART &)
 {
-    SettingsReader::ResetToFactory();
+    SettingsMaster::ResetToFactory();
 
     Message::OK();
 
@@ -650,7 +650,7 @@ void Communicator::WriteConfitToUSART()
         " ANTIBREAK_SENS=%d",
         " ANTIBREAK_NUMBER=%d",
         VERSION,
-        SettingsReader::PSWD::Get(),
+        SettingsMaster::PSWD::Get(),
         gset.ColorRed().value,
         gset.ColorGreen().value,
         gset.GetWeigand().ToRAW(),
@@ -727,9 +727,9 @@ bool Communicator::Com_PASSWORD(BufferUSART &buffer)
 
         if (result)
         {
-            SettingsReader::PSWD::Set(pass);
+            SettingsMaster::PSWD::Set(pass);
 
-            Message::SendFormat("PASSWORD IS %llu", SettingsReader::PSWD::Get());
+            Message::SendFormat("PASSWORD IS %llu", SettingsMaster::PSWD::Get());
         }
     }
     else
@@ -799,7 +799,7 @@ bool Communicator::Com_LED(BufferUSART &buffer)
 
         gset.SetColorGreen(Color::FromUint(color_green));
 
-        SettingsReader::Save();
+        SettingsMaster::Save();
 
         if (Indicator::IsFired())
         {

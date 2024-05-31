@@ -112,9 +112,9 @@ namespace HAL_ROM
 
     void Init();
 
-    void Load(SettingsReader &);
+    void Load(SettingsMaster &);
 
-    void Save(const SettingsReader &);
+    void Save(const SettingsMaster &);
 
     // Адрес первого байта страницы
     void ErasePage(uint address);
