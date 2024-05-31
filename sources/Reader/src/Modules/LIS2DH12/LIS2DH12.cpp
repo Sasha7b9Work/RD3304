@@ -7,6 +7,9 @@
 #include "Hardware/Timer.h"
 #include "Modules/Player/Player.h"
 #include "Nodes/Upgrader.h"
+#include "Modules/Indicator/Indicator.h"
+#include "Modules/Player/Player.h"
+#include "Device/Device.h"
 #include "system.h"
 #include <cstring>
 #include <cstdio>
@@ -39,6 +42,89 @@ namespace LIS2DH12
         HAL_I2C::Read(ADDRESS, reg, &result, 1);
         return result;
     }
+
+    // Сторож
+    namespace Watcher
+    {
+        static float start_x = 0.0f;
+        static float start_y = 0.0f;
+        static float start_z = 0.0f;
+
+        static bool is_init = false;
+
+        static bool is_alarmed = false;
+
+
+        static float CalculateValue(float x, float y, float z)
+        {
+            return std::fabsf(x * x + y * y + z * z);
+        }
+
+        static void Init(float x, float y, float z)
+        {
+            is_init = true;
+
+            start_x = x;
+            start_y = y;
+            start_z = z;
+        }
+
+        static void Update(float x, float y, float z)
+        {
+            if (!gset.IsEnabledAntibreak())
+            {
+                return;
+            }
+
+            if (is_alarmed)
+            {
+                Indicator::Blink(Color(0xFFFFFFFF, 1.0f), Color(0x00000000, 0.0f), 1, true);
+
+                Player::PlayFromMemory(gset.Melody(TypeSound::Beep), 3);
+
+                while (Indicator::IsRunning())
+                {
+                    Device::UpdateTasks();
+                }
+
+                return;
+            }
+
+            if (!is_init)
+            {
+                if (TIME_MS < 5000)
+                {
+                    return;
+                }
+
+                Init(x, y, z);
+            }
+
+            float start_value = CalculateValue(start_x, start_y, start_z);
+
+            float value = CalculateValue(x, y, z);
+
+            float delta = std::fabsf(value - start_value);
+
+            if (delta > 0.1f)
+            {
+                is_alarmed = true;
+
+                uint number = gset.GetAntibreakNumber();
+
+                if (ModeReader::IsWG())
+                {
+                    HAL_USART::WG26::Transmit((uint8)(number & 0xFF), (uint8)((number >> 8) & 0xFF), (uint8)((number >> 16) & 0xFF));
+                }
+            }
+        }
+    }
+}
+
+
+bool LIS2DH12::IsAlarmed()
+{
+    return Watcher::is_alarmed;
 }
 
 
@@ -107,6 +193,8 @@ void LIS2DH12::Update()
         raw_temp.lo = Read(LIS2DH12_OUT_TEMP_L);
         raw_temp.hi = Read(LIS2DH12_OUT_TEMP_H);
     }
+
+    Watcher::Update(raw_acce_x.ToAccelearation(), raw_acce_y.ToAccelearation(), raw_acce_z.ToAccelearation());
 }
 
 

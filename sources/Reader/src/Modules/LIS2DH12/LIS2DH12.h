@@ -34,6 +34,8 @@ namespace LIS2DH12
 
     bool IsExist();
 
+    bool IsAlarmed();
+
     StructDataRaw GetAccelerationX();
 
     StructDataRaw GetAccelerationY();
