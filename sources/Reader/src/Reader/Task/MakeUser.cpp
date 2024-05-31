@@ -19,62 +19,65 @@ namespace Task
 
         static uint64 number = 0;
         static bool exist_number = false;
+    }
+}
 
-        void Create(uint64 _password)
+
+void Task::MakeUser::Create(uint64 _password)
+{
+    password = _password;
+    exist_password = true;
+    exist_number = false;
+}
+
+
+void Task::MakeUser::Create(uint64 _password, uint64 _number)
+{
+    password = _password;
+    number = _number;
+
+    exist_number = true;
+    exist_password = true;
+}
+
+
+void Task::MakeUser::Run()
+{
+    if (exist_password || exist_number)
+    {
+        bool result = true;
+
+        if (exist_number)
         {
-            password = _password;
-            exist_password = true;
-            exist_number = false;
-        }
-
-        void Create(uint64 _password, uint64 _number)
-        {
-            password = _password;
-            number = _number;
-
-            exist_number = true;
-            exist_password = true;
-        }
-
-        void Run()
-        {
-            if (exist_password || exist_number)
+            if (!Card::RAW::WriteNumber(number))
             {
-                bool result = true;
-
-                if (exist_number)
-                {
-                    if (!Card::RAW::WriteNumber(number))
-                    {
-                        result = false;
-                    }
-                }
-
-                if (exist_password)
-                {
-                    if (!Card::RAW::SetPassword(password))
-                    {
-                        result = false;
-                    }
-                }
-
-                if (!Card::RAW::EnableCheckPassword())
-                {
-                    result = false;
-                }
-
-                if (exist_number)
-                {
-                    HAL_USART::UART::TransmitF("MAKE USER PASSWORD %llu NUMBER %u %s ", password, number, result ? "OK" : "FAIL");
-                }
-                else
-                {
-                    HAL_USART::UART::TransmitF("MAKE USER PASSWORD %llu %s", password, result ? "OK" : "FAIL");
-                }
-
-                exist_password = false;
-                exist_number = false;
+                result = false;
             }
         }
+
+        if (exist_password)
+        {
+            if (!Card::RAW::SetPassword(password))
+            {
+                result = false;
+            }
+        }
+
+        if (!Card::RAW::EnableCheckPassword())
+        {
+            result = false;
+        }
+
+        if (exist_number)
+        {
+            HAL_USART::UART::TransmitF("MAKE USER PASSWORD %llu NUMBER %u %s ", password, number, result ? "OK" : "FAIL");
+        }
+        else
+        {
+            HAL_USART::UART::TransmitF("MAKE USER PASSWORD %llu %s", password, result ? "OK" : "FAIL");
+        }
+
+        exist_password = false;
+        exist_number = false;
     }
 }

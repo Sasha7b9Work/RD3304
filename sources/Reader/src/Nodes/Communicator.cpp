@@ -668,6 +668,8 @@ void Communicator::WriteConfitToUSART()
         " OSDP_ADDRESS=%d"
         " OSDP_BAUDRATE=%d"
         " OSDP_ENABLED=%d",
+        " ANTIBREAK_SENS=%d",
+        " ANTIBREAK_NUMBER=%d",
         VERSION,
         SettingsReader::PSWD::Get(),
         gset.ColorRed().value,
@@ -684,7 +686,9 @@ void Communicator::WriteConfitToUSART()
         gset.IsSecurityModeEnabled() ? 1 : 0,
         gset.AddressOSDP(),
         gset.BaudRateOSDP().ToRAW(),
-        gset.IsEnabledOSDP() ? 1 : 0
+        gset.IsEnabledOSDP() ? 1 : 0,
+        gset.GetAntibreakSensRAW(),
+        gset.GetAntibreakNumber()
     );
 }
 

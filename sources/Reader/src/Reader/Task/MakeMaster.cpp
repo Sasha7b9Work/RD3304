@@ -26,36 +26,6 @@ namespace Task
         static const int SIZE_ACCESS_CARDS = 160;
         static char bitmap_cards[SIZE_ACCESS_CARDS];
 
-        void Create(const SettingsReader &_set, pchar _bitmap_cards)
-        {
-            if (std::strlen(_bitmap_cards) < SIZE_ACCESS_CARDS)
-            {
-                std::strcpy(bitmap_cards, _bitmap_cards);
-            }
-            else
-            {
-                std::memcpy(bitmap_cards, _bitmap_cards, SIZE_ACCESS_CARDS);
-            }
-
-            bitmap_cards[SIZE_ACCESS_CARDS - 1] = '\0';
-
-            set = _set;
-            set.s04.word = (uint)-1;
-
-            make_full = true;
-            exist = true;
-        }
-
-        void Create(uint64 _old_pass, uint64 _new_pass)
-        {
-            old_password = _old_pass;
-
-            set.SetPassword(_new_pass);
-
-            make_full = false;
-            exist = true;
-        }
-
         // Полная конфигурация
         static bool Make()
         {
@@ -82,18 +52,51 @@ namespace Task
 
             return false;
         }
+    }
+}
 
-        void Run()
-        {
-            if (exist)
-            {
-                exist = false;
 
-                HAL_USART::UART::TransmitF("MAKE MASTER OLD_PASS=%llu NEW_PASS=%llu %s",
-                    make_full ? set.OldPassword() : old_password,
-                    set.Password(),
-                    Make() ? "OK" : "FAIL");
-            }
-        }
+void Task::MakeMaster::Create(const SettingsReader &_set, pchar _bitmap_cards)
+{
+    if (std::strlen(_bitmap_cards) < SIZE_ACCESS_CARDS)
+    {
+        std::strcpy(bitmap_cards, _bitmap_cards);
+    }
+    else
+    {
+        std::memcpy(bitmap_cards, _bitmap_cards, SIZE_ACCESS_CARDS);
+    }
+
+    bitmap_cards[SIZE_ACCESS_CARDS - 1] = '\0';
+
+    set = _set;
+    set.s04.word = (uint)-1;
+
+    make_full = true;
+    exist = true;
+}
+
+
+void Task::MakeMaster::Create(uint64 _old_pass, uint64 _new_pass)
+{
+    old_password = _old_pass;
+
+    set.SetPassword(_new_pass);
+
+    make_full = false;
+    exist = true;
+}
+
+
+void Task::MakeMaster::Run()
+{
+    if (exist)
+    {
+        exist = false;
+
+        HAL_USART::UART::TransmitF("MAKE MASTER OLD_PASS=%llu NEW_PASS=%llu %s",
+            make_full ? set.OldPassword() : old_password,
+            set.Password(),
+            Make() ? "OK" : "FAIL");
     }
 }

@@ -53,6 +53,12 @@ HH - шестнадцатиричное значение
     TIME_LOCK=,
     TIME_ALARM=,
     OFFLINE_MODE=
+    SECURITY_MODE=,
+    OSDP_ADDRESS=,
+    OSDP_BAUDRATE=,
+    OSDP_ENABLED=,
+    ANTIBREAK_SENS=,        Чувствительность датчика отрыва
+    ANTIBREAK_NUMBER=       Номер, который передаётся по WG в случае срабатывания датчика отрыва
 
 #PASSWORD ACCESS DDDDDDDDD   - текущий пароль. Используется для доступа к карте. Этой командой перебираются
                                пароли из архива паролей

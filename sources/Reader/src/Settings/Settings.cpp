@@ -23,7 +23,7 @@ static const SettingsReader factory_set =
     { 0x00000000 },       // s07 Новый
     { 0x00000000 },       // s08 пароль
     { 0x02103F00 },       // s09 WG VV ML MH
-    { 0x00000404 },       // s10
+    { 0x00000403 },       // s10
     { 0xFFFF0000 },       // s11
     { 0xFF00FF00 },       // s12
     { 0x00011e05 },       // s13
