@@ -246,7 +246,7 @@ bool Communicator::Com_MAKE(BufferUSART &buffer)
                 result = true;
             }
         }
-        else if (num_words == 26)
+        else if (num_words == 25)
         {
             SettingsMaster set;
 
