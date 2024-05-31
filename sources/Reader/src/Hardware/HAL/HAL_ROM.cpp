@@ -12,7 +12,7 @@ void HAL_ROM::Load(SettingsReader &settings)
 
     ReadBuffer(ADDRESS_SECTOR_SETTINGS, &set, set.Size());
 
-    if (set.CheckSumIsMatches())
+    if (set.CRC32IsMatches())
     {
         settings = set;
     }

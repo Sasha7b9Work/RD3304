@@ -125,7 +125,7 @@ struct SettingsReader
         static uint64 GetFactory();
     };
 
-    bool CheckSumIsMatches();
+    bool CRC32IsMatches();
     void CalculateAndWriteCheckSum();
 
 private:

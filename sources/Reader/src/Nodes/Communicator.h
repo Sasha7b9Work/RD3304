@@ -29,14 +29,6 @@ public:
     // Читает настройки возвращате true, если удалось
     bool ReadSettings(int num_words, SettingsReader &) const;
 
-    // true, если соотвествует контрольной сумме или хэшу
-    bool _CheckSumIsMatches(int num_words) const;
-
-private:
-
-    // Возвращает true, если принятый хэш соответствует рассчитанному
-    bool HashIsMatches(int num_words) const;
-
     // Возвращает true, если принятая crc32 соотвествует рассчитанному
     bool Crc32IsMatches(int num_words) const;
 };

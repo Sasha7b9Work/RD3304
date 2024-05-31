@@ -325,7 +325,7 @@ void SettingsReader::CalculateAndWriteCheckSum()
 }
 
 
-bool SettingsReader::CheckSumIsMatches()
+bool SettingsReader::CRC32IsMatches()
 {
     return CRC32() == CalculateCRC32();
 }
