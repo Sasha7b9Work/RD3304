@@ -10,6 +10,7 @@
 #include "Modules/Indicator/Indicator.h"
 #include "Modules/Player/Player.h"
 #include "Device/Device.h"
+#include "Nodes/OSDP/OSDP.h"
 #include "system.h"
 #include <cstring>
 #include <cstdio>
@@ -55,11 +56,6 @@ namespace LIS2DH12
         static bool is_alarmed = false;
 
 
-        static float CalculateValue(float x, float y, float z)
-        {
-            return std::fabsf(x * x + y * y + z * z);
-        }
-
         static void Init(float x, float y, float z)
         {
             is_init = true;
@@ -100,19 +96,21 @@ namespace LIS2DH12
                 Init(x, y, z);
             }
 
-            float start_value = CalculateValue(start_x, start_y, start_z);
+            const float delta = 0.2f;
 
-            float value = CalculateValue(x, y, z);
-
-            float delta = std::fabsf(value - start_value);
-
-            if (delta > 0.1f)
+            if (std::fabsf(x - start_x) > delta ||
+                std::fabsf(y - start_y) > delta ||
+                std::fabsf(z - start_z) > delta)
             {
                 is_alarmed = true;
 
                 uint number = gset.GetAntibreakNumber();
 
-                if (ModeReader::IsWG())
+                if (OSDP::IsEnabled())
+                {
+                    OSDP::AntibreakAlarm();
+                }
+                else if (ModeReader::IsWG())
                 {
                     HAL_USART::WG26::Transmit((uint8)(number & 0xFF), (uint8)((number >> 8) & 0xFF), (uint8)((number >> 16) & 0xFF));
                 }

@@ -362,3 +362,9 @@ void OSDP::Init()
         Indicator::Blink(Color(0x0000FF, 1.0f), Color(0, 0), 500, false);
     }
 }
+
+
+void OSDP::AntibreakAlarm()
+{
+
+}

@@ -56,6 +56,9 @@ namespace OSDP
 
     void Update(BufferUSART &);
 
+    // Срабатывание датчика положения
+    void AntibreakAlarm();
+
     namespace Card
     {
         void Insert(uint64 number);
