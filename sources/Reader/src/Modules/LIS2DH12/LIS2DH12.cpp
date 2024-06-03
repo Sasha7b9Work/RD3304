@@ -68,6 +68,11 @@ namespace LIS2DH12
 
         static void Update(float x, float y, float z)
         {
+            if (ModeReader::IsExtended())
+            {
+                return;
+            }
+
             if (!gset.IsEnabledAntibreak())
             {
                 return;
