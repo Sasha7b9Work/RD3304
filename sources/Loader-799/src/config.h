@@ -50,7 +50,7 @@ typedef unsigned char  uint8;
 // если в течении этого времени не будет полученно ни одной команды от компьютера, то булет произведен рестарт
 //#define WORK_TIME  (4*60* 3 ) // три минуты
 
-#define PROGRAM_SIGNATURE 0xEC010000
+#define PROGRAM_SIGNATURE 0x55443300
 
 #endif
 
