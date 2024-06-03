@@ -66,7 +66,7 @@ void Power::EnterSleepMode()
 }
 
 
-bool Power::InEnergySavingMode()
+bool Power::IsFailure()
 {
     return HAL_ADC::GetVoltage() < HAL::ControlVoltage();
 }

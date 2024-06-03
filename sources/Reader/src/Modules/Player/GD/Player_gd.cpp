@@ -130,7 +130,7 @@ void Player::Init()
 
 void Player::Play(TypeSound::E type)
 {
-    if (Power::InEnergySavingMode())
+    if (Power::IsFailure())
     {
         return;
     }

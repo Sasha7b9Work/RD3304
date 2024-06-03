@@ -8,7 +8,8 @@ namespace Power
 
     void EnterSleepMode();
 
-    bool InEnergySavingMode();
+    // Напряжение ниже нормы
+    bool IsFailure();
 
     extern void *handleTIM;   // TIM_HandleTypeDef
 }

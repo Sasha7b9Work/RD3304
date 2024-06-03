@@ -3,6 +3,9 @@
 #include "Nodes/OSDP/OSDP.h"
 #include "Nodes/OSDP/AnswersOSDP.h"
 #include "Utils/Math.h"
+#include "Modules/LIS2DH12/LIS2DH12.h"
+#include "Hardware/HAL/HAL.h"
+#include "Hardware/Power.h"
 
 
 uint8 AnswerOSDP::SQN = 0;
@@ -185,9 +188,15 @@ void AnswerCAP::AppendCode(uint8 code, uint8 compilance, uint8 number)
 }
 
 
-AnswerLSTAT::AnswerLSTAT(uint8 /*address*/, uint8 cntrl_code) : AnswerOSDP(cntrl_code)
+AnswerLSTATR::AnswerLSTATR(uint8 address, uint8 cntrl_code) : AnswerOSDP(cntrl_code)
 {
+    CommonStart(address, OSDP_ANS::LSTATR);
 
+    AppendByte(LIS2DH12::IsAlarmed() ? 1U : 0U);
+
+    AppendByte(Power::IsFailure() ? 1U : 0U);
+
+    CommonEnd();
 }
 
 

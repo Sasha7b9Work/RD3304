@@ -79,7 +79,7 @@ float HAL_ADC::GetVoltage()
 
 void HAL_ADC::Update()
 {
-    if (!Power::InEnergySavingMode())
+    if (!Power::IsFailure())
     {
         return;
     }

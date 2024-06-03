@@ -79,7 +79,7 @@ void HAL_ADC::Init()
 
 void HAL_ADC::Update()
 {
-    if (Player::IsPlaying() || !Power::InEnergySavingMode())
+    if (Player::IsPlaying() || !Power::IsFailure())
     {
         return;
     }

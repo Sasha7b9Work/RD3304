@@ -269,7 +269,7 @@ void Indicator::FireInputs(bool lg, bool lr)
 
     if (!ModeOffline::IsEnabled() && !OSDP::IsEnabled())
     {
-        if (Power::InEnergySavingMode())
+        if (Power::IsFailure())
         {
             FireInputsInEnergySavingMode(lg, lr);
         }
@@ -393,7 +393,7 @@ bool Indicator::Update()
         bool lr = pinLR.IsLow();
 
         if (lg != prev_lg || lr != prev_lr ||
-            (prev_state_low_energy && !Power::InEnergySavingMode()))    // ≈сли вышли из режима пониженного питани€
+            (prev_state_low_energy && !Power::IsFailure()))    // ≈сли вышли из режима пониженного питани€
         {
             if (lg && lr)
             {
@@ -423,7 +423,7 @@ bool Indicator::Update()
             }
         }
 
-        prev_state_low_energy = Power::InEnergySavingMode();
+        prev_state_low_energy = Power::IsFailure();
     }
 
     Tasks::RunStep();

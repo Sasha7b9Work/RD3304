@@ -260,7 +260,7 @@ void OSDP::RequestCAP(const BufferOSDP &buffer)
 
 void OSDP::RequestLSTAT(const BufferOSDP &buffer)
 {
-    AnswerLSTAT(buffer.Address(), buffer.ControlCode()).Transmit();
+    AnswerLSTATR(buffer.Address(), buffer.ControlCode()).Transmit();
 }
 
 

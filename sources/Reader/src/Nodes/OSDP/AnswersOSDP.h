@@ -89,9 +89,9 @@ private:
 };
 
 
-struct AnswerLSTAT : public AnswerOSDP
+struct AnswerLSTATR : public AnswerOSDP
 {
-    AnswerLSTAT(uint8 address, uint8 cntrl_code);
+    AnswerLSTATR(uint8 address, uint8 cntrl_code);
 };
 
 

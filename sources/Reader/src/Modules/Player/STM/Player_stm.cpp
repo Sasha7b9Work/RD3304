@@ -236,7 +236,7 @@ void Player::ConfigCH_BEEP(int pulse)
 
 void Player::Play(TypeSound::E type)
 {
-    if (Power::InEnergySavingMode())
+    if (Power::IsFailure())
     {
         return;
     }
