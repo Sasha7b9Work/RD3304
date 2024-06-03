@@ -53,7 +53,8 @@ namespace LIS2DH12
 
         static bool is_init = false;
 
-        static bool is_alarmed = false;
+        static bool is_alarmed = false;         // Положение изменилось. Гудим
+        static uint time_disable_alarm = 0;     // В это время нужно выключить тревогу
 
 
         static void Init(float x, float y, float z)
@@ -83,6 +84,12 @@ namespace LIS2DH12
                     Device::UpdateTasks();
                 }
 
+                if (TIME_MS > time_disable_alarm)
+                {
+                    is_alarmed = false;
+                    is_init = false;
+                }
+
                 return;
             }
 
@@ -103,6 +110,7 @@ namespace LIS2DH12
                 std::fabsf(z - start_z) > delta)
             {
                 is_alarmed = true;
+                time_disable_alarm = TIME_MS + 2 * 60 * 1000;
 
                 uint number = gset.GetAntibreakNumber();
 
