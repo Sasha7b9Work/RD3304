@@ -96,7 +96,7 @@ namespace LIS2DH12
                 Init(x, y, z);
             }
 
-            const float delta = 0.2f;
+            const float delta = gset.GetAntibreakSens();
 
             if (std::fabsf(x - start_x) > delta ||
                 std::fabsf(y - start_y) > delta ||
