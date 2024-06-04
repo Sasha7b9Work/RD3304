@@ -105,7 +105,7 @@ int main(void)
         fileProgramVersion = get_file_program_version();
         // сверить версию программы в файле с той что находится в ROM
         uint32_t romProgramVersion = *((uint32_t *)(MAIN_PROG_FIRST_ADDR + 516));
-        if (fileProgramVersion != romProgramVersion)
+//        if (fileProgramVersion != romProgramVersion)
         {// версии не совпали, теперь проверяем файл образа
          //uint32_t progSig = *((uint32_t*)&fileHeader[8]);
             uint32_t progSig = get_file_program_sig();
