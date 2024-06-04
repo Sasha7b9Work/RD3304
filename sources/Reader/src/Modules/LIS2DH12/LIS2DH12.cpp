@@ -110,9 +110,11 @@ namespace LIS2DH12
 
             const float delta = gset.GetAntibreakSens();
 
-            if (std::fabsf(x - start_x) > delta ||
-                std::fabsf(y - start_y) > delta ||
-                std::fabsf(z - start_z) > delta)
+            float dx = x - start_x;
+            float dy = y - start_y;
+            float dz = z - start_z;
+
+            if(std::sqrtf(dx * dx + dy * dy + dz * dz) > delta)
             {
                 is_alarmed = true;
                 time_disable_alarm = TIME_MS + 2 * 60 * 1000;
