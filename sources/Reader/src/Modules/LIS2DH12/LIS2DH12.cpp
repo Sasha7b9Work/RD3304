@@ -59,16 +59,16 @@ namespace LIS2DH12
         static uint time_disable_alarm = 0;     // В это время нужно выключить тревогу
 
 
-        static void Init(float x, float y, float z)
+        static void Init()
         {
             is_init = true;
 
-            start_x = x;
-            start_y = y;
-            start_z = z;
+            start_x = raw_acce_x.Get().ToAccelearation();
+            start_y = raw_acce_y.Get().ToAccelearation();
+            start_z = raw_acce_z.Get().ToAccelearation();
         }
 
-        static void Update(float x, float y, float z)
+        static void Update()
         {
             if (ModeReader::IsExtended())
             {
@@ -107,14 +107,14 @@ namespace LIS2DH12
                     return;
                 }
 
-                Init(x, y, z);
+                Init();
             }
 
             const float delta = gset.GetAntibreakSens();
 
-            float dx = x - start_x;
-            float dy = y - start_y;
-            float dz = z - start_z;
+            float dx = raw_acce_x.Get().ToAccelearation() - start_x;
+            float dy = raw_acce_y.Get().ToAccelearation() - start_y;
+            float dz = raw_acce_z.Get().ToAccelearation() - start_z;
 
             if(std::sqrtf(dx * dx + dy * dy + dz * dz) > delta)
             {
@@ -217,7 +217,7 @@ void LIS2DH12::Update()
         raw_temp.hi = Read(LIS2DH12_OUT_TEMP_H);
     }
 
-    Watcher::Update(raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation());
+    Watcher::Update();
 }
 
 
