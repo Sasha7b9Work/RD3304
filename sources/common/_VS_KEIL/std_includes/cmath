@@ -8,6 +8,7 @@ namespace std
     float fabsf(float);
     float fabs(double);
     float sqrtf(float);
+    double sqrt(double);
     float log10f(float);
     float cosf(float);
     float sinf(float);

@@ -11,6 +11,7 @@
 #include "Modules/Player/Player.h"
 #include "Device/Device.h"
 #include "Nodes/OSDP/OSDP.h"
+#include "Utils/Averager.h"
 #include "system.h"
 #include <cstring>
 #include <cstdio>
@@ -21,9 +22,10 @@ namespace LIS2DH12
     static const uint8 ADDRESS = 0x19 << 1;
 
     static StructDataRaw raw_temp;
-    static StructDataRaw raw_acce_x;
-    static StructDataRaw raw_acce_y;
-    static StructDataRaw raw_acce_z;
+
+    static Averager<StructDataRaw, 16> raw_acce_x;
+    static Averager<StructDataRaw, 16> raw_acce_y;
+    static Averager<StructDataRaw, 16> raw_acce_z;
 
     static bool is_exist = true;
 
@@ -190,14 +192,22 @@ void LIS2DH12::Update()
     {
         if (Read(LIS2DH12_STATUS_REG) & (1 << 3))
         {
-            raw_acce_x.lo = Read(LIS2DH12_OUT_X_L);
-            raw_acce_x.hi = Read(LIS2DH12_OUT_X_H);
+            StructDataRaw data;
 
-            raw_acce_y.lo = Read(LIS2DH12_OUT_Y_L);
-            raw_acce_y.hi = Read(LIS2DH12_OUT_Y_H);
+            data.lo = Read(LIS2DH12_OUT_X_L);
+            data.hi = Read(LIS2DH12_OUT_X_H);
 
-            raw_acce_z.lo = Read(LIS2DH12_OUT_Z_L);
-            raw_acce_z.hi = Read(LIS2DH12_OUT_Z_H);
+            raw_acce_x.Push(data);
+
+            data.lo = Read(LIS2DH12_OUT_Y_L);
+            data.hi = Read(LIS2DH12_OUT_Y_H);
+
+            raw_acce_y.Push(data);
+
+            data.lo = Read(LIS2DH12_OUT_Z_L);
+            data.hi = Read(LIS2DH12_OUT_Z_H);
+
+            raw_acce_z.Push(data);
         }
     }
 
@@ -207,7 +217,7 @@ void LIS2DH12::Update()
         raw_temp.hi = Read(LIS2DH12_OUT_TEMP_H);
     }
 
-    Watcher::Update(raw_acce_x.ToAccelearation(), raw_acce_y.ToAccelearation(), raw_acce_z.ToAccelearation());
+    Watcher::Update(raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation());
 }
 
 
@@ -219,17 +229,17 @@ StructDataRaw LIS2DH12::GetRawTemperature()
 
 StructDataRaw LIS2DH12::GetAccelerationX()
 {
-    return raw_acce_x;
+    return raw_acce_x.Get();
 }
 
 
 StructDataRaw LIS2DH12::GetAccelerationY()
 {
-    return raw_acce_y;
+    return raw_acce_y.Get();
 }
 
 
 StructDataRaw LIS2DH12::GetAccelerationZ()
 {
-    return raw_acce_z;
+    return raw_acce_z.Get();
 }

@@ -5,6 +5,8 @@
 // Структура содержит нативные данные, считанные из акселерометра
 union StructDataRaw
 {
+    StructDataRaw(int16 val = 0) : raw(val) { }
+
     struct
     {
         uint8 lo;

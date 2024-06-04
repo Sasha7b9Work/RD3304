@@ -23,6 +23,7 @@
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
+#include <cmath>
 
 
 using namespace std;
@@ -463,13 +464,20 @@ bool Communicator::Com_RESET(BufferUSART &)
 
 bool Communicator::Com_MSR(BufferUSART &)
 {
-    Message::SendFormat("OK;MEMORY:%s;%3.1fV;%3.2fg;%3.2fg;%3.2fg;%3.1fC",
+    double x = (double)LIS2DH12::GetAccelerationX().ToAccelearation();
+    double y = (double)LIS2DH12::GetAccelerationY().ToAccelearation();
+    double z = (double)LIS2DH12::GetAccelerationZ().ToAccelearation();
+
+    double full = std::sqrt(x * x + y * y + z * z);
+
+    Message::SendFormat("OK;MEMORY:%s;%3.1fV;%3.2fg;%3.2fg;%3.2fg;%3.1fC %f",
         Memory::Test::Run() ? "OK" : "FAIL",
         (double)HAL_ADC::GetVoltage(),
-        (double)LIS2DH12::GetAccelerationX().ToAccelearation(),
-        (double)LIS2DH12::GetAccelerationY().ToAccelearation(),
-        (double)LIS2DH12::GetAccelerationZ().ToAccelearation(),
-        (double)LIS2DH12::GetRawTemperature().ToTemperatrue()
+        x,
+        y,
+        z,
+        (double)LIS2DH12::GetRawTemperature().ToTemperatrue(),
+        full
     );
 
     return true;

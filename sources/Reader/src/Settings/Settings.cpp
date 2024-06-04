@@ -353,7 +353,7 @@ float SettingsMaster::GetAntibreakSens()
         return 180.0f;
     }
 
-    return (float)sens / 20.0f;
+    return (float)sens / 15.0f;
 }
 
 
