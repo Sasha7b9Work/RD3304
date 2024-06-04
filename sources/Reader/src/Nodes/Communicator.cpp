@@ -464,9 +464,9 @@ bool Communicator::Com_RESET(BufferUSART &)
 
 bool Communicator::Com_MSR(BufferUSART &)
 {
-    double x = (double)LIS2DH12::GetAccelerationX().ToAccelearation();
-    double y = (double)LIS2DH12::GetAccelerationY().ToAccelearation();
-    double z = (double)LIS2DH12::GetAccelerationZ().ToAccelearation();
+    double x = (double)LIS2DH12::GetAccelerationX();
+    double y = (double)LIS2DH12::GetAccelerationY();
+    double z = (double)LIS2DH12::GetAccelerationZ();
 
     double full = std::sqrt(x * x + y * y + z * z);
 

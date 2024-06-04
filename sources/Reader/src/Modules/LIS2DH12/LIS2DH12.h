@@ -38,11 +38,11 @@ namespace LIS2DH12
 
     bool IsAlarmed();
 
-    StructDataRaw GetAccelerationX();
+    float GetAccelerationX();
 
-    StructDataRaw GetAccelerationY();
+    float GetAccelerationY();
 
-    StructDataRaw GetAccelerationZ();
+    float GetAccelerationZ();
 
     StructDataRaw GetRawTemperature();
 }

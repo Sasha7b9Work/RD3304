@@ -28,10 +28,10 @@ public:
 
         for (int i = 0; i < num_elements; i++)
         {
-            sum += buffer[i].raw;
+            sum += (uint64)buffer[i].raw;
         }
 
-        return StructDataRaw((int16)(sum / num_elements));
+        return StructDataRaw((int16)(sum / (uint64)num_elements));
     }
     int NumElements() const { return num_elements; }
     void Reset() { num_elements = 0; }

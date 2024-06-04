@@ -23,9 +23,9 @@ namespace LIS2DH12
 
     static StructDataRaw raw_temp;
 
-    static Averager<StructDataRaw, 16> raw_acce_x;
-    static Averager<StructDataRaw, 16> raw_acce_y;
-    static Averager<StructDataRaw, 16> raw_acce_z;
+    static Averager<StructDataRaw, 4> raw_acce_x;
+    static Averager<StructDataRaw, 4> raw_acce_y;
+    static Averager<StructDataRaw, 4> raw_acce_z;
 
     static bool is_exist = true;
 
@@ -119,7 +119,7 @@ namespace LIS2DH12
             if(std::sqrtf(dx * dx + dy * dy + dz * dz) > delta)
             {
                 is_alarmed = true;
-                time_disable_alarm = TIME_MS + 2 * 60 * 1000;
+                time_disable_alarm = TIME_MS + 30 * 1000;
 
                 uint number = gset.GetAntibreakNumber();
 
@@ -227,19 +227,19 @@ StructDataRaw LIS2DH12::GetRawTemperature()
 }
 
 
-StructDataRaw LIS2DH12::GetAccelerationX()
+float LIS2DH12::GetAccelerationX()
 {
-    return raw_acce_x.Get();
+    return raw_acce_x.Get().ToAccelearation();
 }
 
 
-StructDataRaw LIS2DH12::GetAccelerationY()
+float LIS2DH12::GetAccelerationY()
 {
-    return raw_acce_y.Get();
+    return raw_acce_y.Get().ToAccelearation();
 }
 
 
-StructDataRaw LIS2DH12::GetAccelerationZ()
+float LIS2DH12::GetAccelerationZ()
 {
-    return raw_acce_z.Get();
+    return raw_acce_z.Get().ToAccelearation();
 }
