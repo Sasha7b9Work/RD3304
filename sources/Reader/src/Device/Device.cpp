@@ -83,6 +83,10 @@ void Device::Init()
         }
     }
 
+    ModeReader::Set(ModeReader::UART);
+
+    LOG_WRITE_TRACE("Mode UART is enabled");
+
     while (Device::UpdateTasks())
     {
     }
