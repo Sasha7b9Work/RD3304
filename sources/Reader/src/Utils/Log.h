@@ -5,7 +5,7 @@
 
 //#define LOG_TRACE()          Log::TraceLine(__FILE__, __LINE__)
 //#define LOG_WRITE(...)       Log::Write(__VA_ARGS__)
-#define LOG_WRITE_TRACE(...) Log::WriteTrace(__FILE__, __LINE__, __VA_ARGS__)
+#define _LOG_WRITE_TRACE(...) Log::WriteTrace(__FILE__, __LINE__, __VA_ARGS__)
 //#define LOG_ERROR(...)       Log::Error(__FILE__, __LINE__, __VA_ARGS__)
 
 

@@ -122,16 +122,8 @@ namespace LIS2DH12
             double dy = std::fabs(y - (double)start_y);
             double dz = std::fabs(z - (double)start_z);
 
-            double abs = std::sqrt(x * x + y * y + z * z);
-
             if(dx > delta || dy > delta || dz > delta)
             {
-                LOG_WRITE_TRACE("dx/x = %f/%f, dy/y = %f/%f, dz/z = %f/%f, delta = %f, abs = %f",
-                    dx, x,
-                    dy, y,
-                    dz, z,
-                    (double)delta, abs);
-
                 is_alarmed = true;
                 time_disable_alarm = TIME_MS + 30 * 1000;
 
@@ -145,14 +137,6 @@ namespace LIS2DH12
                 {
                     HAL_USART::WG26::Transmit((uint8)(number & 0xFF), (uint8)((number >> 8) & 0xFF), (uint8)((number >> 16) & 0xFF));
                 }
-            }
-            else
-            {
-                LOG_WRITE_TRACE("dx/x = %f/%f, dy/y = %f/%f, dz/z = %f/%f, delta = %f, abs = %f",
-                    dx, x,
-                    dy, y,
-                    dz, z,
-                    (double)delta, abs);
             }
         }
     }
