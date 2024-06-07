@@ -1524,21 +1524,6 @@
             </File>
           </Files>
         </Group>
-        <Group>
-          <GroupName>PlayerSoft</GroupName>
-          <Files>
-            <File>
-              <FileName>PlayerSoft.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Modules\PlayerSoft\PlayerSoft.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PlayerSoft.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Modules\PlayerSoft\PlayerSoft.h</FilePath>
-            </File>
-          </Files>
-        </Group>
       </Groups>
     </Target>
     <Target>
@@ -3056,21 +3041,6 @@
               <FileName>RingBuffer.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Utils\RingBuffer.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>PlayerSoft</GroupName>
-          <Files>
-            <File>
-              <FileName>PlayerSoft.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Modules\PlayerSoft\PlayerSoft.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PlayerSoft.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Modules\PlayerSoft\PlayerSoft.h</FilePath>
             </File>
           </Files>
         </Group>

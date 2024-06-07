@@ -11,7 +11,6 @@
 #include "Nodes/OSDP/OSDP.h"
 #include "Reader/Reader.h"
 #include "Modules/Sensor/TTP223.h"
-#include "Modules/PlayerSoft/PlayerSoft.h"
 #include "Nodes/Upgrader.h"
 #include "system.h"
 #include <cstdlib>

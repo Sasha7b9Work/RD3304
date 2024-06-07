@@ -4,7 +4,7 @@
 
 namespace PlayerSoft
 {
-    void Play(float freq, uint time);
+    void _Play(float freq, uint time);
 
     void Update();
 

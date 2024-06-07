@@ -5,7 +5,6 @@
 #include "Hardware/HAL/HAL.h"
 #include "Hardware/Timer.h"
 #include "Modules/Player/Player.h"
-#include "Modules/PlayerSoft/PlayerSoft.h"
 
 
 #ifdef __cplusplus
@@ -99,7 +98,6 @@ void DMA_Channel1_2_IRQHandler(void)
     if (RESET != dma_interrupt_flag_get(DMA_CH2, DMA_INT_FLAG_HTF))
     {
         Player::CallbackOnHalfTransmit();
-        PlayerSoft::CallbackOnHalfTransmit();
 
         dma_interrupt_flag_clear(DMA_CH2, DMA_INT_FLAG_G);
     }
@@ -107,7 +105,6 @@ void DMA_Channel1_2_IRQHandler(void)
     if (RESET != dma_interrupt_flag_get(DMA_CH2, DMA_INT_FLAG_FTF))
     {
         Player::CallbackOnFullTransmit();
-        PlayerSoft::CallbackOnFullTransmit();
 
         dma_interrupt_flag_clear(DMA_CH2, DMA_INT_FLAG_G);
     }

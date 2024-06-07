@@ -68,7 +68,7 @@ namespace PlayerSoft
 }
 
 
-void PlayerSoft::Play(float frequency, uint time)
+void PlayerSoft::_Play(float frequency, uint time)
 {
     is_running = true;
 

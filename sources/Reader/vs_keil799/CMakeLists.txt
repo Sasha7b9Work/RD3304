@@ -48,7 +48,6 @@ file(GLOB MODULES_LIS2DH12              ../src/Modules/LIS2DH12/*.*)
 file(GLOB MODULES_MEMORY                ../src/Modules/Memory/*.*)
 file(GLOB MODULES_PLAYER                ../src/Modules/Player/*.*
                                         ../src/Modules/Player/GD/*.*)
-file(GLOB MODULES_PLAYERSOFT            ../src/Modules/PlayerSoft/*.*)
 file(GLOB MODULES_SENSOR                ../src/Modules/Sensor/*.*)
 file(GLOB NODES                         ../src/Nodes/*.*)
 file(GLOB NODES_OSDP                    ../src/Nodes/OSDP/*.*)
@@ -70,7 +69,6 @@ source_group(Modules/Indicator/WS2812B  FILES ${MODULES_INDICATOR_WS2812B})
 source_group(Modules/LIS2DH12           FILES ${MODULES_LIS2DH12})
 source_group(Modules/Memory             FILES ${MODULES_MEMORY})
 source_group(Modules/Player             FILES ${MODULES_PLAYER})
-source_group(Modules/PlayerSoft         FILES ${MODULES_PLAYERSOFT})
 source_group(Modules/Sensor             FILES ${MODULES_SENSOR})
 source_group(Nodes                      FILES ${NODES})
 source_group(Nodes/OSDP                 FILES ${NODES_OSDP})
@@ -101,7 +99,6 @@ add_library(${PROJECT_NAME}
     ${MODULES_LIS2DH12}
     ${MODULES_MEMORY}
     ${MODULES_PLAYER}
-    ${MODULES_PLAYERSOFT}
     ${MODULES_SENSOR}
     ${NODES}
     ${NODES_OSDP}
