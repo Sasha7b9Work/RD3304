@@ -65,11 +65,11 @@ namespace Memory
                     return;
                 }
             }
-            
+
             return;
         }
 
-        static void WriteBuffer(uint8 *buffer, int size)
+        static void WriteBuffer(uint8* buffer, int size)
         {
             WaitRelease();
 
@@ -84,7 +84,11 @@ namespace Memory
     // «аписывает uint8, а затем младшие 3 байта из второго значени€
     static void Write32bit(uint8, uint);
 
-    static int ReadPage(uint address, uint8 *buffer, int size);
+    // «аписывает столько данных, сколько можно записать за одну транзакцию.
+    // ¬озвращает количество записанных байт
+    static int WritePage(uint address, const uint8* buffer, int size);
+
+    static int ReadPage(uint address, uint8* buffer, int size);
 
     static int SizeSector();
 
@@ -230,7 +234,22 @@ void Memory::WriteUint8(uint address, uint8 value)
 }
 
 
-int Memory::WriteBufferRelible512(uint address, const void *buffer, int size, int number_attempts)
+void Memory::WriteBuffer(uint address, const void* _buffer, int size)
+{
+    const uint8* buffer = (const uint8*)_buffer;
+
+    while (size)
+    {
+        int written_bytes = WritePage(address, buffer, size);
+
+        address += (uint)written_bytes;
+        buffer += written_bytes;
+        size -= written_bytes;
+    }
+}
+
+
+int Memory::WriteBufferRelible512(uint address, const void* buffer, int size, int number_attempts)
 {
     StackBuffer <512>data;
 
@@ -249,32 +268,29 @@ int Memory::WriteBufferRelible512(uint address, const void *buffer, int size, in
     return number_attempts;
 }
 
-void Memory::WriteBuffer(uint address, const void* _buffer, int size)
+
+int Memory::WritePage(uint address, const uint8* buffer, int size)
 {
-    // \todo «десь можно записывать данные размером не более 256 байт, которые лежат в пределах одной страницы
-
-    MEM_SPI::WaitRelease();
-
-    HAL_SPI::WriteByte(DirectionSPI::Memory, WRITE_ENABLE);
-
-    MEM_SPI::WaitRelease();
-
-    HAL_SPI::LOW::CS::ToLow();
-
-    HAL_SPI::LOW::WriteByte(PROGRAM_PAGE);
-
-    HAL_SPI::LOW::WriteByte((uint8)(address >> 16));
-    HAL_SPI::LOW::WriteByte((uint8)(address >> 8));
-    HAL_SPI::LOW::WriteByte((uint8)address);
-
-    const uint8* data = (const uint8*)_buffer;
-
-    while (size--)
+    uint8 data[260] =
     {
-        HAL_SPI::LOW::WriteByte(*data++);
+        PROGRAM_PAGE,
+        (uint8)(address >> 16),
+        (uint8)(address >> 8),
+        (uint8)(address)
+    };
+
+    Page256 page(address);
+
+    if ((address + (uint)size) > page.End())
+    {
+        size = (int)(page.End() - address);
     }
 
-    HAL_SPI::LOW::CS::ToHi();
+    std::memcpy(data + 4, buffer, (uint)size);
+
+    MEM_SPI::WriteBuffer(data, 4 + size);
+
+    return size;
 }
 
 
@@ -300,7 +316,7 @@ uint8 Memory::ReadUint8(uint address)
 }
 
 
-int Memory::ReadPage(uint address, uint8 *buffer, int size)
+int Memory::ReadPage(uint address, uint8* buffer, int size)
 {
     uint8 data[261] =
     {
@@ -330,9 +346,9 @@ int Memory::ReadPage(uint address, uint8 *buffer, int size)
 }
 
 
-void Memory::ReadBuffer(uint address, void *_buffer, int size)
+void Memory::ReadBuffer(uint address, void* _buffer, int size)
 {
-    uint8 *buffer = (uint8 *)_buffer;
+    uint8* buffer = (uint8*)_buffer;
 
     while (size)
     {
@@ -345,9 +361,9 @@ void Memory::ReadBuffer(uint address, void *_buffer, int size)
 }
 
 
-void Memory::ReadBufferFast(uint address, void *buffer, int size)
+void Memory::ReadBufferFast(uint address, void* buffer, int size)
 {
-    uint8 * const pointer = (uint8 *)buffer - 5;
+    uint8* const pointer = (uint8*)buffer - 5;
 
     pointer[0] = READ_ARRAY;
     pointer[1] = (uint8)(address >> 16);
@@ -363,9 +379,9 @@ void Memory::ReadBufferFast(uint address, void *buffer, int size)
 
 #ifdef MCU_GD
 #else
-void Memory::ReadBufferFastDMA(uint address, void *buffer, int size, void (*callback_on_complete)())
+void Memory::ReadBufferFastDMA(uint address, void* buffer, int size, void (*callback_on_complete)())
 {
-    uint8 * pointer = (uint8 *)buffer;
+    uint8* pointer = (uint8*)buffer;
 
     pointer -= 5;
 
