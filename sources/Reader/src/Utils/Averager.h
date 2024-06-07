@@ -17,24 +17,18 @@ public:
         buffer[num_elements++] = value;
     }
 
-    T Pop(int index)
-    {
-        return buffer[index];
-    }
-
     T Get()
     {
-        uint64 sum = 0;
+        int64 sum = 0;
 
         for (int i = 0; i < num_elements; i++)
         {
-            sum += (uint64)buffer[i].raw;
+            sum += (int64)buffer[i].raw;
         }
 
-        return StructDataRaw((int16)(sum / (uint64)num_elements));
+        return StructDataRaw((int16)(sum / (int64)num_elements));
     }
-    int NumElements() const { return num_elements; }
-    void Reset() { num_elements = 0; }
+
 private:
     T buffer[size_buffer];
     int num_elements = 0;

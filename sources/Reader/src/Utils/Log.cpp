@@ -2,6 +2,7 @@
 #include "defines.h"
 #include "Utils/Log.h"
 #include "Hardware/HAL/HAL.h"
+#include "Nodes/Upgrader.h"
 #include <cstdarg>
 #include <cstdio>
 #include <cstring>
@@ -15,12 +16,22 @@ namespace Log
 
 void Log::TraceLine(char *file, int line)
 {
+    if (!Upgrader::IsCompleted())
+    {
+        return;
+    }
+
     HAL_USART::UART::TransmitF("Trace : %s : %d", file, line);
 }
 
 
 void Log::Error(char *file, int line, char *format, ...)
 {
+    if (!Upgrader::IsCompleted())
+    {
+        return;
+    }
+
     char message[256];
 
     std::va_list args;
@@ -38,6 +49,11 @@ void Log::Error(char *file, int line, char *format, ...)
 
 void Log::Write(char *format, ...)
 {
+    if (!Upgrader::IsCompleted())
+    {
+        return;
+    }
+
     char message[256];
 
     std::va_list args;
@@ -51,6 +67,11 @@ void Log::Write(char *format, ...)
 
 void Log::WriteTrace(char *file, int line, char *format, ...)
 {
+    if (!Upgrader::IsCompleted())
+    {
+        return;
+    }
+
     char message[256];
 
     std::va_list args;

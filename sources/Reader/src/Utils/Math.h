@@ -30,4 +30,6 @@ namespace Math
     uint CalculateCRC32(const void *buffer, int size);
 
     uint16 CalculateCRC_OSDP(const void *, int);
+
+    bool AngleBetweenVectors(float x, float y, float z, float x0, float y0, float z0, float *value);
 }

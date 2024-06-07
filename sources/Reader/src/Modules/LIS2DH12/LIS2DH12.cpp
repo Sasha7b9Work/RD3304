@@ -12,6 +12,8 @@
 #include "Device/Device.h"
 #include "Nodes/OSDP/OSDP.h"
 #include "Utils/Averager.h"
+#include "Utils/FiltrMiddleOf3.h"
+#include "Utils/Math.h"
 #include "system.h"
 #include <cstring>
 #include <cstdio>
@@ -23,9 +25,19 @@ namespace LIS2DH12
 
     static StructDataRaw raw_temp;
 
-    static Averager<StructDataRaw, 2> raw_acce_x;
-    static Averager<StructDataRaw, 2> raw_acce_y;
-    static Averager<StructDataRaw, 2> raw_acce_z;
+    static Averager<StructDataRaw, 1> raw_acce_x;       // /
+    static Averager<StructDataRaw, 1> raw_acce_y;       // | текущие значения акселерометра
+    static Averager<StructDataRaw, 1> raw_acce_z;       // /
+
+    float GetAngleZ()
+    {
+        float angle = 0.0f;
+
+        Math::AngleBetweenVectors(raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation(),
+            1.0f, 0.0f, 0.0f, &angle);
+
+        return angle;
+    }
 
     static bool is_exist = true;
 
@@ -49,9 +61,9 @@ namespace LIS2DH12
     // Сторож
     namespace Watcher
     {
-        static float start_x = 0.0f;
-        static float start_y = 0.0f;
-        static float start_z = 0.0f;
+        static StructDataRaw start_x;       // /
+        static StructDataRaw start_y;       // | Это стартовые значения - с ними будем сравнивать
+        static StructDataRaw start_z;       // /
 
         static bool is_init = false;
 
@@ -63,9 +75,9 @@ namespace LIS2DH12
         {
             is_init = true;
 
-            start_x = raw_acce_x.Get().ToAccelearation();
-            start_y = raw_acce_y.Get().ToAccelearation();
-            start_z = raw_acce_z.Get().ToAccelearation();
+            start_x = raw_acce_x.Get();
+            start_y = raw_acce_y.Get();
+            start_z = raw_acce_z.Get();
         }
 
         static void Update()
@@ -79,6 +91,31 @@ namespace LIS2DH12
             {
                 return;
             }
+
+            const float delta = gset.GetAntibreakSens();
+
+            float angle = 0.0f;
+
+            bool result = Math::AngleBetweenVectors(start_x.ToAccelearation(), start_y.ToAccelearation(), start_z.ToAccelearation(),
+                raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation(), &angle);
+
+            static FiltrMiddleOf3<float> middle_angle;
+
+//            float before = angle;
+
+            if (result)
+            {
+                angle = middle_angle.Push(angle);
+            }
+            else
+            {
+                if (!is_alarmed)
+                {
+                    return;
+                }
+            }
+
+//            LOG_WRITE_TRACE("%f angle = %f, delta = %f", (double)before, (double)angle, (double)delta);
 
             if (is_alarmed)
             {
@@ -112,18 +149,10 @@ namespace LIS2DH12
                 return;
             }
 
-            const double delta = (double)gset.GetAntibreakSens();
-
-            double x = (double)raw_acce_x.Get().ToAccelearation();
-            double y = (double)raw_acce_y.Get().ToAccelearation();
-            double z = (double)raw_acce_z.Get().ToAccelearation();
-
-            double dx = std::fabs(x - (double)start_x);
-            double dy = std::fabs(y - (double)start_y);
-            double dz = std::fabs(z - (double)start_z);
-
-            if(dx > delta || dy > delta || dz > delta)
+            if (angle > delta)
             {
+//                LOG_WRITE_TRACE("!!!! ALARM !!!");
+
                 is_alarmed = true;
                 time_disable_alarm = TIME_MS + 30 * 1000;
 
@@ -196,24 +225,76 @@ void LIS2DH12::Update()
 
     if (pinIRQ_SNS.IsHi())                                      // ZYXDA
     {
+        static FiltrMiddleOf3<int16> middleX;
+        static FiltrMiddleOf3<int16> middleY;
+        static FiltrMiddleOf3<int16> middleZ;
+
         if (Read(LIS2DH12_STATUS_REG) & (1 << 3))
         {
+//            static float prev_x = 0.0f;
+//            static float prev_y = 0.0f;
+//            static float prev_z = 0.0f;
+
+//            float x = 0.0f;
+//            float y = 0.0f;
+//            float z = 0.0f;
+
             StructDataRaw data;
+
+            ////////////////////////////////////////
 
             data.lo = Read(LIS2DH12_OUT_X_L);
             data.hi = Read(LIS2DH12_OUT_X_H);
 
+            data.raw = middleX.Push(data.raw);
+
             raw_acce_x.Push(data);
+
+//            x = data.ToAccelearation();
+
+            ////////////////////////////////////////
 
             data.lo = Read(LIS2DH12_OUT_Y_L);
             data.hi = Read(LIS2DH12_OUT_Y_H);
 
+            data.raw = middleY.Push(data.raw);
+
             raw_acce_y.Push(data);
+
+//            y = data.ToAccelearation();
+
+            ///////////////////////////////////////
 
             data.lo = Read(LIS2DH12_OUT_Z_L);
             data.hi = Read(LIS2DH12_OUT_Z_H);
 
+            data.raw = middleZ.Push(data.raw);
+
             raw_acce_z.Push(data);
+
+//            z = data.ToAccelearation();
+
+            //////////////////////////////////////
+
+//            float dx = std::fabsf(x - prev_x);
+//            float dy = std::fabsf(y - prev_y);
+//            float dz = std::fabsf(z - prev_z);
+//
+//            if (dx != 0.0f || dy != 0.0f || dz != 0.0f)
+//            {
+//                LOG_WRITE_TRACE("%5.3f %5.3f %5.3f abs = %5.3f, angle = %f",
+//                    (double)dx, (double)dy, (double)dz,
+//                    (double)std::sqrtf(dx * dx + dy * dy + dz * dz), 
+//                    (double)Math::AngleBetweenVectors(x, y, z, prev_x, prev_y, prev_z));
+//            }
+//            else
+//            {
+//                LOG_WRITE_TRACE("All zeros");
+//            }
+//
+//            prev_x = x;
+//            prev_y = y;
+//            prev_z = z;
 
             Watcher::Update();
         }
@@ -230,22 +311,4 @@ void LIS2DH12::Update()
 StructDataRaw LIS2DH12::GetRawTemperature()
 {
     return raw_temp;
-}
-
-
-float LIS2DH12::GetAccelerationX()
-{
-    return raw_acce_x.Get().ToAccelearation();
-}
-
-
-float LIS2DH12::GetAccelerationY()
-{
-    return raw_acce_y.Get().ToAccelearation();
-}
-
-
-float LIS2DH12::GetAccelerationZ()
-{
-    return raw_acce_z.Get().ToAccelearation();
 }

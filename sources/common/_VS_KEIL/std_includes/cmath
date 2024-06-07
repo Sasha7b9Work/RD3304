@@ -11,6 +11,7 @@ namespace std
     double sqrt(double);
     float log10f(float);
     float cosf(float);
+    float acosf(float);
     float sinf(float);
     bool isnan(float);
     float expf(float);

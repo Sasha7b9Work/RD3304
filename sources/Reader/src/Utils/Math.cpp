@@ -1,13 +1,34 @@
 // 2023/10/02 13:29:10 (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "defines.h"
 #include "Utils/Math.h"
-
-
-const float Math::PI = 3.14159265358979323846f;
+#include <cmath>
 
 
 namespace Math
 {
+    const float PI = 3.14159265358979323846f;
+
+    struct Vector
+    {
+        float x;
+        float y;
+        float z;
+
+        void Normalize()
+        {
+            float length = Length();
+
+            x /= length;
+            y /= length;
+            z /= length;
+        }
+
+        float Length() const
+        {
+            return std::sqrtf(x * x + y * y + z * z);
+        }
+    };
+
     static const uint tableCRC[256] =
     {
         0x00000000UL,0x77073096UL,0xEE0E612CUL,0x990951BAUL,0x076DC419UL,0x706AF48FUL,0xE963A535UL,0x9E6495A3UL,
@@ -142,4 +163,23 @@ uint16 Math::CalculateCRC_OSDP(const void *buffer, int size)
         nCrc = (uint16)((nCrc << 8) ^ cCrcTable[((nCrc >> 8) ^ data[ii]) & 0xFF]);
     }
     return nCrc;
+}
+
+
+bool Math::AngleBetweenVectors(float x, float y, float z, float x0, float y0, float z0, float *value)
+{
+    // https://cyclowiki.org/wiki/%D0%A3%D0%B3%D0%BE%D0%BB_%D0%BC%D0%B5%D0%B6%D0%B4%D1%83_%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8_%D0%B2_%D1%82%D1%80%D1%91%D1%85%D0%BC%D0%B5%D1%80%D0%BD%D0%BE%D0%BC_%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%D0%B5
+
+    Vector a{ x, y, z };
+    Vector b{ x0, y0, z0 };
+
+    a.Normalize();
+    b.Normalize();
+
+    float div1 = std::sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
+    float div2 = std::sqrtf(b.x * b.x + b.y * b.y + b.z * b.z);
+
+    *value = 180.0f / PI * std::acosf((a.x * b.x + a.y * b.y + a.z * b.z) / div1 / div2);
+
+    return div1 != 0.0f && div2 != 0.0f;
 }

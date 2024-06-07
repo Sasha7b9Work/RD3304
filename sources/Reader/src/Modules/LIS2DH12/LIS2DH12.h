@@ -38,11 +38,8 @@ namespace LIS2DH12
 
     bool IsAlarmed();
 
-    float GetAccelerationX();
-
-    float GetAccelerationY();
-
-    float GetAccelerationZ();
+    // ѕолучить угол наклона относительно оси Z
+    float GetAngleZ();
 
     StructDataRaw GetRawTemperature();
 }

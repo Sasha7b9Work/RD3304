@@ -464,20 +464,11 @@ bool Communicator::Com_RESET(BufferUSART &)
 
 bool Communicator::Com_MSR(BufferUSART &)
 {
-    double x = (double)LIS2DH12::GetAccelerationX();
-    double y = (double)LIS2DH12::GetAccelerationY();
-    double z = (double)LIS2DH12::GetAccelerationZ();
-
-    double full = std::sqrt(x * x + y * y + z * z);
-
-    Message::SendFormat("OK;MEMORY:%s;%3.1fV;%3.2fg;%3.2fg;%3.2fg;%3.1fC %f",
+    Message::SendFormat("OK;MEMORY:%s;%3.1fV;%3.2fG;%3.1fC",
         Memory::Test::Run() ? "OK" : "FAIL",
         (double)HAL_ADC::GetVoltage(),
-        x,
-        y,
-        z,
-        (double)LIS2DH12::GetRawTemperature().ToTemperatrue(),
-        full
+        (double)LIS2DH12::GetAngleZ(),
+        (double)LIS2DH12::GetRawTemperature().ToTemperatrue()
     );
 
     return true;

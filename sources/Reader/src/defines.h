@@ -2,7 +2,7 @@
 #pragma once
 
 
-#define VERSION 571
+#define VERSION 582
 #define NAME "CKE"
 
 
@@ -39,6 +39,7 @@ typedef unsigned int       uint;
 typedef const char        *pchar;
 typedef unsigned char      uchar;
 typedef unsigned long long uint64;
+typedef signed long long   int64;
 
 
 #ifdef WIN32
