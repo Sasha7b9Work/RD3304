@@ -67,8 +67,6 @@ void Upgrader::Update(BufferUSART &buffer)
     {
         HAL_USART::EnableFiltering(true);
 
-//        LOG_WRITE_TRACE("Time update %d, time write %d", TIME_MS - time_start, time_write);
-
         if (address < ADDRESS_SOUNDS)
         {
 #ifdef MCU_GD

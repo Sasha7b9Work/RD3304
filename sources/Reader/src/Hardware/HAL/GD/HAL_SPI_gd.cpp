@@ -204,6 +204,24 @@ void HAL_SPI::WriteByte(uint8 byte)
 }
 
 
+void HAL_SPI::LOW::WriteByte(uint8 byte)
+{
+    HAL_SPI::WriteByte(byte);
+}
+
+
+void HAL_SPI::LOW::CS::ToLow()
+{
+    HAL_SPI::CS::ToLow(DirectionSPI::Memory);
+}
+
+
+void HAL_SPI::LOW::CS::ToHi()
+{
+    HAL_SPI::CS::ToHi(DirectionSPI::Memory);
+}
+
+
 void HAL_SPI::WriteBuffer(DirectionSPI::E dir, const void *buffer, int size)
 {
     CS::ToLow(dir);

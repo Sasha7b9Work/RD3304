@@ -71,6 +71,17 @@ namespace HAL_SPI
 
     void Test();
 
+    namespace LOW
+    {
+        namespace CS
+        {
+            void ToLow();
+            void ToHi();
+        }
+
+        void WriteByte(uint8);
+    }
+
 #ifdef MCU_GD
 
 #else

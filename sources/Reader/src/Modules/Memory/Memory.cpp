@@ -84,10 +84,6 @@ namespace Memory
     // «аписывает uint8, а затем младшие 3 байта из второго значени€
     static void Write32bit(uint8, uint);
 
-    // «аписывает столько данных, сколько можно записать за одну транзакцию.
-    // ¬озвращает количество записанных байт
-    static int WritePage(uint address, const uint8 *buffer, int size);
-
     static int ReadPage(uint address, uint8 *buffer, int size);
 
     static int SizeSector();
@@ -234,21 +230,6 @@ void Memory::WriteUint8(uint address, uint8 value)
 }
 
 
-void Memory::WriteBuffer(uint address, const void *_buffer, int size)
-{
-    const uint8 *buffer = (const uint8 *)_buffer;
-
-    while (size)
-    {
-        int written_bytes = WritePage(address, buffer, size);
-
-        address += (uint)written_bytes;
-        buffer += written_bytes;
-        size -= written_bytes;
-    }
-}
-
-
 int Memory::WriteBufferRelible512(uint address, const void *buffer, int size, int number_attempts)
 {
     StackBuffer <512>data;
@@ -268,29 +249,32 @@ int Memory::WriteBufferRelible512(uint address, const void *buffer, int size, in
     return number_attempts;
 }
 
-
-int Memory::WritePage(uint address, const uint8 *buffer, int size)
+void Memory::WriteBuffer(uint address, const void* _buffer, int size)
 {
-    uint8 data[260] =
-    {
-        PROGRAM_PAGE,
-        (uint8)(address >> 16),
-        (uint8)(address >> 8),
-        (uint8)(address)
-    };
+    // \todo «десь можно записывать данные размером не более 256 байт, которые лежат в пределах одной страницы
 
-    Page256 page(address);
+    MEM_SPI::WaitRelease();
 
-    if ((address + (uint)size) > page.End())
+    HAL_SPI::WriteByte(DirectionSPI::Memory, WRITE_ENABLE);
+
+    MEM_SPI::WaitRelease();
+
+    HAL_SPI::LOW::CS::ToLow();
+
+    HAL_SPI::LOW::WriteByte(PROGRAM_PAGE);
+
+    HAL_SPI::LOW::WriteByte((uint8)(address >> 16));
+    HAL_SPI::LOW::WriteByte((uint8)(address >> 8));
+    HAL_SPI::LOW::WriteByte((uint8)address);
+
+    const uint8* data = (const uint8*)_buffer;
+
+    while (size--)
     {
-        size = (int)(page.End() - address);
+        HAL_SPI::LOW::WriteByte(*data++);
     }
 
-    std::memcpy(data + 4, buffer, (uint)size);
-
-    MEM_SPI::WriteBuffer(data, 4 + size);
-
-    return size;
+    HAL_SPI::LOW::CS::ToHi();
 }
 
 
