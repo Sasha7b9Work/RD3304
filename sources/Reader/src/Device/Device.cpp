@@ -120,7 +120,7 @@ void Device::Update()
 
 bool Device::UpdateTasks()
 {
-    volatile bool beeper = Player::Update();
+    volatile bool beeper = Player::_Update();
 
     volatile bool indicator = Indicator::Update();
 

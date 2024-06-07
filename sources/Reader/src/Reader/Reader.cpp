@@ -73,7 +73,7 @@ void Reader::Update()
 {
     if (Player::IsPlaying())
     {
-        return;
+//        return;
     }
 
     static TimeMeterMS meter_update;

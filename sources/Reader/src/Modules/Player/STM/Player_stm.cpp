@@ -363,7 +363,7 @@ void Player::CallbackOnTimer()
 }
 
 
-bool Player::Update()
+bool Player::_Update()
 {
     if (!ModeOffline::IsEnabled() && Device::IsRunning() && !OSDP::IsEnabled())
     {

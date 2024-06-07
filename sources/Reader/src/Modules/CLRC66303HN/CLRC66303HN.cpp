@@ -128,7 +128,10 @@ bool CLRC66303HN::DetectCard(int number_successful_attempts, bool mode_and)
 
         TimeMeterUS meterUS;
 
-        meterUS.WaitFor(5100);         // \todo здесь нужно отмерять 5100 мкс
+        while (meterUS.ElapsedUS() < 5100)
+        {
+            Device::UpdateTasks();
+        }
 
         irq0.Clear();                                   // Очищаем флаги
 

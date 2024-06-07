@@ -179,11 +179,12 @@ namespace HAL_TIM5
 }
 
 
+// \todo Предполагалось, что по этому таймеру нужно подгружать звуковые буфера
 namespace HAL_TIM13
 {
     void Init();
 
-    void Start(uint ms);
+    void _Start(uint ms);
 
     void Stop();
 }

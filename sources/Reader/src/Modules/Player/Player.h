@@ -20,7 +20,7 @@ namespace Player
 
     void Init();
 
-    bool Update();
+    bool _Update();
 
     // Проигрывает звук, 
     void Play(TypeSound::E);

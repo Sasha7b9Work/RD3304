@@ -9,7 +9,7 @@ void HAL_TIM13::Init()
 }
 
 
-void HAL_TIM13::Start(uint ms)
+void HAL_TIM13::_Start(uint ms)
 {
 //    timer_deinit(TIMER13);
 

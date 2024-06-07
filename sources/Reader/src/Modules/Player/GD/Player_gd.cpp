@@ -192,7 +192,7 @@ void Player::CallbackInTimer13()
 }
 
 
-bool Player::Update()
+bool Player::_Update()
 {
     if (!is_playing && !ModeOffline::IsEnabled() && Device::IsRunning() && !OSDP::IsEnabled() && !ModeReader::IsWrite())
     {
