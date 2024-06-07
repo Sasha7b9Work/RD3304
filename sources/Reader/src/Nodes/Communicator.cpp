@@ -359,10 +359,7 @@ bool BufferUSART::ReadSettings(int num_words, SettingsMaster &set) const
         set.SetBaudRateOSDP(BaudRate::FromUInt(osdp_bautdrate));
         set.SetAntibreakSens((uint8)antibreak_sens);
         set.SetAntibreakNumber(antibreak_number);
-        if (osdp_enabled != 0)
-        {
-            set.EnableOSDP();
-        }
+        set.EnableOSDP(osdp_enabled != 0);
 
         return true;
     }

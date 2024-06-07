@@ -67,7 +67,7 @@ struct SettingsMaster
     uint64   Password() const;
     void     SetPassword(uint64);
     void     SetOldPassword(uint64);
-    void     EnableOSDP();
+    void     EnableOSDP(bool);
     bool     IsEnabledOSDP() const;
     Weigand  GetWeigand() const;
     void     SetWeigand(Weigand w);

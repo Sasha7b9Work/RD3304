@@ -2,7 +2,7 @@
 #pragma once
 
 
-#define VERSION 587
+#define VERSION 588
 #define NAME "CKE"
 
 

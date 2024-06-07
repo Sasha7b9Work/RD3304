@@ -290,26 +290,28 @@ uint64 SettingsMaster::PSWD::GetFactory()
 
 Weigand SettingsMaster::GetWeigand() const
 {
-    return Weigand((Weigand::E)(s09.bytes[0] & 0x7f));
+    return Weigand((Weigand::E)(s09.bytes[0] & 0x07));
 }
 
 
 void SettingsMaster::SetWeigand(Weigand w)
 {
-    bool enabled_OSDP = IsEnabledOSDP();
+    s09.bytes[0] &= 0xF8;                       // Очищаем младшие три бита
 
-    s09.bytes[0] = (uint8)w.value;
-
-    if (enabled_OSDP)
-    {
-        EnableOSDP();
-    }
+    s09.bytes[0] |= (uint8)(w.value & 0x07);    // Записываем младшие три бита
 }
 
 
-void SettingsMaster::EnableOSDP()
+void SettingsMaster::EnableOSDP(bool enable)
 {
-    s09.bytes[0] |= 0x80;
+    if (enable)
+    {
+        s09.bytes[0] |= 0x80;
+    }
+    else
+    {
+        s09.bytes[0] &= ~0x80;
+    }
 }
 
 
