@@ -101,8 +101,6 @@ namespace LIS2DH12
 
             static FiltrMiddleOf3<float> middle_angle;
 
-//            float before = angle;
-
             if (result)
             {
                 angle = middle_angle.Push(angle);
@@ -114,8 +112,6 @@ namespace LIS2DH12
                     return;
                 }
             }
-
-//            LOG_WRITE_TRACE("%f angle = %f, delta = %f", (double)before, (double)angle, (double)delta);
 
             if (is_alarmed)
             {
@@ -151,8 +147,6 @@ namespace LIS2DH12
 
             if (angle > delta)
             {
-//                LOG_WRITE_TRACE("!!!! ALARM !!!");
-
                 is_alarmed = true;
                 time_disable_alarm = TIME_MS + 30 * 1000;
 
