@@ -88,7 +88,7 @@ namespace OSDP
         { RequestPoll,   OSDP_REQ_POLL },
         { RequestID,     OSDP_REQ_ID },
         { RequestCAP,    OSDP_REQ_CAP },
-//        { RequestLSTAT,  OSDP_REQ_LSTAT },
+        { RequestLSTAT,  OSDP_REQ_LSTAT },
 //        { RequestRSTAT,  OSDP_REQ_RSTAT },
         { RequestLED,    OSDP_REQ_LED },
         { RequestBUZ,    OSDP_REQ_BUZ },
@@ -366,5 +366,5 @@ void OSDP::Init()
 
 void OSDP::AntibreakAlarm()
 {
-
+    // Передастся автоматом в ответ на запрос LSTAT
 }
