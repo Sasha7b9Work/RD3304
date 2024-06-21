@@ -158,7 +158,10 @@ namespace LIS2DH12
                 }
                 else if (ModeReader::IsWG())
                 {
-                    HAL_USART::WG26::Transmit((uint8)(number & 0xFF), (uint8)((number >> 8) & 0xFF), (uint8)((number >> 16) & 0xFF));
+                    BitSet32 bs;
+                    bs.word = number;
+
+                    HAL_USART::WG26::Transmit(bs.bytes[2], bs.bytes[1], bs.bytes[0]);
                 }
             }
         }
