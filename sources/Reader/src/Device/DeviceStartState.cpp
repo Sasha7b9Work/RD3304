@@ -94,19 +94,3 @@ bool Device::StartState::NeedMinimalWG()
 
     return result;
 }
-
-
-bool Device::StartState::NeedDisableOSDP()
-{
-    PinOutputPP pinWrite(Port::_A, GPIO_PIN_2, Pulling::Down);      // На этот пин будем подавать воздействие
-
-    pinTXD1.Init();                 // Это для того, чтобы пропустить pTX на выход
-
-    pinTXD1.ToLow();
-
-    bool result = FuncVerifyShortCuit(pinWrite, pinLR, false);          // D1
-
-    HAL_USART::Init();
-
-    return result;
-}
