@@ -53,23 +53,7 @@ bool Device::StartState::NeedReset()
 
     pinTXD1.ToLow();
 
-    bool result = FuncVerifyShortCuit(pinWrite, pinSND, false);
-
-    HAL_USART::Init();
-
-    return result;
-}
-
-
-bool Device::StartState::NeedMinimalWG()
-{
-    PinOutputPP pinWrite(Port::_A, GPIO_PIN_2, Pulling::Down);      // На этот пин будем подавать воздействие
-
-    pinTXD1.Init();                 // Это для того, чтобы пропустить pTX на выход
-
-    pinTXD1.ToLow();
-
-    bool result = FuncVerifyShortCuit(pinWrite, pinSND, true);
+    bool result = FuncVerifyShortCuit(pinWrite, pinSND, false);         // D1
 
     HAL_USART::Init();
 
@@ -85,12 +69,44 @@ bool Device::StartState::NeedOffline()
 
     pinTXD1.ToLow();
 
-    bool result = FuncVerifyShortCuit(pinWrite, pinLG, false);
+    bool result = FuncVerifyShortCuit(pinWrite, pinLG, false);          // D1
 
     if (!result)
     {
         HAL_USART::Init();
     }
+
+    return result;
+}
+
+
+bool Device::StartState::NeedMinimalWG()
+{
+    PinOutputPP pinWrite(Port::_A, GPIO_PIN_2, Pulling::Down);      // На этот пин будем подавать воздействие
+
+    pinTXD1.Init();                 // Это для того, чтобы пропустить pTX на выход
+
+    pinTXD1.ToLow();
+
+    bool result = FuncVerifyShortCuit(pinWrite, pinSND, true);          // D0
+
+    HAL_USART::Init();
+
+    return result;
+}
+
+
+bool Device::StartState::NeedDisableOSDP()
+{
+    PinOutputPP pinWrite(Port::_A, GPIO_PIN_2, Pulling::Down);      // На этот пин будем подавать воздействие
+
+    pinTXD1.Init();                 // Это для того, чтобы пропустить pTX на выход
+
+    pinTXD1.ToLow();
+
+    bool result = FuncVerifyShortCuit(pinWrite, pinLR, false);          // D1
+
+    HAL_USART::Init();
 
     return result;
 }

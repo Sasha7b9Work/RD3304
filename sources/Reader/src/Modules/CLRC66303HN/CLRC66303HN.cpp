@@ -372,7 +372,12 @@ bool CLRC66303HN::ProcessMasterCard()
             }
             else if (settings.OldPassword() == SettingsMaster::PSWD::Get())     // Меняем всю конфигурацию
             {
+                bool osdp_enabled = gset.IsEnabledOSDP();   // Сохраняем состояние режима ОСДП - выключить его картой нельяз
                 gset = settings;
+                if (osdp_enabled && !HAL::IsDebugBoard())
+                {
+                    gset.EnableOSDP(true);                  // Включаем режим ОСДП. если он был ранее установлен
+                }
                 gset.Save();
 
                 char access_card[500];

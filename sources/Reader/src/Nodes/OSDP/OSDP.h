@@ -50,7 +50,11 @@ struct OSDP_ANS
 
 namespace OSDP
 {
+    // Инициализируем OSDP
     void Init();
+
+    // Выключаем OSDP (в настройках)
+    void Disable();
 
     bool IsEnabled();
 

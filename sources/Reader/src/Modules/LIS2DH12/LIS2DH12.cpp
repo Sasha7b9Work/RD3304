@@ -82,6 +82,11 @@ namespace LIS2DH12
 
         static void Update()
         {
+            if (TIME_MS < 5000)
+            {
+                return;
+            }
+
             if (ModeReader::IsExtended())
             {
                 return;
@@ -135,11 +140,6 @@ namespace LIS2DH12
 
             if (!is_init)
             {
-                if (TIME_MS < 5000)
-                {
-                    return;
-                }
-
                 Init();
 
                 return;

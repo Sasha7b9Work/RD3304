@@ -26,6 +26,9 @@ namespace Device
 
         // Режим автономного считывателя
         bool NeedOffline();
+
+        // Нужно выключить режим ОСДП
+        bool NeedDisableOSDP();
     }
 
     namespace Info

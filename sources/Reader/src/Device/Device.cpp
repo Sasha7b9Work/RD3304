@@ -56,6 +56,13 @@ void Device::Init()
 
 #endif
 
+    if (StartState::NeedDisableOSDP())
+    {
+        gset.EnableOSDP(false);
+        gset.Save();
+        HAL_USART::Init();
+    }
+
     Player::Play(TypeSound::Beep);
 
     if (StartState::NeedMinimalWG())                // Режим "минимального WG" - передаём только GUID
