@@ -403,10 +403,6 @@ bool Communicator::Com_MODE(BufferUSART &buffer)
     {
         ModeReader::Set(ModeReader::Write);
     }
-    else if (buffer.WordIs(2, "OSDP"))
-    {
-        OSDP::Init();
-    }
     else
     {
         result = false;
