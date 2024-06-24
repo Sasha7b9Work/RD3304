@@ -67,8 +67,9 @@ namespace LIS2DH12
 
         static bool is_init = false;
 
-        static bool is_alarmed = false;         // Положение изменилось. Гудим
-        static uint time_disable_alarm = 0;     // В это время нужно выключить тревогу
+        static bool is_alarmed = false;                 // Положение изменилось. Гудим
+        static TimeMeterMS meter_duration_alarm;        // Здесь - время, которое прошло с начала последней тревоги
+        static TimeMeterMS meter_after_disable_alarm;   // Столько времени прошло с отключения последней тревоги
 
 
         static void Init()
@@ -82,7 +83,7 @@ namespace LIS2DH12
 
         static void Update()
         {
-            if (TIME_MS < 5000)
+            if (meter_after_disable_alarm.ElapsedMS() < 5000)
             {
                 return;
             }
@@ -129,10 +130,11 @@ namespace LIS2DH12
                     Device::UpdateTasks();
                 }
 
-                if (TIME_MS > time_disable_alarm)
+                if (meter_duration_alarm.ElapsedMS() > 30 * 1000)
                 {
                     is_alarmed = false;
                     is_init = false;
+                    meter_after_disable_alarm.Reset();
                 }
 
                 return;
@@ -148,7 +150,7 @@ namespace LIS2DH12
             if (angle > delta)
             {
                 is_alarmed = true;
-                time_disable_alarm = TIME_MS + 30 * 1000;
+                meter_duration_alarm.Reset();
 
                 uint number = gset.GetAntibreakNumber();
 
