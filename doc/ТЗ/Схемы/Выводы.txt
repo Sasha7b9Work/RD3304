@@ -1,0 +1,56 @@
+*** Таймеры ***
+Beeper  TIM1
+Timer   TIM2 - тики, TIM4 - микросекунды
+Power   TIM3
+
+1-й вариант
+BEEP  14-PA7   TIM3_CH2  TIM1_CH1N
+BEEN  20-PA8   TIM1_CH1
+
+2-й вариант
+BEEP  15-PB0   TIM3_CH3  TIM1_CH2N
+BEEN  16-PB1   TIM3_CH4  TIM1_CH3N
+
+3-й вариант
+TXD1 приём/передача   PA9 19
+TXD2                  PA2  8  USART1_TX
+RXD2                  PA3  9  USART1_RX
+
+
++-----+-----------+-----------+-----------+
+|     |    777    |     771   |   799     |
++-----+-----------+-----------+-----------+
+|     |   First   |   Second  |   Third   |
++-----+-----------+-----------+-----------+
+| A5  | + -       | + IRQ SNS |   BCLK    | + I2S0_CK
+| A8  | + BEEN    | + LG      |    SD     | +
+| A12 | + SRAM    | + STRX    |   SRAM    |
+| A15 | + STRX    | + SRAM    |   STRX    |
+| B0  | + LG      | + BEEP    |   SND     |
+| B1  | + DLED    | + BEEN    |   DLED    |
+| B2  | + 0V      | + ENP     |  IRQ_TRX  |
+| D0  | + IRQ SNS | + IRQ TRX |     -     |
++-----+-----------+-----------+-----------+
+| A1  | + -       |   SKEY    |    KB     |
+| A4  | + IRQ TRX |   WNG     |    WS     | + I2S0_WS
+| A7  | + BEEP    | + -       |   DIN     | + I2S0_SD
+| D1  | + -       |   IRQ KEY |     -     |
++-----+-----------+-----------+-----------+
+| A0  | + VIN     | + VIN     |   V_DC    |
+| A2  | + TXD2    | + TXD2    |   TXD2    |
+| A3  | + RXD2    | + RXD2    |   RXD2    |
+| A6  | + ENN     | + ENN     |   ENN     | 
+| A9  | + TXD1    | + TXD1    |   TXD1    |
+| A10 | + LR      | + LR      |   LG      |
+| A11 | + SND     | + SND     |   LR      |
+| A13 | + SWDIO   | + SWDIO   |     -     |
+| A14 | + SWCLK   | + SWCLK   |     -     |
+| B3  | + SCK     | + SCK     |   SCK     |
+| B4  | + MISO    | + MISO    |   MISO    |
+| B5  | + MOSI    | + MOSI    |   MOSI    |
+| B6  | + SCL     | + SCL     |   SCL     |
+| B7  | + SDA     | + SDA     |   SDA     |
++-----+-----------+-----------+-----------+
+| PF0 |           |           |  IRQ_SNS  |
++-----+-----------+-----------+-----------+
+  
