@@ -777,6 +777,46 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>MFRC630</GroupName>
+          <Files>
+            <File>
+              <FileName>mfrc630.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\MFRC630\mfrc630.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\MFRC630\mfrc630.h</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_14443p4.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_14443p4.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_14443p4.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_14443p4.h</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_apdu.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_apdu.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_apdu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_apdu.h</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_def.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_def.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -1649,6 +1689,46 @@
               <FileName>Debug.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Utils\Debug.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MFRC630</GroupName>
+          <Files>
+            <File>
+              <FileName>mfrc630.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\MFRC630\mfrc630.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\MFRC630\mfrc630.h</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_14443p4.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_14443p4.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_14443p4.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_14443p4.h</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_apdu.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_apdu.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_apdu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_apdu.h</FilePath>
+            </File>
+            <File>
+              <FileName>mfrc630_def.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\MFRC630\mfrc630_def.h</FilePath>
             </File>
           </Files>
         </Group>

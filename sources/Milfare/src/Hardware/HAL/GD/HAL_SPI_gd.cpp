@@ -246,3 +246,17 @@ void HAL_SPI::Test()
         WriteReadByte(0);
     }
 }
+
+
+void mfrc630_SPI_select()
+{
+}
+
+
+void mfrc630_SPI_unselect()
+{
+}
+
+void mfrc630_SPI_transfer(const uint8_t* tx, uint8_t* rx, uint16_t len)
+{
+}
