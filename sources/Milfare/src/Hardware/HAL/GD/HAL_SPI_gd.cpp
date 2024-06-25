@@ -239,14 +239,10 @@ void HAL_SPI::WriteBuffer(DirectionSPI::E dir, const void *buffer, int size)
 
 void HAL_SPI::Test()
 {
-    const uint time_start = TIME_MS;
-
     const int num_bytes = 1000000;
 
     for (int i = 0; i < num_bytes; i++)
     {
         WriteReadByte(0);
     }
-
-    const uint time = TIME_MS - time_start;
 }
