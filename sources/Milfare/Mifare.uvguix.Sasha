@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<ProjectGui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_guix.xsd">
+
+  <SchemaVersion>-6.1</SchemaVersion>
+
+  <Header>### uVision Project, (C) Keil Software</Header>
+
+  <PrjGuiSettings>
+    <LastAddFilePath></LastAddFilePath>
+  </PrjGuiSettings>
+
+  <ViewPool/>
+
+  <SECTreeCtrl>
+    <View>
+      <WinId>38003</WinId>
+      <ViewName>Registers</ViewName>
+      <TableColWidths>148 149</TableColWidths>
+    </View>
+    <View>
+      <WinId>346</WinId>
+      <ViewName>Code Coverage</ViewName>
+      <TableColWidths>560 160</TableColWidths>
+    </View>
+    <View>
+      <WinId>204</WinId>
+      <ViewName>Performance Analyzer</ViewName>
+      <TableColWidths>720</TableColWidths>
+    </View>
+  </SECTreeCtrl>
+
+  <TreeListPane>
+    <View>
+      <WinId>35141</WinId>
+      <ViewName>Event Statistics</ViewName>
+      <UserString></UserString>
+      <TableColWidths>200 50 700</TableColWidths>
+    </View>
+    <View>
+      <WinId>1506</WinId>
+      <ViewName>Symbols</ViewName>
+      <UserString></UserString>
+      <TableColWidths>80 80 80</TableColWidths>
+    </View>
+    <View>
+      <WinId>1936</WinId>
+      <ViewName>Watch 1</ViewName>
+      <UserString></UserString>
+      <TableColWidths>200 133 133</TableColWidths>
+    </View>
+    <View>
+      <WinId>1937</WinId>
+      <ViewName>Watch 2</ViewName>
+      <UserString></UserString>
+      <TableColWidths>200 133 133</TableColWidths>
+    </View>
+    <View>
+      <WinId>1935</WinId>
+      <ViewName>Call Stack + Locals</ViewName>
+      <UserString></UserString>
+      <TableColWidths>200 133 133</TableColWidths>
+    </View>
+    <View>
+      <WinId>2506</WinId>
+      <ViewName>Trace Data</ViewName>
+      <UserString></UserString>
+      <TableColWidths>75 135 130 95 70 230 200 150</TableColWidths>
+    </View>
+    <View>
+      <WinId>466</WinId>
+      <ViewName>Source Browser - *** Not Enabled ***</ViewName>
+      <UserString>500</UserString>
+      <TableColWidths>300</TableColWidths>
+    </View>
+  </TreeListPane>
+
+  <CompViewPool/>
+
+  <WindowSettings>
+    <LogicAnalizer>
+      <ShowLACursor>1</ShowLACursor>
+      <ShowSignalInfo>1</ShowSignalInfo>
+      <ShowCycles>0</ShowCycles>
+      <LeftSideBarSize>0</LeftSideBarSize>
+      <TimeBaseIndex>-1</TimeBaseIndex>
+    </LogicAnalizer>
+  </WindowSettings>
+
+  <WinLayoutEx>
+    <sActiveDebugView></sActiveDebugView>
+    <WindowPosition>
+      <length>44</length>
+      <flags>2</flags>
+      <showCmd>3</showCmd>
+      <MinPosition>
+        <xPos>-1</xPos>
+        <yPos>-1</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>-1</xPos>
+        <yPos>-1</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>250</Top>
+        <Left>260</Left>
+        <Right>1700</Right>
+        <Bottom>1039</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+    <MDIClientArea>
+      <RegID>0</RegID>
+      <MDITabState>
+        <Len>371</Len>
+        <Data>01000000040000000100000001000000010000000100000000000000020000000000000001000000010000000000000028000000280000000100000002000000010000000100000052433A5C4D795C4769744875625C5F776F726B5C5244333330345C736F75726365735C4C6F616465722D3739395C7372635C48617264776172655C434D5349535C737461727475705F67643332653233782E730000000012737461727475705F67643332653233782E7300000000C5D4F200FFFFFFFF36433A5C4D795C4769744875625C5F776F726B5C5244333330345C736F75726365735C5265616465725C7372635C646566696E65732E680000000009646566696E65732E6800000000FFDC7800FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000000000004A00000049060000E3020000</Data>
+      </MDITabState>
+    </MDIClientArea>
+  </WinLayoutEx>
+
+</ProjectGui>

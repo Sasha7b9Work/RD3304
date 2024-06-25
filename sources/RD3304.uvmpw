@@ -10,7 +10,6 @@
   <project>
     <PathAndName>.\Reader\Reader-799.uvprojx</PathAndName>
     <NodeIsActive>1</NodeIsActive>
-    <NodeIsExpanded>1</NodeIsExpanded>
   </project>
 
   <project>
@@ -23,6 +22,10 @@
 
   <project>
     <PathAndName>.\Reader\Reader-777.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>.\Milfare\Mifare.uvprojx</PathAndName>
   </project>
 
 </ProjectWorkspace>
