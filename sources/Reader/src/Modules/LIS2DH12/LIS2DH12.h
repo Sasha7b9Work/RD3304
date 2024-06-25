@@ -38,8 +38,5 @@ namespace LIS2DH12
 
     bool IsAlarmed();
 
-    // ѕолучить угол наклона относительно оси Z
-    float GetAngleZ();
-
     StructDataRaw GetRawTemperature();
 }

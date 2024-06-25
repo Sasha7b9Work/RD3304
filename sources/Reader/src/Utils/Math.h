@@ -31,7 +31,7 @@ namespace Math
 
     uint16 CalculateCRC_OSDP(const void *, int);
 
-    bool AngleBetweenVectors3D(float x, float y, float z, float x0, float y0, float z0, float *value);
+    bool _AngleBetweenVectors3D(float x, float y, float z, float x0, float y0, float z0, float *value);
 
     bool AngleBetweenVectors2D(float x, float y, float x0, float y0, float *value);
 }

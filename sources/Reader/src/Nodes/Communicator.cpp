@@ -457,10 +457,9 @@ bool Communicator::Com_RESET(BufferUSART &)
 
 bool Communicator::Com_MSR(BufferUSART &)
 {
-    Message::SendFormat("OK;MEMORY:%s;%3.1fV;%3.2fG;%3.1fC",
+    Message::SendFormat("OK;MEMORY:%s;%3.1fV;%3.1fC",
         Memory::Test::Run() ? "OK" : "FAIL",
         (double)HAL_ADC::GetVoltage(),
-        (double)LIS2DH12::GetAngleZ(),
         (double)LIS2DH12::GetRawTemperature().ToTemperatrue()
     );
 

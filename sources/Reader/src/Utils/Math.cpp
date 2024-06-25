@@ -186,7 +186,7 @@ uint16 Math::CalculateCRC_OSDP(const void *buffer, int size)
 }
 
 
-bool Math::AngleBetweenVectors3D(float x, float y, float z, float x0, float y0, float z0, float *value)
+bool Math::_AngleBetweenVectors3D(float x, float y, float z, float x0, float y0, float z0, float *value)
 {
     // https://cyclowiki.org/wiki/%D0%A3%D0%B3%D0%BE%D0%BB_%D0%BC%D0%B5%D0%B6%D0%B4%D1%83_%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0%D0%BC%D0%B8_%D0%B2_%D1%82%D1%80%D1%91%D1%85%D0%BC%D0%B5%D1%80%D0%BD%D0%BE%D0%BC_%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%82%D0%B2%D0%B5
 

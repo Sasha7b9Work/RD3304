@@ -29,15 +29,8 @@ namespace LIS2DH12
     static Averager<StructDataRaw, 1> raw_acce_y;       // | текущие значени€ акселерометра
     static Averager<StructDataRaw, 1> raw_acce_z;       // /
 
-    float GetAngleZ()
-    {
-        float angle = 0.0f;
-
-        Math::AngleBetweenVectors3D(raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation(),
-            1.0f, 0.0f, 0.0f, &angle);
-
-        return angle;
-    }
+    static Averager<StructDataRaw, 1> *raw_1 = nullptr;     // «десь будет наименьша€ измеренна€ ось
+    static Averager<StructDataRaw, 1> *raw_2 = nullptr;     // «десь будет втора€ по величине измеренна€ ось
 
     static bool is_exist = true;
 
@@ -65,6 +58,9 @@ namespace LIS2DH12
         static StructDataRaw start_y;       // | Ёто стартовые значени€ - с ними будем сравнивать
         static StructDataRaw start_z;       // /
 
+        static StructDataRaw *start_1 = nullptr;    // ”казатель на минимальную измеренную ось
+        static StructDataRaw *start_2 = nullptr;    // ”казатель на вторую по величине измеренную ось
+
         static bool is_init = false;
 
         static bool is_alarmed = false;                 // ѕоложение изменилось. √удим
@@ -79,6 +75,35 @@ namespace LIS2DH12
             start_x = raw_acce_x.Get();
             start_y = raw_acce_y.Get();
             start_z = raw_acce_z.Get();
+
+            float x = start_x.ToAccelearation();
+            float y = start_y.ToAccelearation();
+            float z = start_z.ToAccelearation();
+
+            if (x <= y && x <= z)
+            {
+                start_1 = &start_x;
+                raw_1 = &raw_acce_x;
+
+                start_2 = (y <= z) ? &start_y : &start_z;
+                raw_2 = (y <= z) ? &raw_acce_y : &raw_acce_z;
+            }
+            else if (y <= x && y <= z)
+            {
+                start_1 = &start_y;
+                raw_1 = &raw_acce_y;
+
+                start_2 = (x <= z) ? &start_x : &start_z;
+                raw_2 = (x <= z) ? &raw_acce_x : &raw_acce_z;
+            }
+            else
+            {
+                start_1 = &start_z;
+                raw_1 = &raw_acce_z;
+
+                start_2 = (x <= y) ? &start_x : &start_y;
+                raw_2 = (x <= y) ? &raw_acce_x : &raw_acce_y;
+            }
         }
 
         static void Update()
@@ -102,42 +127,46 @@ namespace LIS2DH12
 
             float angle = 0.0f;
 
-            bool result = Math::AngleBetweenVectors3D(start_x.ToAccelearation(), start_y.ToAccelearation(), start_z.ToAccelearation(),
-                raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation(), &angle);
-
-            static FiltrMiddleOf3<float> middle_angle;
-
-            if (result)
+            if (raw_1)
             {
-                angle = middle_angle.Push(angle);
-            }
-            else
-            {
-                if (!is_alarmed)
+                bool result = Math::AngleBetweenVectors2D(start_1->ToAccelearation(), start_2->ToAccelearation(),
+                    raw_1->Get().ToAccelearation(), raw_2->Get().ToAccelearation(), &angle);
+
+                static FiltrMiddleOf3<float> middle_angle;
+
+                if (result)
                 {
+                    angle = middle_angle.Push(angle);
+                }
+                else
+                {
+                    if (!is_alarmed)
+                    {
+                        return;
+                    }
+                }
+
+                if (is_alarmed)
+                {
+                    Indicator::Blink(Color(0xFFFFFFFF, 1.0f), Color(0x00000000, 0.0f), 1, true);
+
+                    Player::PlayFromMemory(gset.Melody(TypeSound::Beep), 3);
+
+                    while (Indicator::IsRunning())
+                    {
+                        Device::UpdateTasks();
+                    }
+
+                    if (meter_duration_alarm.ElapsedMS() > 30 * 1000)
+                    {
+                        is_alarmed = false;
+                        is_init = false;
+                        meter_after_disable_alarm.Reset();
+                        raw_1 = nullptr;
+                    }
+
                     return;
                 }
-            }
-
-            if (is_alarmed)
-            {
-                Indicator::Blink(Color(0xFFFFFFFF, 1.0f), Color(0x00000000, 0.0f), 1, true);
-
-                Player::PlayFromMemory(gset.Melody(TypeSound::Beep), 3);
-
-                while (Indicator::IsRunning())
-                {
-                    Device::UpdateTasks();
-                }
-
-                if (meter_duration_alarm.ElapsedMS() > 30 * 1000)
-                {
-                    is_alarmed = false;
-                    is_init = false;
-                    meter_after_disable_alarm.Reset();
-                }
-
-                return;
             }
 
             if (!is_init)
