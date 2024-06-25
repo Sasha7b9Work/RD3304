@@ -33,7 +33,7 @@ namespace LIS2DH12
     {
         float angle = 0.0f;
 
-        Math::AngleBetweenVectors(raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation(),
+        Math::AngleBetweenVectors3D(raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation(),
             1.0f, 0.0f, 0.0f, &angle);
 
         return angle;
@@ -102,7 +102,7 @@ namespace LIS2DH12
 
             float angle = 0.0f;
 
-            bool result = Math::AngleBetweenVectors(start_x.ToAccelearation(), start_y.ToAccelearation(), start_z.ToAccelearation(),
+            bool result = Math::AngleBetweenVectors3D(start_x.ToAccelearation(), start_y.ToAccelearation(), start_z.ToAccelearation(),
                 raw_acce_x.Get().ToAccelearation(), raw_acce_y.Get().ToAccelearation(), raw_acce_z.Get().ToAccelearation(), &angle);
 
             static FiltrMiddleOf3<float> middle_angle;
