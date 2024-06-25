@@ -129,8 +129,9 @@ namespace LIS2DH12
 
             if (raw_1)
             {
-                bool result = Math::AngleBetweenVectors2D(start_1->ToAccelearation(), start_2->ToAccelearation(),
-                    raw_1->Get().ToAccelearation(), raw_2->Get().ToAccelearation(), &angle);
+                bool result = true;
+
+                angle = std::fabsf(start_1->ToAccelearation() - raw_1->Get().ToAccelearation());
 
                 static FiltrMiddleOf3<float> middle_angle;
 
@@ -176,7 +177,7 @@ namespace LIS2DH12
                 return;
             }
 
-            if (angle > delta)
+            if (angle > 0.05f)
             {
                 is_alarmed = true;
                 meter_duration_alarm.Reset();
