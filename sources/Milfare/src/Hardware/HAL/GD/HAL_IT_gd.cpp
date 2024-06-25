@@ -4,7 +4,6 @@
 #include "systick.h"
 #include "Hardware/HAL/HAL.h"
 #include "Hardware/Timer.h"
-#include "Modules/Player/Player.h"
 
 
 #ifdef __cplusplus
@@ -84,8 +83,6 @@ void TIMER13_IRQHandler(void)
 
     if ((TIMER_INTF(TIMER13) & TIMER_INT_FLAG_UP) != RESET)
     {
-        Player::CallbackInTimer13();
-
 //        timer_interrupt_flag_clear(TIMER13, TIMER_INT_FLAG_UP);
         TIMER_INTF(TIMER13) = (~(uint32_t)TIMER_INT_FLAG_UP);
     }
@@ -97,15 +94,11 @@ void DMA_Channel1_2_IRQHandler(void)
 {
     if (RESET != dma_interrupt_flag_get(DMA_CH2, DMA_INT_FLAG_HTF))
     {
-        Player::CallbackOnHalfTransmit();
-
         dma_interrupt_flag_clear(DMA_CH2, DMA_INT_FLAG_G);
     }
 
     if (RESET != dma_interrupt_flag_get(DMA_CH2, DMA_INT_FLAG_FTF))
     {
-        Player::CallbackOnFullTransmit();
-
         dma_interrupt_flag_clear(DMA_CH2, DMA_INT_FLAG_G);
     }
 }

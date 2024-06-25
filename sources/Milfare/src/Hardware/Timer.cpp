@@ -1,7 +1,6 @@
 // 2022/6/10 9:08:19 (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "defines.h"
 #include "Hardware/Timer.h"
-#include "Modules/Player/Player.h"
 #include "system.h"
 #include "Hardware/HAL/GD/systick.h"
 

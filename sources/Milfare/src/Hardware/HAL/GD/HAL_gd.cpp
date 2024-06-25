@@ -3,70 +3,6 @@
 #include "Hardware/HAL/HAL.h"
 #include "Hardware/HAL/GD/systick.h"
 #include "Utils/Math.h"
-#include "Modules/LIS2DH12/LIS2DH12.h"
-
-
-/*
-    Ресурсы
-
-    +-----+-----------+-----------+-----------+
-    |     |    777    |     771   |   799     |
-    +-----+-----------+-----------+-----------+
-    |     |   First   |   Second  |   Third   |
-    +-----+-----------+-----------+-----------+
-    | A4  | + IRQ TRX |   WNG     |    WS     | + I2S0_WS
-    | A5  | + -       | + IRQ SNS |   BCLK    | + I2S0_CK
-    | A7  | + BEEP    | + -       |   DIN     | + I2S0_SD
-    | A8  | + BEEN    | + LG      |    SD     | + I2S0
-    | A12 | + SRAM    | + STRX    |   SRAM    |
-    | A15 | + STRX    | + SRAM    |   STRX    |
-    | B0  | + LG      | + BEEP    |   SND     |
-    | B1  | + DLED    | + BEEN    |   DLED    |
-    | B2  | + 0V      | + ENP     |  IRQ_TRX  |
-    | D0  | + IRQ SNS | + IRQ TRX |     -     |
-    +-----+-----------+-----------+-----------+
-    | A1  | + -       |   SKEY    |    KB     |
-    | D1  | + -       |   IRQ KEY |     -     |
-    +-----+-----------+-----------+-----------+
-    | A0  | + VIN     | + VIN     |   V_DC    |
-    | A2  | + TXD2    | + TXD2    |   TXD2    |
-    | A3  | + RXD2    | + RXD2    |   RXD2    |
-    | A6  | + ENN     | + ENN     |   ENN     |
-    | A9  | + TXD1    | + TXD1    |   TXD1    |
-    | A10 | + LR      | + LR      |   LG      |
-    | A11 | + SND     | + SND     |   LR      |
-    | A13 | + SWDIO   | + SWDIO   |     -     |
-    | A14 | + SWCLK   | + SWCLK   |     -     |
-    | B3  | + SCK     | + SCK     |   SCK     |
-    | B4  | + MISO    | + MISO    |   MISO    |
-    | B5  | + MOSI    | + MOSI    |   MOSI    |
-    | B6  | + SCL     | + SCL     |   SCL     |
-    | B7  | + SDA     | + SDA     |   SDA     |
-    +-----+-----------+-----------+-----------+
-    | PF0 |           |           |  IRQ_SNS  |
-    +-----+-----------+-----------+-----------+
-
-
-    SPI0                Память, считыватель
-            PB3 SPI0_SCK    AF_0
-            PB4 SPI0_MISO   AF_0
-            PB5 SPI0_MOSI   AF_0
-            SPI0_RX         DMA CH1
-            SPI0_TX         DMA CH2
-
-    I2S0                Динамик
-            PA5 I2S0_CK     AF_0
-            PA4 I2S0_WS     AF_0
-            PA7 I2S0_SD     AF_0
-            I2S0_RX         DMA CH1
-            I2S0_TX         DMA_CH2
-
-    I2C0                LIS2DH12
-            PB6 I2C0_SCL    AF_1
-            PB7 I2C0_SDA    AF_1
-
-    USART1
-*/
 
 
 void HAL::Init()
@@ -99,15 +35,9 @@ void HAL::Init()
     rcu_periph_clock_enable(RCU_TIMER13);       // Для подгрузки данных при воспроизведении звука
     nvic_irq_enable(TIMER13_IRQn, 2);
 
-    HAL_I2S::Init();
-
-    HAL_ADC::Init();
-
     HAL_I2C::Init();
 
     HAL_SPI::Init();
-
-    HAL_USART::Init();
 
     HAL_TIM5::Init();
 
@@ -130,18 +60,6 @@ bool HAL::IsDebugBoard()
     }
 
     return result;
-}
-
-
-bool HAL::Is765()
-{
-    return !LIS2DH12::IsExist();
-}
-
-
-float HAL::ControlVoltage()
-{
-    return Is765() ? 4.0f : 8.5f;
 }
 
 

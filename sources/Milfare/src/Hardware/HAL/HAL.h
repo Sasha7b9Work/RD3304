@@ -1,7 +1,5 @@
 // (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #pragma once
-#include "Modules/CLRC66303HN/CommandsCLRC663.h"
-#include "Settings/Settings.h"
 #include "Hardware/HAL/HAL_PINS.h"
 #include "Utils/String.h"
 
@@ -30,12 +28,6 @@ namespace HAL
     String<> GetUID();
 
     bool IsDebugBoard();
-
-    // Если true - то 665-я плата
-    bool Is765();
-
-    // Возвращает пороговое напряжение
-    float ControlVoltage();
 
     void ErrorHandler();
 
@@ -122,10 +114,6 @@ namespace HAL_ROM
 
 
     void Init();
-
-    void Load(SettingsMaster &);
-
-    void Save(const SettingsMaster &);
 
     // Адрес первого байта страницы
     void ErasePage(uint address);

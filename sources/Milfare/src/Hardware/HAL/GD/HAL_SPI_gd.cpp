@@ -249,6 +249,4 @@ void HAL_SPI::Test()
     }
 
     const uint time = TIME_MS - time_start;
-
-    HAL_USART::UART::TransmitF("%d bytes, %d ms, %f ms/byte %f bytes/sec", num_bytes, time, (double)((float)time / (float)num_bytes), (double)((float)num_bytes / ((float)time / 1000.0f)));
 }
