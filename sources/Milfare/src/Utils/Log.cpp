@@ -1,6 +1,7 @@
 // 2024/6/26 7:21:22 (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "defines.h"
 #include "Utils/Log.h"
+#include <cstdio>
 
 
 void Log::WriteTrace(char *file, int line, char *format, ...)
@@ -12,9 +13,9 @@ void Log::WriteTrace(char *file, int line, char *format, ...)
     std::vsprintf(message, format, args);
     va_end(args);
 
-    char buffer[512];
+//    char buffer[512];
 
-    std::sprintf(buffer, "%s     %s:%d", message, file, line);
+//    std::sprintf(buffer, "%s     %s:%d", message, file, line);
 
-    std::strcpy(buffer, buffer);
+    std::strcpy(message, message);
 }

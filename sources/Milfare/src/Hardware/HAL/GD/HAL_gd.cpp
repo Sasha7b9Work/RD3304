@@ -35,7 +35,7 @@ void HAL::Init()
     rcu_periph_clock_enable(RCU_TIMER13);       // Для подгрузки данных при воспроизведении звука
     nvic_irq_enable(TIMER13_IRQn, 2);
 
-    HAL_I2C::Init();
+//    HAL_I2C::Init();
 
     HAL_SPI::Init();
 
