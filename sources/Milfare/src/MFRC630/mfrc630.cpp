@@ -184,7 +184,7 @@ uint8_t mfrc630_transfer_E2_page(uint8_t *dest, uint8_t page) {
     return res;
 }
 
-void mfrc630_print_block(const uint8_t * /*data*/, uint16_t len) {
+void mfrc630_print_block(const uint8_t *data, uint16_t len) {
     uint16_t i;
     for (i = 0; i < len; i++) {
         MFRC630_PRINTF("%02X ", data[i]);
@@ -411,7 +411,7 @@ uint16_t mfrc630_iso14443a_WUPA_REQA(uint8_t instruction) {
     if ((!(irq0 & MFRC630_IRQ0_RX_IRQ)) || (irq0 & MFRC630_IRQ0_ERR_IRQ)) {
         MFRC630_PRINTF("No RX, irq1: %02x irq0: %02x\n", irq1_value, irq0);
         if ((irq0 & MFRC630_IRQ0_ERR_IRQ)) {
-//            uint8_t error = mfrc630_read_reg(MFRC630_REG_ERROR);
+            uint8_t error = mfrc630_read_reg(MFRC630_REG_ERROR);
             MFRC630_PRINTF("error: %02x\n", error);
         }
 
@@ -997,7 +997,7 @@ uint8_t mfrc630_transfer(uint8_t cmd[], uint32_t cmdSize, uint8_t data[], uint32
     irq0_value = mfrc630_irq0();
     if (irq0_value & MFRC630_IRQ0_ERR_IRQ) {
         // some error
-//        uint8_t error = mfrc630_read_reg(MFRC630_REG_ERROR);
+        uint8_t error = mfrc630_read_reg(MFRC630_REG_ERROR);
         MFRC630_PRINTF("error: %02x\n", error);
         return 0;
     }

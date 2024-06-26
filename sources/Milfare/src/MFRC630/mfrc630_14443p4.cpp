@@ -21,7 +21,7 @@ static uint8_t pcb = 0x02;
 //											   512, 1024,
 //											   2048, 4096};
 
-static void print_block(uint8_t *, uint8_t length)
+static void print_block(uint8_t *block, uint8_t length)
 {
     for (uint8_t i=0; i<length; i++){
     	MFRC630_PRINTF("%02X ", block[i]);
