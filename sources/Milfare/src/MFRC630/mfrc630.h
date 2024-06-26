@@ -35,7 +35,7 @@ extern "C" {
 #ifdef MFRC630_DEBUG_PRINTF
 #define MFRC630_PRINTF(...) MFRC630_DEBUG_PRINTF(__VA_ARGS__)
 #else
-#define MFRC630_PRINTF(...)
+#define MFRC630_PRINTF(...) _LOG_WRITE_TRACE(__VA_ARGS__)
 #endif
 
 // ---------------------------------------------------------------------------

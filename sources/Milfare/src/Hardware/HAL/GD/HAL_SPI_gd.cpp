@@ -167,22 +167,6 @@ uint8 HAL_SPI::WriteReadByte(uint8 byte)
 }
 
 
-void HAL_SPI::WriteRead(DirectionSPI::E dir, const void *out, void *in, int size)
-{
-    CS::ToLow(dir);
-
-    const  uint8 *write = (const uint8 *)out;
-    uint8 *read = (uint8 *)in;
-
-    for (int i = 0; i < size; i++)
-    {
-        *read++ = WriteReadByte(*write++);
-    }
-
-    CS::ToHi(dir);
-}
-
-
 void HAL_SPI::WriteByte(DirectionSPI::E dir, uint8 byte)
 {
     WriteBuffer(dir, &byte, 1);
@@ -248,15 +232,41 @@ void HAL_SPI::Test()
 }
 
 
+void HAL_SPI::WriteRead(DirectionSPI::E dir, const void *out, void *in, int size)
+{
+    CS::ToLow(dir);
+
+    const  uint8 *write = (const uint8 *)out;
+    uint8 *read = (uint8 *)in;
+
+    for (int i = 0; i < size; i++)
+    {
+        *read++ = WriteReadByte(*write++);
+    }
+
+    CS::ToHi(dir);
+}
+
+
 void HAL_SPI::MFRC630::Select()
 {
+    CS::ToLow(DirectionSPI::Reader);
 }
 
 
 void HAL_SPI::MFRC630::Unselect()
 {
+    CS::ToHi(DirectionSPI::Reader);
 }
+
 
 void HAL_SPI::MFRC630::Transfer(const uint8_t* tx, uint8_t* rx, uint16_t len)
 {
+    const  uint8 *write = (const uint8 *)tx;
+    uint8 *read = (uint8 *)rx;
+
+    for (uint16 i = 0; i < len; i++)
+    {
+        *read++ = WriteReadByte(*write++);
+    }
 }

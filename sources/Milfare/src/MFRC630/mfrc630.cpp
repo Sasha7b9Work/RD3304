@@ -269,7 +269,7 @@ void mfrc630_LPCD_stop_measurement(uint8_t *i_val, uint8_t *q_val) {
     *q_val = q;
 }
 
-void mfrc630_LPCD(uint8_t i_val, uint8_t q_val) {
+void mfrc630_LPCD(uint8_t i_val, uint8_t /*q_val*/) {
     // LPCD_config
     mfrc630_write_reg(MFRC630_REG_LPCD_QMIN, 0xC0);  // Set Qmin register
     mfrc630_write_reg(MFRC630_REG_LPCD_QMAX, 0xFF);  // Set Qmax register
@@ -411,7 +411,7 @@ uint16_t mfrc630_iso14443a_WUPA_REQA(uint8_t instruction) {
     if ((!(irq0 & MFRC630_IRQ0_RX_IRQ)) || (irq0 & MFRC630_IRQ0_ERR_IRQ)) {
         MFRC630_PRINTF("No RX, irq1: %02x irq0: %02x\n", irq1_value, irq0);
         if ((irq0 & MFRC630_IRQ0_ERR_IRQ)) {
-            uint8_t error = mfrc630_read_reg(MFRC630_REG_ERROR);
+//            uint8_t error = mfrc630_read_reg(MFRC630_REG_ERROR);
             MFRC630_PRINTF("error: %02x\n", error);
         }
 
@@ -997,7 +997,7 @@ uint8_t mfrc630_transfer(uint8_t cmd[], uint32_t cmdSize, uint8_t data[], uint32
     irq0_value = mfrc630_irq0();
     if (irq0_value & MFRC630_IRQ0_ERR_IRQ) {
         // some error
-        uint8_t error = mfrc630_read_reg(MFRC630_REG_ERROR);
+//        uint8_t error = mfrc630_read_reg(MFRC630_REG_ERROR);
         MFRC630_PRINTF("error: %02x\n", error);
         return 0;
     }
