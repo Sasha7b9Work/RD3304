@@ -248,15 +248,15 @@ void HAL_SPI::Test()
 }
 
 
-void mfrc630_SPI_select()
+void HAL_SPI::MFRC630::Select()
 {
 }
 
 
-void mfrc630_SPI_unselect()
+void HAL_SPI::MFRC630::Unselect()
 {
 }
 
-void mfrc630_SPI_transfer(const uint8_t* tx, uint8_t* rx, uint16_t len)
+void HAL_SPI::MFRC630::Transfer(const uint8_t* tx, uint8_t* rx, uint16_t len)
 {
 }

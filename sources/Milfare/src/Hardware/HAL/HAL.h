@@ -55,6 +55,15 @@ namespace HAL_FLASH
 
 namespace HAL_SPI
 {
+    namespace MFRC630
+    {
+        void Select();
+
+        void Unselect();
+
+        void Transfer(const uint8 *tx, uint8 *rx, uint16 len);
+    }
+
     void Init();
 
     void WriteByte(DirectionSPI::E, uint8);

@@ -34,18 +34,18 @@
 uint8_t mfrc630_read_reg(uint8_t reg) {
     uint8_t instruction_tx[2] = { (uint8_t)((reg << 1) | 0x01), 0 };
     uint8_t instruction_rx[2] = { 0 };
-    mfrc630_SPI_select();
-    mfrc630_SPI_transfer(instruction_tx, instruction_rx, 2);
-    mfrc630_SPI_unselect();
+    HAL_SPI::MFRC630::Select();
+    HAL_SPI::MFRC630::Transfer(instruction_tx, instruction_rx, 2);
+    HAL_SPI::MFRC630::Unselect();
     return instruction_rx[1];  // the second byte the returned value.
 }
 
 void mfrc630_write_reg(uint8_t reg, uint8_t value) {
     uint8_t instruction_tx[2] = { (uint8_t)((reg << 1) | 0x00), value };
     uint8_t discard[2] = { 0 };
-    mfrc630_SPI_select();
-    mfrc630_SPI_transfer(instruction_tx, discard, 2);
-    mfrc630_SPI_unselect();
+    HAL_SPI::MFRC630::Select();
+    HAL_SPI::MFRC630::Transfer(instruction_tx, discard, 2);
+    HAL_SPI::MFRC630::Unselect();
 }
 
 void mfrc630_write_regs(uint8_t reg, const uint8_t *values, uint8_t len) {
@@ -57,9 +57,9 @@ void mfrc630_write_regs(uint8_t reg, const uint8_t *values, uint8_t len) {
     for (i = 0; i < len; i++) {
         instruction_tx[i + 1] = values[i];
     }
-    mfrc630_SPI_select();
-    mfrc630_SPI_transfer(instruction_tx, discard, (uint16_t)(len + 1));
-    mfrc630_SPI_unselect();
+    HAL_SPI::MFRC630::Select();
+    HAL_SPI::MFRC630::Transfer(instruction_tx, discard, (uint16_t)(len + 1));
+    HAL_SPI::MFRC630::Unselect();
 
     std::free(discard);
     std::free(instruction_tx);
@@ -68,10 +68,10 @@ void mfrc630_write_regs(uint8_t reg, const uint8_t *values, uint8_t len) {
 void mfrc630_write_fifo(const uint8_t *data, uint16_t len) {
     uint8_t write_instruction[] = { (MFRC630_REG_FIFODATA << 1) | 0 };
     uint8_t *discard = (uint8_t *)std::malloc((size_t)(len + 1));
-    mfrc630_SPI_select();
-    mfrc630_SPI_transfer(write_instruction, discard, 1);
-    mfrc630_SPI_transfer(data, discard, len);
-    mfrc630_SPI_unselect();
+    HAL_SPI::MFRC630::Select();
+    HAL_SPI::MFRC630::Transfer(write_instruction, discard, 1);
+    HAL_SPI::MFRC630::Transfer(data, discard, len);
+    HAL_SPI::MFRC630::Unselect();
     std::free(discard);
 }
 
@@ -80,14 +80,14 @@ void mfrc630_read_fifo(uint8_t *rx, uint16_t len) {
     uint8_t read_finish[] = { 0 };
     uint8_t discard[2];
     // this is less than ideal, since we have to call the transfer method multiple times.
-    mfrc630_SPI_select();
-    mfrc630_SPI_transfer(read_instruction, discard, 1);
+    HAL_SPI::MFRC630::Select();
+    HAL_SPI::MFRC630::Transfer(read_instruction, discard, 1);
     uint16_t i;
     for (i = 1; i < len; i++) {
-        mfrc630_SPI_transfer(read_instruction, rx++, 1);
+        HAL_SPI::MFRC630::Transfer(read_instruction, rx++, 1);
     }
-    mfrc630_SPI_transfer(read_finish, rx++, 1);
-    mfrc630_SPI_unselect();
+    HAL_SPI::MFRC630::Transfer(read_finish, rx++, 1);
+    HAL_SPI::MFRC630::Unselect();
 }
 
 

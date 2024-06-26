@@ -68,7 +68,7 @@ extern "C" {
   \param [out] rx The bytes received during transmission are written into this array, `len` bytes are always written.
                (MISO)
  */
-extern void mfrc630_SPI_transfer(const uint8_t* tx, uint8_t* rx, uint16_t len);
+//extern void mfrc630_SPI_transfer(const uint8_t* tx, uint8_t* rx, uint16_t len);
 
 /*!
   @brief Selects the MFRC630 to accept data from the SPI bus.
@@ -77,7 +77,7 @@ extern void mfrc630_SPI_transfer(const uint8_t* tx, uint8_t* rx, uint16_t len);
     on the SPI bus. For the MFRC630 this means setting the Chip Select line to a LOW logic level.
 
  */
-extern void mfrc630_SPI_select();
+//void mfrc630_SPI_select();
 
 /*!
   @brief Deselects the MFRC630 to stop accepting data from the SPI bus.
@@ -86,7 +86,7 @@ extern void mfrc630_SPI_select();
     data on the SPI bus. For the MFRC630 this means setting the Chip Select line to a HIGH logic level.
 
  */
-extern void mfrc630_SPI_unselect();
+//extern void mfrc630_SPI_unselect();
 
 
 //! @}
