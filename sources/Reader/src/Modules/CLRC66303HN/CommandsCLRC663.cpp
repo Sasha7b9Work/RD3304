@@ -93,14 +93,14 @@ namespace CLRC66303HN
         fifo.Clear();
         irq0.Clear();
 
-        Register(0x2C).Write(0x18);        // Switches the CRC extention ON in tx direction //-V525
-        Register(0x2D).Write(0x18);        // Switches the CRC extention OFF in rx direction
+        Register(MFRC630_REG_TXCRCPRESET).Write(0x18);      // Switches the CRC extention ON in tx direction //-V525
+        Register(MFRC630_REG_RXCRCCON).Write(0x18);         // Switches the CRC extention OFF in rx direction
 
-        Register(0x2E).Write(0x08);        // All bits will be sent via NFC
+        Register(MFRC630_REG_TXDATANUM).Write(0x08);        // All bits will be sent via NFC
 
         irq0.Clear();
 
-        Command::Send((cl == 1) ? 0x93U : 0x95U, 0x20U);
+        Command::Send((cl == 1) ? MFRC630_ISO14443_CAS_LEVEL_1 : MFRC630_ISO14443_CAS_LEVEL_2, 0x20U);
 
         TimeMeterMS meter;
 
@@ -141,20 +141,22 @@ namespace CLRC66303HN
         Command::Idle();
         fifo.Clear();
 
-        Register(0x2C).Write(0x19);        // Switches the CRC extention ON in tx direction //-V525
-        Register(0x2D).Write(0x19);        // Switches the CRC extention OFF in rx direction
+        Register(MFRC630_REG_TXCRCPRESET).Write(0x19);      // Switches the CRC extention ON in tx direction //-V525
+        Register(MFRC630_REG_RXCRCCON).Write(0x19);         // Switches the CRC extention OFF in rx direction
 
-        Register(0x2E).Write(0x08);
+        Register(MFRC630_REG_TXDATANUM).Write(0x08);
 
         irq0.Clear();
 
         int i0 = (cl == 1) ? 0 : 5;
 
-        Command::Send(cl == 1 ? 0x93U : 0x95U, 0x70,  uid->bytes[i0 + 0],
-                                                      uid->bytes[i0 + 1],
-                                                      uid->bytes[i0 + 2],
-                                                      uid->bytes[i0 + 3],
-                                                      uid->bytes[i0 + 4]);
+        Command::Send(cl == 1 ? MFRC630_ISO14443_CAS_LEVEL_1 : MFRC630_ISO14443_CAS_LEVEL_2, 
+            0x70,  
+            uid->bytes[i0 + 0],
+            uid->bytes[i0 + 1],
+            uid->bytes[i0 + 2],
+            uid->bytes[i0 + 3],
+            uid->bytes[i0 + 4]);
 
         TimeMeterMS meter;
 

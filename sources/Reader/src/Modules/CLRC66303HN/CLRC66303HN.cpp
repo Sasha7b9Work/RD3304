@@ -148,11 +148,11 @@ bool CLRC66303HN::DetectCard(int number_successful_attempts, bool mode_and)
                                                         // TxLastBits == 111
                                                         // DataEn == 1 (data is sent)
 
-        Command::Send(0x26);                            // REQA
+        Command::Send(MFRC630_ISO14443_CMD_REQA);       // REQA
 
         BitSet16 data;
 
-        while (meterUS.ElapsedUS() < 8000)                // Запрос REQA //-V654
+        while (meterUS.ElapsedUS() < 8000)              // Запрос REQA //-V654
         {
             if (!pinIRQ_TRX.IsHi())                     // данные получены
             {

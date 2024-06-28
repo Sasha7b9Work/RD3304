@@ -480,11 +480,11 @@
   @{
 */
 // Defines from ISO14443A
-#define MFRC630_ISO14443_CMD_REQA               0x26  //!< request (idle -> ready)
-#define MFRC630_ISO14443_CMD_WUPA               0x52  //!< wake up type a (idle / halt -> ready)
-#define MFRC630_ISO14443_CAS_LEVEL_1            0x93  //!< Cascade level 1 for select.
-#define MFRC630_ISO14443_CAS_LEVEL_2            0x95  //!< Cascade level 2 for select.
-#define MFRC630_ISO14443_CAS_LEVEL_3            0x97  //!< Cascade level 3 for select.
+#define MFRC630_ISO14443_CMD_REQA               0x26U  //!< request (idle -> ready)
+#define MFRC630_ISO14443_CMD_WUPA               0x52U  //!< wake up type a (idle / halt -> ready)
+#define MFRC630_ISO14443_CAS_LEVEL_1            0x93U  //!< Cascade level 1 for select.
+#define MFRC630_ISO14443_CAS_LEVEL_2            0x95U  //!< Cascade level 2 for select.
+#define MFRC630_ISO14443_CAS_LEVEL_3            0x97U  //!< Cascade level 3 for select.
 
 //! @}
 
