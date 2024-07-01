@@ -115,12 +115,9 @@ bool CLRC66303HN::DetectCard(int number_successful_attempts, bool mode_and)
 
     for (int i = 0; i < number_successful_attempts; i++)
     {
-        if (i != 0)         // Для первой итерации инициализируется в вызывающей функции
-        {
-            Init();
+        Init();
 
-            rf.On();
-        }
+        rf.On();
 
         Card::uid.Clear();
 
@@ -241,10 +238,6 @@ bool CLRC66303HN::DetectCard(int number_successful_attempts, bool mode_and)
 
 bool CLRC66303HN::UpdateExtendedMode(const TypeAuth &type_auth, bool new_auth)
 {
-    Init();
-
-    rf.On();
-
     bool result = false;
 
     if (DetectCard(3, !Card::IsInserted()))
@@ -288,10 +281,6 @@ bool CLRC66303HN::UpdateExtendedMode(const TypeAuth &type_auth, bool new_auth)
 
 bool CLRC66303HN::UpdateNormalMode()
 {
-    Init();
-
-    rf.On();
-
     bool result = false;
 
     if (DetectCard(3, !Card::IsInserted()))
