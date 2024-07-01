@@ -80,6 +80,8 @@ namespace Card
     static const int SIZE_MEMORY = 4 * 45;
 
     extern UID uid;
+    extern BitSet16 atqa;
+    extern uint8 sak;
 
     // Вставить в рабочем режиме
     void InsertNormalModeUser(uint64 number, bool auth_ok);

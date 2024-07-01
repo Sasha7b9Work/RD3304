@@ -170,14 +170,14 @@ namespace CLRC66303HN
                 }
                 else
                 {
-                    uint8 sak = fifo.Pop();
+                    Card::sak = fifo.Pop();
 
-                    if (_GET_BIT(sak, 2) == 1)
+                    if (_GET_BIT(Card::sak, 2) == 1)
                     {
                         return true;
                     }
 
-                    if (_GET_BIT(sak, 2) == 0)
+                    if (_GET_BIT(Card::sak, 2) == 0)
                     {
                         uid->Calculate();
                         return true;

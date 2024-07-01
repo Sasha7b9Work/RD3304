@@ -15,6 +15,15 @@
 #include <cstdlib>
 #include <cstring>
 
+/*
++------+-------+--------------------------+
+| ATQA |  SAK  |                          |
++------+-------+--------------------------+
+| 0x04 |  0x08 | MF Classic 1k UID4       |
+| 0x44 |  0x00 | NTAG213 NTAG215 NTAG216  |
++------+-------+--------------------------+
+*/
+
 
 using namespace CLRC66303HN;
 
@@ -28,7 +37,7 @@ namespace TypeCard
         NTAG213,
         NTAG215,
         NTAG216,
-        Mifare_UID7_4K,
+        Mifare_UID4_1K,
         Count
     };
 
@@ -67,7 +76,9 @@ namespace Card
     // Результат предыдущей аутентификации. Смысл в том, что если предыдущая авторизация прошла
     // неудачно, то нужно давать сигнал, если текущая авторизация успешна
     static bool prev_auth_bool = false;
-    UID uid;
+    UID             uid;
+    BitSet16        atqa;
+    uint8           sak;
     static TypeAuth prev_auth;
 }
 
@@ -263,7 +274,7 @@ bool TypeCard::IsNTAG()
 
 bool TypeCard::IsMifare()
 {
-    return (current == Mifare_UID7_4K);
+    return (current == Mifare_UID4_1K);
 }
 
 

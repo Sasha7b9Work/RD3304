@@ -149,8 +149,6 @@ bool CLRC66303HN::DetectCard(int number_successful_attempts, bool mode_and)
 
         Command::Send(MFRC630_ISO14443_CMD_REQA);       // REQA
 
-        BitSet16 data;
-
         while (meterUS.ElapsedUS() < 8000)              // Запрос REQA //-V654
         {
             if (!pinIRQ_TRX.IsHi())                     // данные получены
@@ -163,15 +161,15 @@ bool CLRC66303HN::DetectCard(int number_successful_attempts, bool mode_and)
                 }
                 else                                    // данные верны
                 {
-                    data.byte[0] = fifo.Pop();
-                    data.byte[1] = fifo.Pop();
+                    Card::atqa.byte[0] = fifo.Pop();
+                    Card::atqa.byte[1] = fifo.Pop();
 
                     break;
                 }
             }
         }
 
-        if (data.half_word != 0)
+        if (Card::atqa.half_word != 0)
         {
             if (Command::AnticollisionCL(1, &Card::uid))
             {
