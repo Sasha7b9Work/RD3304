@@ -46,9 +46,9 @@ namespace CLRC66303HN
     }
 
     // Включение электромагнитного поля
-    namespace RF
+    struct RF
     {
-        static void On()
+        void On()
         {
             Command::Idle();
 
@@ -57,13 +57,15 @@ namespace CLRC66303HN
             Register(MFRC630_REG_DRVMOD).Write(reg);
         }
 
-        static void Off()
+        void Off()
         {
             uint8 reg = Register(MFRC630_REG_DRVMOD).Read();
             _CLEAR_BIT(reg, 3);
             Register(MFRC630_REG_DRVMOD).Write(reg);
         }
-    }
+    };
+
+    static RF rf;
 
     // number_successful_attempts - число попыток
     // mode_and - если true, то возвращаем true, если все попытки успешные, иначе - если хотя бы одна
@@ -85,7 +87,7 @@ void CLRC66303HN::Init()
 
     Power::On();
 
-    RF::Off();
+    rf.Off();
 
     HAL_FLASH::LoadAntennaConfiguration106();
 
@@ -113,11 +115,11 @@ bool CLRC66303HN::DetectCard(int number_successful_attempts, bool mode_and)
 
     for (int i = 0; i < number_successful_attempts; i++)
     {
-        if (i != 0)
+        if (i != 0)         // Для первой итерации инициализируется в вызывающей функции
         {
             Init();
 
-            RF::On();
+            rf.On();
         }
 
         Card::uid.Clear();
@@ -213,8 +215,6 @@ bool CLRC66303HN::DetectCard(int number_successful_attempts, bool mode_and)
     {
         if (detected)
         {
-//            LOG_WRITE("---Card detected---");
-
             Event::CardDetected();
 
             while (Indicator::IsRunning())
@@ -243,7 +243,7 @@ bool CLRC66303HN::UpdateExtendedMode(const TypeAuth &type_auth, bool new_auth)
 {
     Init();
 
-    RF::On();
+    rf.On();
 
     bool result = false;
 
@@ -280,7 +280,7 @@ bool CLRC66303HN::UpdateExtendedMode(const TypeAuth &type_auth, bool new_auth)
         Card::Eject();
     }
 
-    RF::Off();
+    rf.Off();
 
     return result;
 }
@@ -290,7 +290,7 @@ bool CLRC66303HN::UpdateNormalMode()
 {
     Init();
 
-    RF::On();
+    rf.On();
 
     bool result = false;
 
@@ -348,7 +348,7 @@ bool CLRC66303HN::UpdateNormalMode()
         Card::Eject();
     }
 
-    RF::Off();
+    rf.Off();
 
     return result;
 }
