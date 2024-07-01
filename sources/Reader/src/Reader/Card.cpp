@@ -28,50 +28,49 @@
 using namespace CLRC66303HN;
 
 
-namespace TypeCard
-{
-    enum E
-    {
-        Unidentified,   // Неизвестная карта
-        Unsupported,    // Карта не поддерживается
-        NTAG213,
-        NTAG215,
-        NTAG216,
-        Mifare_UID4_1K,
-        Count
-    };
-
-    static E current = Unidentified;
-
-    static bool IsNTAG();
-    static bool IsMifare();
-    static E Current();
-
-    pchar CurrentName()
-    {
-        static const pchar names[E::Count] =
-        {
-            "",
-            "Unsupported",
-            "NTAG213",
-            "NTAG215",
-            "NTAG216",
-            "Mifare_UID7_4K"
-        };
-
-        return names[Current()];
-    }
-
-    namespace NTAG
-    {
-        static int BlockCFG0();
-        static int BlockCFG1();
-    };
-}
-
-
 namespace Card
 {
+    namespace Type
+    {
+        enum E
+        {
+            Unidentified,   // Неизвестная карта
+            Unsupported,    // Карта не поддерживается
+            NTAG213,
+            NTAG215,
+            NTAG216,
+            Mifare_UID4_1K,
+            Count
+        };
+
+        static E current = Unidentified;
+
+        static bool IsNTAG();
+        static bool IsMifare();
+        static E Current();
+
+        pchar CurrentName()
+        {
+            static const pchar names[E::Count] =
+            {
+                "",
+                "Unsupported",
+                "NTAG213",
+                "NTAG215",
+                "NTAG216",
+                "Mifare_UID7_4K"
+            };
+
+            return names[Current()];
+        }
+
+        namespace NTAG
+        {
+            static int NumberBlockCFG0();
+            static int NumberBlockCFG1();
+        };
+    }
+
     static bool inserted = false;
     // Результат предыдущей аутентификации. Смысл в том, что если предыдущая авторизация прошла
     // неудачно, то нужно давать сигнал, если текущая авторизация успешна
@@ -191,7 +190,7 @@ void Card::InsertNormalModeMaster(bool auth_ok)
 
 void Card::Eject()
 {
-    TypeCard::Reset();
+    Card::Type::Reset();
 
     if (IsInserted())
     {
@@ -212,9 +211,9 @@ bool Card::IsInserted()
 }
 
 
-int TypeCard::NTAG::BlockCFG0()
+int Card::Type::NTAG::NumberBlockCFG0()
 {
-    static const int numbers[TypeCard::Count] =
+    static const int numbers[Count] =
     {
         0,
         0,
@@ -224,13 +223,13 @@ int TypeCard::NTAG::BlockCFG0()
         0       // Mifare
     };
 
-    return numbers[TypeCard::Current()];
+    return numbers[Current()];
 }
 
 
-int TypeCard::NTAG::BlockCFG1()
+int Card::Type::NTAG::NumberBlockCFG1()
 {
-    static const int numbers[TypeCard::Count] =
+    static const int numbers[Count] =
     {
         0,
         0,
@@ -240,13 +239,13 @@ int TypeCard::NTAG::BlockCFG1()
         0       // Mifare
     };
 
-    return numbers[TypeCard::Current()];
+    return numbers[Current()];
 }
 
 
-int TypeCard::NTAG::BlockPassword()
+int Card::Type::NTAG::NumberBlockPassword()
 {
-    static const int numbers[TypeCard::Count] =
+    static const int numbers[Count] =
     {
         0,
         0,
@@ -256,23 +255,23 @@ int TypeCard::NTAG::BlockPassword()
         0       // Mifare
     };
 
-    return numbers[TypeCard::Current()];
+    return numbers[Current()];
 }
 
 
-TypeCard::E TypeCard::Current()
+Card::Type::E Card::Type::Current()
 {
     return current;
 }
 
 
-bool TypeCard::IsNTAG()
+bool Card::Type::IsNTAG()
 {
     return (current == NTAG213) || (current == NTAG215) || (current == NTAG216);
 }
 
 
-bool TypeCard::IsMifare()
+bool Card::Type::IsMifare()
 {
     return (current == Mifare_UID4_1K);
 }
@@ -350,7 +349,7 @@ void ConvertorUID::ComputeCrc(uint16 wCrcPreset, uint8 *Data, int Length, uint16
 }
 
 
-bool TypeCard::Detect()
+bool Card::Type::Detect()
 {
     if (current != Unidentified)
     {
@@ -368,19 +367,19 @@ bool TypeCard::Detect()
 
                 if (byte_type == 0x12)
                 {
-                    current = TypeCard::NTAG213;
+                    current = NTAG213;
 
                     return true;
                 }
                 else if (byte_type == 0x3E)
                 {
-                    current = TypeCard::NTAG215;
+                    current = NTAG215;
 
                     return true;
                 }
                 else if (byte_type == 0x6D)
                 {
-                    current = TypeCard::NTAG216;
+                    current = NTAG216;
 
                     return true;
                 }
@@ -403,7 +402,7 @@ bool TypeCard::Detect()
 }
 
 
-void TypeCard::Reset()
+void Card::Type::Reset()
 {
     current = Unidentified;
 }
@@ -411,13 +410,13 @@ void TypeCard::Reset()
 
 bool Card::RAW::SetPassword(uint64 password)
 {
-    if (TypeCard::IsNTAG())
+    if (Type::IsNTAG())
     {
         BitSet64 bs(password);
 
-        return Command::NTAG::Write2Blocks(TypeCard::NTAG::BlockPassword(), bs.bytes);
+        return Command::NTAG::Write2Blocks(Card::Type::NTAG::NumberBlockPassword(), bs.bytes);
     }
-    else if (TypeCard::IsMifare())
+    else if (Type::IsMifare())
     {
         return false;
     }
@@ -430,21 +429,21 @@ bool Card::RAW::EnableCheckPassword()
 {
     bool saccess = false;
 
-    if (TypeCard::IsNTAG())
+    if (Type::IsNTAG())
     {
         Block4 block;
 
-        if (Command::NTAG::ReadBlock(TypeCard::NTAG::BlockCFG0(), block))
+        if (Command::NTAG::ReadBlock(Type::NTAG::NumberBlockCFG0(), block))
         {
             block[3] = 0x04;             // Защищаем доступ ко всем блокам, начиная с 4-го
 
-            if (Command::NTAG::WriteBlock(TypeCard::NTAG::BlockCFG0(), block.bytes))
+            if (Command::NTAG::WriteBlock(Type::NTAG::NumberBlockCFG0(), block.bytes))
             {
-                if (Command::NTAG::ReadBlock(TypeCard::NTAG::BlockCFG1(), block))
+                if (Command::NTAG::ReadBlock(Type::NTAG::NumberBlockCFG1(), block))
                 {
                     block[0] = 0x80;     // Защита от чтения и от записи
 
-                    if (Command::NTAG::WriteBlock(TypeCard::NTAG::BlockCFG1(), block.bytes))
+                    if (Command::NTAG::WriteBlock(Type::NTAG::NumberBlockCFG1(), block.bytes))
                     {
                         saccess = true;
                     }
@@ -452,26 +451,22 @@ bool Card::RAW::EnableCheckPassword()
             }
         }
     }
-    else if (TypeCard::IsMifare())
-    {
-
-    }
-
+ 
     return saccess;
 }
 
 
 bool Card::RAW::ReadDataWitouthAuth()
 {
-    TypeCard::Detect();
+    Type::Detect();
 
-    if (TypeCard::IsNTAG())
+    if (Type::IsNTAG())
     {
         uint buffer = 0;
 
-        return Command::NTAG::ReadBlock(TypeCard::NTAG::BlockCFG1(), &buffer);
+        return Command::NTAG::ReadBlock(Type::NTAG::NumberBlockCFG1(), &buffer);
     }
-    else if (TypeCard::IsMifare())
+    else if (Type::IsMifare())
     {
         return false;
     }
@@ -482,7 +477,7 @@ bool Card::RAW::ReadDataWitouthAuth()
 
 bool Card::RAW::ReadNumber(uint64 *number)
 {
-    if (TypeCard::IsNTAG())
+    if (Type::IsNTAG())
     {
         BitSet64 bit_set = 0;
 
@@ -492,7 +487,7 @@ bool Card::RAW::ReadNumber(uint64 *number)
 
         return result;
     }
-    else if (TypeCard::IsMifare())
+    else if (Type::IsMifare())
     {
         return false;
     }
@@ -503,13 +498,13 @@ bool Card::RAW::ReadNumber(uint64 *number)
 
 bool Card::RAW::WriteNumber(uint64 number)
 {
-    if (TypeCard::IsNTAG())
+    if (Type::IsNTAG())
     {
         BitSet64 bit_set(number);
 
         return Command::NTAG::Write2Blocks(4, bit_set.bytes);
     }
-    else if (TypeCard::IsMifare())
+    else if (Type::IsMifare())
     {
         return false;
     }
@@ -520,11 +515,11 @@ bool Card::RAW::WriteNumber(uint64 number)
 
 bool Card::RAW::WriteSettings(const SettingsMaster &set)
 {
-    if (TypeCard::IsNTAG())
+    if (Type::IsNTAG())
     {
         return Command::NTAG::WriteData(4, &set, set.Size());
     }
-    else if (TypeCard::IsMifare())
+    else if (Type::IsMifare())
     {
         return false;
     }
@@ -535,11 +530,11 @@ bool Card::RAW::WriteSettings(const SettingsMaster &set)
 
 bool Card::RAW::WriteDataToBlocks(int num_first_block, uint8 *data, int num_bytes)
 {
-    if (TypeCard::IsNTAG())
+    if (Type::IsNTAG())
     {
         return Command::NTAG::WriteData(num_first_block, data, num_bytes);
     }
-    else if (TypeCard::IsMifare())
+    else if (Type::IsMifare())
     {
         return false;
     }
@@ -550,11 +545,11 @@ bool Card::RAW::WriteDataToBlocks(int num_first_block, uint8 *data, int num_byte
 
 bool Card::RAW::ReadDataFromblocks(int num_first_block, uint8 *data, int num_bytes)
 {
-    if (TypeCard::IsNTAG())
+    if (Type::IsNTAG())
     {
         return Command::NTAG::ReadData(num_first_block, data, num_bytes);
     }
-    else if (TypeCard::IsMifare())
+    else if (Type::IsMifare())
     {
         return false;
     }

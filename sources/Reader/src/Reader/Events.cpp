@@ -56,7 +56,7 @@ void Event::CardReadOK(const UID &uid, uint64 number, pchar password_string)
             char message[256];
 
             std::sprintf(message, "CARD %s READ %s*%s MASTER AUTH %s ",
-                TypeCard::CurrentName(),
+                Card::Type::CurrentName(),
                 uid.ToString(true).c_str(),
                 uid.ToString(false).c_str(),
                 password_string);
@@ -84,7 +84,7 @@ void Event::CardReadOK(const UID &uid, uint64 number, pchar password_string)
         else                                                                // Прочитана пользовательская карта
         {
             Message::SendFormat("CARD %s READ %s*%s NUMBER %llu AUTH %s OK",
-                TypeCard::CurrentName(),
+                Card::Type::CurrentName(),
                 uid.ToString(true).c_str(),
                 uid.ToString(false).c_str(),
                 number,

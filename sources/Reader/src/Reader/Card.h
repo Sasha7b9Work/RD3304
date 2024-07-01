@@ -57,24 +57,6 @@ private:
 };
 
 
-namespace TypeCard
-{
-    // Определить тип карты
-    bool Detect();
-
-    // Сброс типа карты при изьятии её из картоприёмника
-    void Reset();
-
-    // Возвращает тип - NTAG, етс
-    pchar CurrentName();
-
-    namespace NTAG
-    {
-        int BlockPassword();
-    }
-}
-
-
 namespace Card
 {
     static const int SIZE_MEMORY = 4 * 45;
@@ -93,6 +75,23 @@ namespace Card
     void Eject();
 
     bool IsInserted();
+
+    namespace Type
+    {
+        // Определить тип карты
+        bool Detect();
+
+        // Сброс типа карты при изьятии её из картоприёмника
+        void Reset();
+
+        // Возвращает тип - NTAG, етс
+        pchar CurrentName();
+
+        namespace NTAG
+        {
+            int NumberBlockPassword();
+        }
+    }
 
     // Далее функции, зависящие от типа карты - NTAG213, NTAG215, NTAG216, Milfare
     namespace RAW

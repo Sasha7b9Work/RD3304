@@ -608,7 +608,7 @@ bool CLRC66303HN::Command::PasswordAuth(uint64 password)
 
     if (result)
     {
-        result = TypeCard::Detect();
+        result = Card::Type::Detect();
     }
 
     // all seems to be well...
